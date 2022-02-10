@@ -7,21 +7,22 @@ import 'package:wan_android_flutter/utils/normal_style_util.dart';
 /// @Date: 2022/2/9 4:11 下午
 /// @Description: 项目 card 封装
 
-typedef CardViewWidgetCallBack = Function(ProjectDetailItem projectDetailItem);
+typedef HomeCardViewWidgetCallBack = Function(
+    ProjectDetailItem projectDetailItem);
 
-class CardViewWidget extends StatefulWidget {
+class HomeCardViewWidget extends StatefulWidget {
   ProjectDetailItem projectDetailItem;
 
-  CardViewWidgetCallBack? callBack;
+  HomeCardViewWidgetCallBack? callBack;
 
-  CardViewWidget(this.projectDetailItem, {Key? key, this.callBack})
+  HomeCardViewWidget(this.projectDetailItem, {Key? key, this.callBack})
       : super(key: key);
 
   @override
-  _CardViewWidgetState createState() => _CardViewWidgetState();
+  _HomeCardViewWidgetState createState() => _HomeCardViewWidgetState();
 }
 
-class _CardViewWidgetState extends State<CardViewWidget> {
+class _HomeCardViewWidgetState extends State<HomeCardViewWidget> {
   late ProjectDetailItem projectDetailItem = widget.projectDetailItem;
 
   String imageUrl = "";

@@ -8,7 +8,7 @@ import 'package:wan_android_flutter/requests/project_request.dart';
 import 'package:wan_android_flutter/utils/log_util.dart';
 import 'package:wan_android_flutter/utils/toast_util.dart';
 import 'package:wan_android_flutter/view_model/bottom_project_vm.dart';
-import 'package:wan_android_flutter/widgets/card_widget.dart';
+import 'package:wan_android_flutter/widgets/home_card_widget.dart';
 
 /// @Author: cuishuxiang
 /// @Date: 2022/2/9 2:36 下午
@@ -122,7 +122,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage>
   ///构建列表 item
   _buildList() {
     return _itemlist
-        .map((e) => CardViewWidget(
+        .map((e) => HomeCardViewWidget(
               e,
               callBack: (item) {
                 //点击事件回调

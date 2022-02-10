@@ -3,7 +3,7 @@ import 'package:wan_android_flutter/base/base_view.dart';
 import 'package:wan_android_flutter/base/base_viewmodel.dart';
 import 'package:wan_android_flutter/dios/http_response.dart';
 import 'package:wan_android_flutter/models/project_tab_model.dart';
-import 'package:wan_android_flutter/pages/bottoms/project_detail_page.dart';
+import 'package:wan_android_flutter/pages/bottoms/projects/project_detail_page.dart';
 import 'package:wan_android_flutter/requests/project_request.dart';
 import 'package:wan_android_flutter/utils/log_util.dart';
 import 'package:wan_android_flutter/utils/toast_util.dart';
