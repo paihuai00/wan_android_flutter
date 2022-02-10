@@ -5,8 +5,8 @@ import 'package:wan_android_flutter/utils/log_util.dart';
 import 'bottoms/bottom_home_page.dart';
 import 'bottoms/bottom_mine_page.dart';
 import 'bottoms/bottom_project_page.dart';
-import 'bottoms/bottom_square_page.dart';
 import 'bottoms/bottom_wx_page.dart';
+import 'bottoms/square/bottom_square_page.dart';
 
 /// @Author: cuishuxiang
 /// @Date: 2022/2/6 10:08 上午

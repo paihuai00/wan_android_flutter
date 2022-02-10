@@ -18,4 +18,8 @@ class XToast {
         backgroundColor: Colors.red,
         gravity: ToastGravity.CENTER);
   }
+
+  static void showRequestError({String msg = "请求错误，请重试"}) {
+    show(msg);
+  }
 }

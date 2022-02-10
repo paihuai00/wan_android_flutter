@@ -5,8 +5,8 @@ import 'package:wan_android_flutter/view_model/bottom_project_vm.dart';
 import 'bottoms/bottom_home_page.dart';
 import 'bottoms/bottom_mine_page.dart';
 import 'bottoms/bottom_project_page.dart';
-import 'bottoms/bottom_square_page.dart';
 import 'bottoms/bottom_wx_page.dart';
+import 'bottoms/square/bottom_square_page.dart';
 
 /// @Author: cuishuxiang
 /// @Date: 2022/2/1 9:04 下午
