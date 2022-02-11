@@ -7,11 +7,14 @@ import 'package:wan_android_flutter/pages/bottoms/square/bottom_square_page.dart
 import 'package:wan_android_flutter/pages/bottoms/wx/bottom_wx_page.dart';
 import 'package:wan_android_flutter/pages/home_page.dart';
 import 'package:wan_android_flutter/pages/launch_pages.dart';
+import 'package:wan_android_flutter/pages/login_page.dart';
+import 'package:wan_android_flutter/pages/register_page.dart';
 import 'package:wan_android_flutter/view_model/bottom_home_vm.dart';
 import 'package:wan_android_flutter/view_model/bottom_project_vm.dart';
 import 'package:wan_android_flutter/view_model/bottom_square_vm.dart';
 import 'package:wan_android_flutter/view_model/bottom_wx_vm.dart';
 import 'package:wan_android_flutter/view_model/launch_vm.dart';
+import 'package:wan_android_flutter/view_model/login_regist_vm.dart';
 
 /// @Author: cuishuxiang
 /// @Date: 2022/2/1 9:00 下午
@@ -33,60 +36,73 @@ class RouterConfig {
   static String bottomSquarePage = "/bottom_square_page";
   static String bottomWxPage = "/bottom_wx_page";
   static String bottomMinePage = "/bottom_mine_page";
+  static String loginPage = "/login_page";
+  static String registerPage = "/register_page";
 
   static final List<GetPage> getPages = [
     GetPage(
-        name: launchPagePath,
-        page: () => LaunchPages(),
-        binding: BindingsBuilder(() => {Get.lazyPut(() => LaunchViewModel())}),
-        transitionDuration: Duration(milliseconds: 0)),
+      name: launchPagePath,
+      page: () => LaunchPages(),
+      binding: BindingsBuilder(() => {Get.lazyPut(() => LaunchViewModel())}),
+    ),
 
     GetPage(
-        name: homePage,
-        page: () => HomePage(),
-        // binding: BindingsBuilder(() => {Get.lazyPut(() => HomeViewModel())}),
-        transitionDuration: Duration(milliseconds: 0)),
+      name: homePage,
+      page: () => HomePage(),
+      // binding: BindingsBuilder(() => {Get.lazyPut(() => HomeViewModel())}),
+    ),
 
     //底部导航
     GetPage(
-        name: bottomHomePage,
-        page: () => BottomHomePage(),
-        binding:
-            BindingsBuilder(() => {Get.lazyPut(() => BottomHomeViewModel())}),
-        transitionDuration: Duration(milliseconds: 0)),
+      name: bottomHomePage,
+      page: () => BottomHomePage(),
+      binding:
+          BindingsBuilder(() => {Get.lazyPut(() => BottomHomeViewModel())}),
+    ),
 
     GetPage(
-        name: bottomProjectPage,
-        page: () => BottomProjectPage(),
+      name: bottomProjectPage,
+      page: () => BottomProjectPage(),
+      binding:
+          BindingsBuilder(() => {Get.lazyPut(() => BottomProjectViewModel())}),
+    ),
+
+    GetPage(
+      name: bottomProjectDetailPage,
+      page: () => ProjectDetailPage(""),
+      binding:
+          BindingsBuilder(() => {Get.lazyPut(() => BottomProjectViewModel())}),
+    ),
+
+    GetPage(
+      name: bottomSquarePage,
+      page: () => BottomSquarePage(),
+      binding:
+          BindingsBuilder(() => {Get.lazyPut(() => BottomSquareViewModel())}),
+    ),
+
+    GetPage(
+      name: bottomWxPage,
+      page: () => BottomWxPage(),
+      binding: BindingsBuilder(() => {Get.lazyPut(() => BottomWxViewModel())}),
+    ),
+
+    GetPage(
+      name: bottomMinePage,
+      page: () => BottomMinePage(),
+      // binding: BindingsBuilder(() => {Get.lazyPut(() => BottomMineViewModel())}),
+    ),
+
+    GetPage(
+        name: loginPage,
+        page: () => LoginPage(),
         binding: BindingsBuilder(
-            () => {Get.lazyPut(() => BottomProjectViewModel())}),
-        transitionDuration: Duration(milliseconds: 0)),
+            () => {Get.lazyPut(() => LoginRegisterViewModel())})),
 
     GetPage(
-        name: bottomProjectDetailPage,
-        page: () => ProjectDetailPage(""),
+        name: registerPage,
+        page: () => RegisterPage(),
         binding: BindingsBuilder(
-            () => {Get.lazyPut(() => BottomProjectViewModel())}),
-        transitionDuration: Duration(milliseconds: 0)),
-
-    GetPage(
-        name: bottomSquarePage,
-        page: () => BottomSquarePage(),
-        binding:
-            BindingsBuilder(() => {Get.lazyPut(() => BottomSquareViewModel())}),
-        transitionDuration: Duration(milliseconds: 0)),
-
-    GetPage(
-        name: bottomWxPage,
-        page: () => BottomWxPage(),
-        binding:
-            BindingsBuilder(() => {Get.lazyPut(() => BottomWxViewModel())}),
-        transitionDuration: Duration(milliseconds: 0)),
-
-    GetPage(
-        name: bottomMinePage,
-        page: () => BottomMinePage(),
-        // binding: BindingsBuilder(() => {Get.lazyPut(() => BottomMineViewModel())}),
-        transitionDuration: Duration(milliseconds: 0)),
+            () => {Get.lazyPut(() => LoginRegisterViewModel())})),
   ];
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wan_android_flutter/models/user_model.dart';
+import 'package:wan_android_flutter/routers/navigator_util.dart';
+import 'package:wan_android_flutter/routers/router_config.dart';
 import 'package:wan_android_flutter/utils/image_utils.dart';
-import 'package:wan_android_flutter/utils/toast_util.dart';
 import 'package:wan_android_flutter/utils/user_manager.dart';
 import 'package:wan_android_flutter/widgets/mine_list_widget.dart';
 
@@ -120,7 +121,11 @@ class _BottomMinePageState extends State<BottomMinePage> {
 
   ///点击 - 登录
   _clickLogin() {
-    XToast.show("点击了登录");
+    if (UserManager.getInstance().isLogin()) {
+      return;
+    }
+
+    NavigatorUtil.jump(context, RouterConfig.loginPage);
   }
 
   ///

@@ -10,9 +10,7 @@ import 'package:wan_android_flutter/utils/event_bus.dart';
 class NavigatorUtil {
   late Route? currentRoute;
   factory NavigatorUtil() {
-    if (_singleton == null) {
-      _singleton = NavigatorUtil._();
-    }
+    _singleton ??= NavigatorUtil._();
     return _singleton!;
   }
 

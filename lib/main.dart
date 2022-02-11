@@ -47,18 +47,9 @@ class MyApp extends StatelessWidget {
         // 主题色
         primarySwatch: Colors.blue,
       ),
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      // home: Container(
-      //   color: Colors.white,
-      //   child: Center(
-      //     child: Text(
-      //       "data",
-      //       style: TextStyle(color: Colors.white),
-      //     ),
-      //   ),
-      // ),
       initialRoute: RouterConfig.launchPagePath,
       getPages: RouterConfig.getPages,
+      defaultTransition: Transition.rightToLeftWithFade,
     );
     // return app;
     return ScreenUtilInit(
