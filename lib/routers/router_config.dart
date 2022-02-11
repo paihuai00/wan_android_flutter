@@ -8,7 +8,6 @@ import 'package:wan_android_flutter/pages/bottoms/wx/bottom_wx_page.dart';
 import 'package:wan_android_flutter/pages/home_page.dart';
 import 'package:wan_android_flutter/pages/launch_pages.dart';
 import 'package:wan_android_flutter/view_model/bottom_home_vm.dart';
-import 'package:wan_android_flutter/view_model/bottom_mine_vm.dart';
 import 'package:wan_android_flutter/view_model/bottom_project_vm.dart';
 import 'package:wan_android_flutter/view_model/bottom_square_vm.dart';
 import 'package:wan_android_flutter/view_model/bottom_wx_vm.dart';
@@ -87,8 +86,7 @@ class RouterConfig {
     GetPage(
         name: bottomMinePage,
         page: () => BottomMinePage(),
-        binding:
-            BindingsBuilder(() => {Get.lazyPut(() => BottomMineViewModel())}),
+        // binding: BindingsBuilder(() => {Get.lazyPut(() => BottomMineViewModel())}),
         transitionDuration: Duration(milliseconds: 0)),
   ];
 }

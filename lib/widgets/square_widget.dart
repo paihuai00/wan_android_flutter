@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wan_android_flutter/models/nav_detail_model.dart';
 import 'package:wan_android_flutter/models/system_detail_model.dart';
-import 'package:wan_android_flutter/utils/color_utils.dart';
+import 'package:wan_android_flutter/utils/normal_colors.dart';
 
 /// @Author: cuishuxiang
 /// @Date: 2022/2/10 2:21 下午
@@ -84,7 +84,7 @@ class _SquareWidgetState extends State<SquareWidget> {
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
       decoration: const BoxDecoration(
-        color: NormalColors.color_BDBDBD,
+        color: NormalColor.color_BDBDBD,
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: InkWell(
