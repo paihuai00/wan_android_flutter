@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:wan_android_flutter/dios/http_client.dart';
 import 'package:wan_android_flutter/utils/sp_utils.dart';
 
 import 'routers/router_config.dart';
@@ -40,8 +39,8 @@ void main() {
     await SpUtil.getInstance().init();
 
     ///初始化dio
-    HttpDioClient dioClient = HttpDioClient();
-    dioClient.initDioClient();
+    // HttpDioClient dioClient = HttpDioClient();
+    // dioClient.initDioClient();
   }, (error, stackTrace) async {
     await _reportError(error, stackTrace);
   });
@@ -63,6 +62,7 @@ class MyApp extends StatelessWidget {
       initialRoute: RouterConfig.launchPagePath,
       getPages: RouterConfig.getPages,
       defaultTransition: Transition.rightToLeftWithFade,
+      enableLog: true,
     );
     // return app;
     return ScreenUtilInit(

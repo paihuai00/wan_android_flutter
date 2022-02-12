@@ -23,6 +23,7 @@ class UserManager {
   }
 
   bool isLogin() {
+    _isLogin = getUser() != null;
     return _isLogin;
   }
 

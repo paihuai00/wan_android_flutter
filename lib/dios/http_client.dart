@@ -25,7 +25,6 @@ class HttpDioClient {
   ///初始化
   initDioClient() async {
     //初始化 dio
-
     Directory tempDir = await getTemporaryDirectory();
 
     HttpDioConfig dioConfig =

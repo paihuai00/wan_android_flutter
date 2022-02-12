@@ -22,4 +22,8 @@ class XToast {
   static void showRequestError({String msg = "请求错误，请重试"}) {
     show(msg);
   }
+
+  static void showLoginError({String msg = "请先登录！"}) {
+    show(msg);
+  }
 }

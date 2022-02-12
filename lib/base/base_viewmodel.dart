@@ -30,12 +30,12 @@ class BaseViewModel extends GetxController {
     }
   }
 
-  void startLoading(State ctx) {
-    refreshRequestState(LoadingStateEnum.LOADING, ctx);
+  void startLoading(State state) {
+    refreshRequestState(LoadingStateEnum.LOADING, state);
   }
 
-  void stopLoading(State ctx) {
-    refreshRequestState(LoadingStateEnum.IDLE, ctx);
+  void stopLoading(State state) {
+    refreshRequestState(LoadingStateEnum.IDLE, state);
   }
 }
 

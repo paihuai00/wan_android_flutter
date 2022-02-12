@@ -128,7 +128,7 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
       return;
     }
 
-    NavigatorUtil.jump(context, RouterConfig.loginPage);
+    NavigatorUtil.jump(RouterConfig.loginPage);
   }
 
   ///
@@ -156,7 +156,6 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
         MineListItemView(
           Icons.map,
           "我的文章",
-          integral: rank,
           mineItemViewClick: (title) {},
         ),
         MineListItemView(

@@ -71,6 +71,7 @@ class AppDio with DioMixin implements Dio {
     };
   }
 
+  //
   bool clearCookies() {
     if (_cookieManager == null) return false;
 

@@ -9,18 +9,20 @@ import 'package:wan_android_flutter/utils/event_bus.dart';
 
 class NavigatorUtil {
   late Route? currentRoute;
+
   factory NavigatorUtil() {
     _singleton ??= NavigatorUtil._();
     return _singleton!;
   }
 
   NavigatorUtil._() {
-    bus.addListener("didPush_route", (arg) {
+    eventBus.addListener("didPush_route", (arg) {
       this.currentRoute = arg;
     });
   }
 
   static NavigatorUtil? _singleton;
+
   // 返回
 
   static void goBack(BuildContext context) {
@@ -39,10 +41,11 @@ class NavigatorUtil {
 
   /// 跳转到 转场动画 页面 ， 这边只展示 inFromLeft ，剩下的自己去尝试下，
   /// 框架自带的有 native，nativeModal，inFromLeft，inFromRight，inFromBottom，fadeIn，custom
-  static Future? jump(BuildContext? context, String title,
-      {Object? arguments}) {
+  static Future? jump(String routerName,
+      {Object? arguments, BuildContext? context}) {
     // RouteSettings settings = RouteSettings(name: "params", arguments: arguments);
-    return Get.toNamed(title, arguments: arguments, preventDuplicates: false);
+    return Get.toNamed(routerName,
+        arguments: arguments, preventDuplicates: false);
 
     /// 指定了 转场动画
   }

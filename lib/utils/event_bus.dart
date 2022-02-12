@@ -49,4 +49,4 @@ class EventBus {
 }
 
 //定义一个top-level变量，页面引入该文件后可以直接使用bus
-late var bus = new EventBus();
+late var eventBus = EventBus();

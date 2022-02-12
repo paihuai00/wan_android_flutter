@@ -11,6 +11,8 @@ import 'package:wan_android_flutter/models/user_model.dart';
 import 'package:wan_android_flutter/requests/login_request.dart';
 import 'package:wan_android_flutter/routers/navigator_util.dart';
 import 'package:wan_android_flutter/routers/router_config.dart';
+import 'package:wan_android_flutter/utils/event_bus.dart';
+import 'package:wan_android_flutter/utils/event_bus_const_key.dart';
 import 'package:wan_android_flutter/utils/sp_utils.dart';
 import 'package:wan_android_flutter/utils/toast_util.dart';
 import 'package:wan_android_flutter/utils/user_manager.dart';
@@ -174,6 +176,9 @@ class _LoginPageState extends BaseState<LoginPage> {
           UserCoinModel.fromJson(coinResponse.data).data!;
       UserManager.getInstance().setUserCoin(userCoinData);
 
+      //通知其他页面更新
+      eventBus.sendBroadcast(EventBusKey.loginSuccess);
+
       XToast.show("登录成功");
     } else {
       XToast.showRequestError();
@@ -187,7 +192,7 @@ class _LoginPageState extends BaseState<LoginPage> {
   }
 
   void _doRegister() {
-    NavigatorUtil.jump(context, RouterConfig.registerPage);
+    NavigatorUtil.jump(RouterConfig.registerPage);
   }
 
 // _buildTop() {

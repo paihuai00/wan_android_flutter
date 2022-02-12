@@ -52,7 +52,7 @@ class _MineListItemViewState extends State<MineListItemView> {
                   style: const TextStyle(fontSize: 16, color: Colors.black),
                 ),
                 const Expanded(child: SizedBox()),
-                widget.integral == -1
+                widget.integral.isEmpty
                     ? const SizedBox()
                     : Text(
                         "当前积分:${widget.integral}",

@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:get/get.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 import 'package:wan_android_flutter/base/base_state.dart';
 import 'package:wan_android_flutter/base/base_view.dart';
-import 'package:wan_android_flutter/base/base_viewmodel.dart';
 import 'package:wan_android_flutter/dios/http_response.dart';
 import 'package:wan_android_flutter/models/banner_model.dart';
 import 'package:wan_android_flutter/models/home_list_model.dart';
 import 'package:wan_android_flutter/requests/home_request.dart';
+import 'package:wan_android_flutter/utils/event_bus.dart';
+import 'package:wan_android_flutter/utils/event_bus_const_key.dart';
 import 'package:wan_android_flutter/utils/image_utils.dart';
 import 'package:wan_android_flutter/utils/log_util.dart';
 import 'package:wan_android_flutter/utils/normal_style_util.dart';
@@ -30,7 +32,7 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
     with TickerProviderStateMixin {
   final String _TAG = "BottomHomePage ";
 
-  late BaseViewModel _viewModel;
+  late BottomHomeViewModel _viewModel;
 
   late final List<BannerData> _bannerList = [];
 
@@ -44,6 +46,11 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
   //首页列表数据
   int pageIndex = 1;
 
+  var currentPageIsVisible = false;
+  var _needRefreshPage = false;
+
+  HomeItemData? currentClickData;
+
   @override
   void initState() {
     super.initState();
@@ -56,6 +63,17 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
       XLog.d(message: "绘制完成,仅执行一次 ${timeStamp.toString()}", tag: _TAG);
       getHomeDatas();
     });
+
+    //事件监听
+    eventBus.addListener(EventBusKey.loginSuccess, (arg) {
+      _needRefreshPage = true; //登录成功，刷新页面
+    });
+  }
+
+  @override
+  void dispose() {
+    _easyRefreshController.dispose();
+    super.dispose();
   }
 
   @override
@@ -64,38 +82,54 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
       builder: (vm) {
         _viewModel = vm;
 
-        return Container(
-          color: Colors.white,
-          width: double.infinity,
-          height: double.infinity,
-          child: EasyRefresh(
-            enableControlFinishLoad: true,
-            enableControlFinishRefresh: true,
-            controller: _easyRefreshController,
-            child: ListView(
-              children: [
-                _buildBanner(),
-                const Text(
-                  "文章列表",
-                  style: TextStyle(
-                      fontSize: 25,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
+        //监听当前页面，是否可见
+        return VisibilityDetector(
+            key: const Key(""),
+            child: Container(
+              color: Colors.white,
+              width: double.infinity,
+              height: double.infinity,
+              child: EasyRefresh(
+                enableControlFinishLoad: true,
+                enableControlFinishRefresh: true,
+                controller: _easyRefreshController,
+                child: ListView(
+                  children: [
+                    _buildBanner(),
+                    const Text(
+                      "文章列表",
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    _buildList(),
+                  ],
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-                _buildList(),
-              ],
+                onRefresh: () async {
+                  _onRefresh();
+                },
+                onLoad: () async {
+                  _onLoadMore();
+                },
+              ),
             ),
-            onRefresh: () async {
-              _onRefresh();
-            },
-            onLoad: () async {
-              _onLoadMore();
-            },
-          ),
-        );
+            onVisibilityChanged: (info) {
+              currentPageIsVisible = info.visibleFraction == 1.0;
+
+              if (_needRefreshPage && currentPageIsVisible) {
+                _easyRefreshController.callRefresh();
+                _needRefreshPage = false;
+              }
+
+              XLog.d(
+                  message:
+                      "onVisibilityChanged - 当前页面是否可见 $currentPageIsVisible",
+                  tag: _TAG);
+            });
       },
     );
   }
@@ -182,6 +216,7 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
       children: _dataItemList
           .map((e) => GestureDetector(
                 onTap: () {
+                  currentClickData = e;
                   XToast.show("点击了${_dataItemList.indexOf(e)}");
                 },
                 child: Card(
@@ -240,9 +275,10 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
                             const Expanded(child: SizedBox()),
                             InkWell(
                               onTap: () {
-                                _doCollection(e);
+                                currentClickData = e;
+                                _viewModel.doCollection(!e.collect!, e, this);
                               },
-                              child: NormalStyle.getLikeImage(e.collect!),
+                              child: NormalStyle.getLikeImage(dealIsLike(e)),
                             )
                           ],
                         ),
@@ -255,10 +291,6 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
     );
   }
 
-  void _doCollection(HomeItemData e) {
-    XToast.show("点击了收藏，${e.title}");
-  }
-
   //下拉刷新
   _onRefresh() async {
     pageIndex = 1;
@@ -269,5 +301,17 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
   _onLoadMore() async {
     pageIndex++;
     getHomeDatas();
+  }
+
+  //判断是否收藏
+  bool dealIsLike(HomeItemData data) {
+    if (currentClickData == null) {
+      return data.collect!;
+    }
+    if (currentClickData!.id == data.id) {
+      return _viewModel.isCollection.value;
+    }
+
+    return data.collect!;
   }
 }
