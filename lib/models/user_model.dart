@@ -30,7 +30,6 @@ class UserData {
   String? publicName;
   String? token;
   int? type;
-  int? rank;
   String? username;
 
   UserData(
@@ -45,7 +44,6 @@ class UserData {
       this.publicName,
       this.token,
       this.type,
-      this.rank, //另外接口获取
       this.username});
 
   UserData.fromJson(Map<String, dynamic> json) {
@@ -60,7 +58,6 @@ class UserData {
     publicName = json['publicName'];
     token = json['token'];
     type = json['type'];
-    rank = json['rank'];
     username = json['username'];
   }
 
@@ -77,7 +74,6 @@ class UserData {
     data['publicName'] = this.publicName;
     data['token'] = this.token;
     data['type'] = this.type;
-    data['rank'] = this.rank;
     data['username'] = this.username;
     return data;
   }

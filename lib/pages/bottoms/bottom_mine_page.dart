@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wan_android_flutter/base/base_state.dart';
+import 'package:wan_android_flutter/models/user_coin_model.dart';
 import 'package:wan_android_flutter/models/user_model.dart';
 import 'package:wan_android_flutter/routers/navigator_util.dart';
 import 'package:wan_android_flutter/routers/router_config.dart';
@@ -17,8 +19,9 @@ class BottomMinePage extends StatefulWidget {
   _BottomMinePageState createState() => _BottomMinePageState();
 }
 
-class _BottomMinePageState extends State<BottomMinePage> {
+class _BottomMinePageState extends BaseState<BottomMinePage> {
   UserData? userData;
+  UserCoinData? userCoinData;
   int userId = -1;
   int rank = -1;
 
@@ -131,9 +134,10 @@ class _BottomMinePageState extends State<BottomMinePage> {
   ///
   _buildList() {
     userData ??= UserManager.getInstance().getUser();
-    int rank = -1;
-    if (userData != null) {
-      rank = userData!.rank!;
+    userCoinData ??= UserManager.getInstance().getUserCoin();
+    String rank = "";
+    if (userCoinData != null && userCoinData!.rank != null) {
+      rank = userCoinData!.rank!;
     }
 
     return Column(
@@ -147,7 +151,6 @@ class _BottomMinePageState extends State<BottomMinePage> {
         MineListItemView(
           Icons.star,
           "我的收藏",
-          integral: rank,
           mineItemViewClick: (title) {},
         ),
         MineListItemView(
@@ -159,19 +162,16 @@ class _BottomMinePageState extends State<BottomMinePage> {
         MineListItemView(
           Icons.network_wifi,
           "网站",
-          integral: rank,
           mineItemViewClick: (title) {},
         ),
         MineListItemView(
           Icons.animation,
           "轻松一下",
-          integral: rank,
           mineItemViewClick: (title) {},
         ),
         MineListItemView(
           Icons.settings,
           "设置",
-          integral: rank,
           mineItemViewClick: (title) {},
         ),
       ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:get/get.dart';
+import 'package:wan_android_flutter/base/base_state.dart';
 import 'package:wan_android_flutter/base/base_view.dart';
 import 'package:wan_android_flutter/base/base_viewmodel.dart';
 import 'package:wan_android_flutter/dios/http_response.dart';
@@ -25,8 +26,8 @@ class BottomHomePage extends StatefulWidget {
   _BottomHomePageState createState() => _BottomHomePageState();
 }
 
-class _BottomHomePageState extends State<BottomHomePage>
-    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+class _BottomHomePageState extends BaseState<BottomHomePage>
+    with TickerProviderStateMixin {
   final String _TAG = "BottomHomePage ";
 
   late BaseViewModel _viewModel;
@@ -269,7 +270,4 @@ class _BottomHomePageState extends State<BottomHomePage>
     pageIndex++;
     getHomeDatas();
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

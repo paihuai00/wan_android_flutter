@@ -11,13 +11,13 @@ class MineListItemView extends StatefulWidget {
   MineItemViewClick? mineItemViewClick;
   IconData iconData;
   String title;
-  int integral; //积分
+  String integral; //积分
   Color iconColor;
 
   MineListItemView(this.iconData, this.title,
       {Key? key,
       this.mineItemViewClick,
-      this.integral = -1,
+      this.integral = "",
       this.iconColor = Colors.grey})
       : super(key: key);
 

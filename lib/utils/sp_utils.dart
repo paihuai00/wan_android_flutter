@@ -12,6 +12,7 @@ class SpUtil {
   final String _TAG = "SpUtil ";
 
   static const String keyLogin = "login_user";
+  static const String keyUserCoin = "coin_user";
 
   static late SharedPreferences _sharedPreferences;
 

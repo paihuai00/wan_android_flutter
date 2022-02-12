@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wan_android_flutter/dios/http_client.dart';
@@ -21,6 +22,18 @@ void main() {
   };
 
   runZonedGuarded<Future<Null>>(() async {
+    WidgetsFlutterBinding.ensureInitialized(); //不加这个强制横/竖屏会报错
+    SystemChrome.setPreferredOrientations([
+      // 强制竖屏
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown
+    ]);
+    // SystemChrome.setPreferredOrientations([
+    //   //强制横屏
+    //   DeviceOrientation.landscapeLeft,
+    //   DeviceOrientation.landscapeRight
+    // ]);
+
     runApp(MyApp());
 
     ///初始化 sp

@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:wan_android_flutter/dios/http_config.dart';
 import 'package:wan_android_flutter/dios/http_parse.dart';
 import 'package:wan_android_flutter/dios/http_response.dart';
@@ -20,9 +23,13 @@ class HttpDioClient {
       : _dio = AppDio(options: options, dioConfig: dioConfig);
 
   ///初始化
-  initDioClient() {
+  initDioClient() async {
     //初始化 dio
-    HttpDioConfig dioConfig = HttpDioConfig(baseUrl: BaseUrl, proxy: "");
+
+    Directory tempDir = await getTemporaryDirectory();
+
+    HttpDioConfig dioConfig =
+        HttpDioConfig(baseUrl: BaseUrl, proxy: "", cookiesPath: tempDir.path);
     HttpDioClient client = HttpDioClient(dioConfig: dioConfig);
 
     ///get 绑定，方便 [BaseDioRequest] , 使用请求

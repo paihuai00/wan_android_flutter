@@ -11,6 +11,8 @@ import 'package:wan_android_flutter/dios/http_config.dart';
 /// @Description:
 
 class AppDio with DioMixin implements Dio {
+  CookieManager? _cookieManager;
+
   AppDio({BaseOptions? options, HttpDioConfig? dioConfig}) {
     options ??= BaseOptions(
       baseUrl: dioConfig?.baseUrl ?? "",
@@ -33,8 +35,9 @@ class AppDio with DioMixin implements Dio {
     interceptors.add(DioCacheInterceptor(options: cacheOptions));
     // Cookie管理
     if (dioConfig?.cookiesPath?.isNotEmpty ?? false) {
-      interceptors.add(CookieManager(
-          PersistCookieJar(storage: FileStorage(dioConfig!.cookiesPath))));
+      _cookieManager = CookieManager(
+          PersistCookieJar(storage: FileStorage(dioConfig!.cookiesPath)));
+      interceptors.add(_cookieManager!);
     }
 
     if (kDebugMode) {
@@ -66,5 +69,13 @@ class AppDio with DioMixin implements Dio {
       // you can also create a HttpClient to dio
       // return HttpClient();
     };
+  }
+
+  bool clearCookies() {
+    if (_cookieManager == null) return false;
+
+    _cookieManager!.cookieJar.deleteAll();
+
+    return true;
   }
 }

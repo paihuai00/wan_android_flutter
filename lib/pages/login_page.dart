@@ -1,8 +1,19 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:wan_android_flutter/base/base_state.dart';
 import 'package:wan_android_flutter/base/base_view.dart';
 import 'package:wan_android_flutter/base/base_viewmodel.dart';
+import 'package:wan_android_flutter/dios/http_response.dart';
+import 'package:wan_android_flutter/models/user_coin_model.dart';
+import 'package:wan_android_flutter/models/user_model.dart';
+import 'package:wan_android_flutter/requests/login_request.dart';
 import 'package:wan_android_flutter/routers/navigator_util.dart';
 import 'package:wan_android_flutter/routers/router_config.dart';
+import 'package:wan_android_flutter/utils/sp_utils.dart';
+import 'package:wan_android_flutter/utils/toast_util.dart';
+import 'package:wan_android_flutter/utils/user_manager.dart';
 import 'package:wan_android_flutter/view_model/login_regist_vm.dart';
 
 /// @Author: cuishuxiang
@@ -15,14 +26,17 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends BaseState<LoginPage> {
   static const String _TAG = "LoginPage ";
 
   late BaseViewModel _viewModel;
 
-  late TextEditingController _phoneController = TextEditingController();
+  late final TextEditingController _phoneController = TextEditingController();
 
-  late TextEditingController _passwordController = TextEditingController();
+  late final TextEditingController _passwordController =
+      TextEditingController();
+
+  late final CancelToken _coinCancelToken = CancelToken();
 
   @override
   void initState() {
@@ -33,6 +47,12 @@ class _LoginPageState extends State<LoginPage> {
   void dispose() {
     _passwordController.dispose();
     _phoneController.dispose();
+    if (!_viewModel.cancelToken.isCancelled) {
+      _viewModel.cancelToken.cancel();
+    }
+    if (!_coinCancelToken.isCancelled) {
+      _coinCancelToken.cancel();
+    }
     super.dispose();
   }
 
@@ -119,7 +139,52 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   //登录
-  void _doLogin() {}
+  void _doLogin() async {
+    String username = _phoneController.text;
+    String password = _passwordController.text;
+
+    if (username.isEmpty) {
+      XToast.show("请输入账号");
+      return;
+    }
+
+    if (password.isEmpty) {
+      XToast.show("请输入密码");
+      return;
+    }
+
+    _viewModel.startLoading(this);
+
+    BaseDioResponse loginResponse = await LoginRequest()
+        .doLogin(username, password, cancelToken: _viewModel.cancelToken);
+
+    BaseDioResponse coinResponse =
+        await LoginRequest().getCoinData(cancelToken: _coinCancelToken);
+
+    if (loginResponse.ok && coinResponse.ok) {
+      //1，登录
+      SpUtil.getInstance().set(SpUtil.keyLogin, jsonEncode(loginResponse.data));
+      UserData userData = UserModel.fromJson(loginResponse.data).data!;
+      UserManager.getInstance().setUser(userData);
+
+      //2，积分
+      SpUtil.getInstance()
+          .set(SpUtil.keyUserCoin, jsonEncode(coinResponse.data));
+      UserCoinData userCoinData =
+          UserCoinModel.fromJson(coinResponse.data).data!;
+      UserManager.getInstance().setUserCoin(userCoinData);
+
+      XToast.show("登录成功");
+    } else {
+      XToast.showRequestError();
+    }
+
+    _viewModel.stopLoading(this);
+
+    if (loginResponse.ok) {
+      NavigatorUtil.goBack(context);
+    }
+  }
 
   void _doRegister() {
     NavigatorUtil.jump(context, RouterConfig.registerPage);
