@@ -26,6 +26,13 @@ class LoginRequest extends BaseDioRequest {
     return result;
   }
 
+  //https://www.wanandroid.com/user/logout/json
+  Future<BaseDioResponse> loginOut({CancelToken? cancelToken}) async {
+    BaseDioResponse result =
+        await httpClient.get("user/logout/json", cancelToken: cancelToken);
+    return result;
+  }
+
   //https://www.wanandroid.com/user/register?username&password&repassword 注册
   Future<BaseDioResponse> doRegister(
       String username, String password, String repassword,

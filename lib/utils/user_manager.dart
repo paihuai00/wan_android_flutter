@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:wan_android_flutter/dios/app_dio.dart';
 import 'package:wan_android_flutter/models/user_coin_model.dart';
 import 'package:wan_android_flutter/models/user_model.dart';
 import 'package:wan_android_flutter/utils/sp_utils.dart';
@@ -44,6 +45,16 @@ class UserManager {
   void setUser(UserData userData) {
     _isLogin = true;
     _userData = userData;
+  }
+
+  void loginOut() {
+    _isLogin = false;
+    _userData = null;
+    _userCoinData = null;
+    SpUtil.getInstance().set(SpUtil.keyLogin, "");
+
+    AppDio appDio = AppDio();
+    appDio.clearCookies();
   }
 
   //用户积分

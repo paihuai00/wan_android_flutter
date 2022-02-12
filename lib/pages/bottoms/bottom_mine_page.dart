@@ -127,7 +127,6 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
     if (UserManager.getInstance().isLogin()) {
       return;
     }
-
     NavigatorUtil.jump(RouterConfig.loginPage);
   }
 
@@ -171,7 +170,9 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
         MineListItemView(
           Icons.settings,
           "设置",
-          mineItemViewClick: (title) {},
+          mineItemViewClick: (title) {
+            NavigatorUtil.jump(RouterConfig.settingPage);
+          },
         ),
       ],
     );

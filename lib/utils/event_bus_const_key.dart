@@ -4,4 +4,6 @@
 
 class EventBusKey {
   static const String loginSuccess = "login_success";
+
+  static const String loginOut = "login_out";
 }
