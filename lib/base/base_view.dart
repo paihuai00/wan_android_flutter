@@ -147,7 +147,7 @@ class _BaseViewState<T extends BaseViewModel> extends State<BaseView<T>> {
             // SizedBox(
             //   height: screenUtil.scaleHeight * 210,
             // ),
-            XImage.load("assets/images/network_error.png"),
+            Image.asset("assets/images/network_error.png"),
             const SizedBox(
               height: 21,
             ),
@@ -177,7 +177,7 @@ class _BaseViewState<T extends BaseViewModel> extends State<BaseView<T>> {
                   widget.onTapErrorRefresh!();
                 }
               },
-              child: Text("点击刷新"),
+              child: const Text("点击刷新"),
             ),
           ],
         ),

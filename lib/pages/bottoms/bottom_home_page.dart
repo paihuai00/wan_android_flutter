@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:wan_android_flutter/base/base_state.dart';
 import 'package:wan_android_flutter/base/base_view.dart';
+import 'package:wan_android_flutter/base/base_viewmodel.dart';
 import 'package:wan_android_flutter/dios/http_response.dart';
 import 'package:wan_android_flutter/models/banner_model.dart';
 import 'package:wan_android_flutter/models/home_list_model.dart';
@@ -13,6 +14,7 @@ import 'package:wan_android_flutter/utils/event_bus.dart';
 import 'package:wan_android_flutter/utils/event_bus_const_key.dart';
 import 'package:wan_android_flutter/utils/image_utils.dart';
 import 'package:wan_android_flutter/utils/log_util.dart';
+import 'package:wan_android_flutter/utils/net_utils.dart';
 import 'package:wan_android_flutter/utils/normal_style_util.dart';
 import 'package:wan_android_flutter/utils/toast_util.dart';
 import 'package:wan_android_flutter/view_model/bottom_home_vm.dart';
@@ -79,6 +81,10 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
   @override
   Widget build(BuildContext context) {
     return BaseView<BottomHomeViewModel>(
+      onTapErrorRefresh: () {
+        pageIndex = 1;
+        _easyRefreshController.callRefresh();
+      },
       builder: (vm) {
         _viewModel = vm;
 
@@ -136,20 +142,31 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
 
   //请求首页banner数据
   getHomeDatas() async {
+    bool isNetConnect = await NetWorkUtils.isNetWorkAvailable();
+
+    if (!isNetConnect) {
+      XToast.showNetError();
+
+      _easyRefreshController.finishRefresh(
+          success: false, noMore: pageIndex != 1);
+      return;
+    }
+
     //仅当第一页，刷新
     if (pageIndex == 1) {
       _viewModel.startLoading(this);
 
       BaseDioResponse json = await HomeRequest().getBannerList();
-
-      XLog.d(
-          message:
-              "BottomHomeViewModel - getBannerDatas(): " + json.toString());
-
-      BannerDatas bannerDatas = BannerDatas.fromJson(json.data);
-
-      _bannerList.clear();
-      _bannerList.addAll(bannerDatas.data);
+      if (json.ok) {
+        BannerDatas bannerDatas = BannerDatas.fromJson(json.data);
+        _bannerList.clear();
+        _bannerList.addAll(bannerDatas.data);
+        XLog.d(
+            message:
+                "BottomHomeViewModel - getBannerDatas(): " + json.toString());
+      } else {
+        XLog.d(message: "BottomHomeViewModel - getBannerDatas(): 请求失败");
+      }
 
       _viewModel.stopLoading(this);
     }
@@ -157,27 +174,32 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
     //2,首页列表数据
     BaseDioResponse homeJson = await HomeRequest().getHomeList(pageIndex);
 
-    HomeData homeData = HomeListData.fromJson(homeJson.data).data!;
+    var hasMore = false;
+    if (homeJson.ok) {
+      HomeData homeData = HomeListData.fromJson(homeJson.data).data!;
 
-    var hasMore = true;
-    if (homeData.datas != null && homeData.datas!.isNotEmpty) {
-      if (pageIndex == 1) {
-        _dataItemList.clear();
+      if (homeData.datas != null && homeData.datas!.isNotEmpty) {
+        if (pageIndex == 1) {
+          _dataItemList.clear();
+        }
+
+        if (homeData.datas!.length < 10) {
+          hasMore = true;
+        }
+
+        _dataItemList.addAll(homeData.datas!);
+      } else {
+        hasMore = false;
       }
-
-      if (homeData.datas!.length < 10) {
-        hasMore = true;
-      }
-
-      _dataItemList.addAll(homeData.datas!);
     } else {
-      hasMore = false;
+      XToast.showRequestError();
+      _viewModel.refreshRequestState(LoadingStateEnum.ERROR, this);
     }
 
     if (pageIndex == 1) {
-      _easyRefreshController.finishRefresh(success: true);
+      _easyRefreshController.finishRefresh(success: homeJson.ok);
     } else {
-      _easyRefreshController.finishLoad(success: true, noMore: !hasMore);
+      _easyRefreshController.finishLoad(success: homeJson.ok, noMore: !hasMore);
     }
 
     setState(() {});

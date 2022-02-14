@@ -26,4 +26,8 @@ class XToast {
   static void showLoginError({String msg = "请先登录！"}) {
     show(msg);
   }
+
+  static void showNetError({String msg = "当前网络不可用，请检查网络！"}) {
+    show(msg);
+  }
 }
