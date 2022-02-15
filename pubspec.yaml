@@ -88,6 +88,11 @@ dependencies:
 
   visibility_detector: ^0.2.2
 
+  webview_flutter: ^3.0.0
+
+
+  connectivity: ^3.0.6
+
 
 
 dev_dependencies:

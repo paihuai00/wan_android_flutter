@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
             });
             //单击事件
             _controller.jumpToPage(index);
-            print("AAAA   index $index , _currentIndex  = $_currentIndex");
+            // print("AAAA   index $index , _currentIndex  = $_currentIndex");
           },
           items: _buildBottomItems(),
         ));
