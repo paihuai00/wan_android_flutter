@@ -52,6 +52,7 @@ class UserManager {
     _userData = null;
     _userCoinData = null;
     SpUtil.getInstance().set(SpUtil.keyLogin, "");
+    SpUtil.getInstance().set(SpUtil.keyUserCoin, "");
 
     AppDio appDio = AppDio();
     appDio.clearCookies();

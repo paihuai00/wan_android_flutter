@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:wan_android_flutter/base/base_state.dart';
 import 'package:wan_android_flutter/base/base_view.dart';
@@ -27,6 +28,8 @@ class _SettingPageState extends BaseState<SettingPage> {
 
   late BaseViewModel _viewModel;
 
+  late CancelToken cancelToken = CancelToken();
+
   @override
   void initState() {
     super.initState();
@@ -34,8 +37,8 @@ class _SettingPageState extends BaseState<SettingPage> {
 
   @override
   void dispose() {
-    if (!_viewModel.cancelToken.isCancelled) {
-      _viewModel.cancelToken.cancel();
+    if (!cancelToken.isCancelled) {
+      cancelToken.cancel();
     }
 
     super.dispose();
@@ -106,7 +109,7 @@ class _SettingPageState extends BaseState<SettingPage> {
     _viewModel.startLoading(this);
 
     BaseDioResponse loginOutResponse =
-        await LoginRequest().loginOut(cancelToken: _viewModel.cancelToken);
+        await LoginRequest().loginOut(cancelToken: cancelToken);
 
     if (loginOutResponse.ok) {
       //退出登录
@@ -115,7 +118,7 @@ class _SettingPageState extends BaseState<SettingPage> {
       //通知其他页面更新
       eventBus.sendBroadcast(EventBusKey.loginOut);
 
-      XToast.show("登录成功");
+      XToast.show("退出登录");
     } else {
       XToast.showRequestError();
     }

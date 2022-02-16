@@ -4,6 +4,8 @@ import 'package:wan_android_flutter/models/user_coin_model.dart';
 import 'package:wan_android_flutter/models/user_model.dart';
 import 'package:wan_android_flutter/routers/navigator_util.dart';
 import 'package:wan_android_flutter/routers/router_config.dart';
+import 'package:wan_android_flutter/utils/event_bus.dart';
+import 'package:wan_android_flutter/utils/event_bus_const_key.dart';
 import 'package:wan_android_flutter/utils/image_utils.dart';
 import 'package:wan_android_flutter/utils/user_manager.dart';
 import 'package:wan_android_flutter/widgets/mine_list_widget.dart';
@@ -29,10 +31,21 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
   void initState() {
     super.initState();
     userData = UserManager.getInstance().getUser();
+
+    //退出登录监听
+    eventBus.addListener(EventBusKey.loginOut, (arg) {
+      userData = null;
+      userCoinData = null;
+      userId = -1;
+      rank = -1;
+      setState(() {});
+    });
   }
 
   @override
   void dispose() {
+    eventBus.removeListener(EventBusKey.loginOut);
+
     super.dispose();
   }
 

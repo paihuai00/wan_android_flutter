@@ -10,6 +10,7 @@ import 'package:wan_android_flutter/pages/launch_pages.dart';
 import 'package:wan_android_flutter/pages/mines/login_page.dart';
 import 'package:wan_android_flutter/pages/mines/register_page.dart';
 import 'package:wan_android_flutter/pages/mines/setting_page.dart';
+import 'package:wan_android_flutter/pages/webviews/webview_page.dart';
 import 'package:wan_android_flutter/routers/login_interceptor_router.dart';
 import 'package:wan_android_flutter/view_model/bottom_home_vm.dart';
 import 'package:wan_android_flutter/view_model/bottom_project_vm.dart';
@@ -38,9 +39,11 @@ class RouterConfig {
   static String bottomSquarePage = "/bottom_square_page";
   static String bottomWxPage = "/bottom_wx_page";
   static String bottomMinePage = "/bottom_mine_page";
+
   static String loginPage = "/login_page";
   static String registerPage = "/register_page";
   static String settingPage = "/set_page";
+  static String webViewPage = "/profile_webview";
 
   static final List<GetPage> getPages = [
     GetPage(
@@ -114,5 +117,10 @@ class RouterConfig {
         binding: BindingsBuilder(
             () => {Get.lazyPut(() => LoginRegisterViewModel())}),
         middlewares: [LoginInterceptorRouter()]),
+    GetPage(
+      name: webViewPage,
+      page: () => WebViewPage(),
+      binding: BindingsBuilder(() => {}),
+    ),
   ];
 }

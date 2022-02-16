@@ -50,6 +50,13 @@ class NavigatorUtil {
     /// 指定了 转场动画
   }
 
+  static Future? jumpToWeb(String url, String? title) {
+    // RouteSettings settings = RouteSettings(name: "params", arguments: arguments);
+    var arg = {"url": url, "title": title};
+
+    return NavigatorUtil.jump(RouterConfig.webViewPage, arguments: arg);
+  }
+
   /// 框架自带的有 native，nativeModal，inFromLeft，inFromRight，inFromBottom，fadeIn，custom
 // static Future jumpWithType(BuildContext context, String title, Transition type,{Object? arguments}) {
 //   RouteSettings settings = RouteSettings(name: "params", arguments: arguments);

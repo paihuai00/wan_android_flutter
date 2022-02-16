@@ -10,6 +10,8 @@ import 'package:wan_android_flutter/dios/http_response.dart';
 import 'package:wan_android_flutter/models/banner_model.dart';
 import 'package:wan_android_flutter/models/home_list_model.dart';
 import 'package:wan_android_flutter/requests/home_request.dart';
+import 'package:wan_android_flutter/routers/navigator_util.dart';
+import 'package:wan_android_flutter/routers/router_config.dart';
 import 'package:wan_android_flutter/utils/event_bus.dart';
 import 'package:wan_android_flutter/utils/event_bus_const_key.dart';
 import 'package:wan_android_flutter/utils/image_utils.dart';
@@ -240,7 +242,14 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
           .map((e) => GestureDetector(
                 onTap: () {
                   currentClickData = e;
-                  XToast.show("点击了${_dataItemList.indexOf(e)}");
+                  String url = currentClickData!.link ?? "";
+                  if (url.isEmpty) {
+                    XToast.show("文章链接不存在");
+                    return;
+                  }
+                  var arg = {"url": url, "title": currentClickData!.title!};
+
+                  NavigatorUtil.jump(RouterConfig.webViewPage, arguments: arg);
                 },
                 child: Card(
                   margin: const EdgeInsets.all(10),

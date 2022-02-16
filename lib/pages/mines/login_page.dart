@@ -51,6 +51,9 @@ class _LoginPageState extends BaseState<LoginPage> {
     if (Get.arguments != null && Get.arguments is Map) {
       nextPages = Get.arguments[LoginInterceptorRouter.nextPageKey];
     }
+
+    _phoneController.text = "17610176618";
+    _passwordController.text = "123456";
   }
 
   @override
