@@ -10,6 +10,7 @@ import 'package:wan_android_flutter/pages/launch_pages.dart';
 import 'package:wan_android_flutter/pages/mines/login_page.dart';
 import 'package:wan_android_flutter/pages/mines/register_page.dart';
 import 'package:wan_android_flutter/pages/mines/setting_page.dart';
+import 'package:wan_android_flutter/routers/login_interceptor_router.dart';
 import 'package:wan_android_flutter/view_model/bottom_home_vm.dart';
 import 'package:wan_android_flutter/view_model/bottom_project_vm.dart';
 import 'package:wan_android_flutter/view_model/bottom_square_vm.dart';
@@ -111,6 +112,7 @@ class RouterConfig {
         name: settingPage,
         page: () => SettingPage(),
         binding: BindingsBuilder(
-            () => {Get.lazyPut(() => LoginRegisterViewModel())})),
+            () => {Get.lazyPut(() => LoginRegisterViewModel())}),
+        middlewares: [LoginInterceptorRouter()]),
   ];
 }

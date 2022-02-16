@@ -10,10 +10,14 @@ import 'package:flutter/material.dart';
 class XImage {
   static Widget load(
     String url, {
-    double width = 0,
-    double height = 0,
+    double width = double.infinity,
+    double height = 200,
     BoxFit fit = BoxFit.cover,
   }) {
+    if (url.isEmpty) {
+      return const Icon(Icons.error);
+    }
+
     if (width != 0 && height != 0) {
       return CachedNetworkImage(
         width: width,

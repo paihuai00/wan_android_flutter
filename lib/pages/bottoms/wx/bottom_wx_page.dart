@@ -86,7 +86,7 @@ class _BottomWxPageState extends State<BottomWxPage>
         _wxTabList.addAll(wxTabModel.data!);
       } else {
         /// 数据请求失败
-        XToast.show("请求失败,请重试！");
+        XToast.showRequestError();
 
         _viewModel.pageState = LoadingStateEnum.ERROR;
       }
@@ -108,7 +108,7 @@ class _BottomWxPageState extends State<BottomWxPage>
   bool get wantKeepAlive => true;
 
   Widget _buildTabBar() {
-    if (_wxTabList.isEmpty) return SizedBox();
+    if (_wxTabList.isEmpty) return const SizedBox();
 
     return TabBar(
       onTap: (tab) {

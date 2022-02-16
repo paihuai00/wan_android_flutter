@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wan_android_flutter/base/base_state.dart';
 import 'package:wan_android_flutter/base/base_view.dart';
 import 'package:wan_android_flutter/base/base_viewmodel.dart';
@@ -9,6 +10,7 @@ import 'package:wan_android_flutter/dios/http_response.dart';
 import 'package:wan_android_flutter/models/user_coin_model.dart';
 import 'package:wan_android_flutter/models/user_model.dart';
 import 'package:wan_android_flutter/requests/login_request.dart';
+import 'package:wan_android_flutter/routers/login_interceptor_router.dart';
 import 'package:wan_android_flutter/routers/navigator_util.dart';
 import 'package:wan_android_flutter/routers/router_config.dart';
 import 'package:wan_android_flutter/utils/event_bus.dart';
@@ -40,9 +42,15 @@ class _LoginPageState extends BaseState<LoginPage> {
 
   late final CancelToken _coinCancelToken = CancelToken();
 
+  String nextPages = ""; //登录后，需跳转的路由
+
   @override
   void initState() {
     super.initState();
+
+    if (Get.arguments != null && Get.arguments is Map) {
+      nextPages = Get.arguments[LoginInterceptorRouter.nextPageKey];
+    }
   }
 
   @override
@@ -163,7 +171,9 @@ class _LoginPageState extends BaseState<LoginPage> {
     BaseDioResponse coinResponse =
         await LoginRequest().getCoinData(cancelToken: _coinCancelToken);
 
-    if (loginResponse.ok && coinResponse.ok) {
+    bool isLoginSuccess = loginResponse.ok && coinResponse.ok;
+
+    if (isLoginSuccess) {
       //1，登录
       SpUtil.getInstance().set(SpUtil.keyLogin, jsonEncode(loginResponse.data));
       UserData userData = UserModel.fromJson(loginResponse.data).data!;
@@ -186,8 +196,12 @@ class _LoginPageState extends BaseState<LoginPage> {
 
     _viewModel.stopLoading(this);
 
-    if (loginResponse.ok) {
+    if (isLoginSuccess) {
       NavigatorUtil.goBack(context);
+
+      if (nextPages.isNotEmpty) {
+        NavigatorUtil.jump(nextPages);
+      }
     }
   }
 
