@@ -15,4 +15,22 @@ abstract class BaseState<T extends StatefulWidget> extends State<T>
 
   @override
   bool get wantKeepAlive => _wantKeepAlive;
+
+  @override
+  void initState() {
+    super.initState();
+
+    //绘制完成，请求数据
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      onBuildFinish();
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  //build 完成回调，仅1次
+  void onBuildFinish() {}
 }

@@ -39,4 +39,4 @@ class BaseViewModel extends GetxController {
   }
 }
 
-enum LoadingStateEnum { LOADING, IDLE, ERROR }
+enum LoadingStateEnum { LOADING, IDLE, EMPTY, ERROR }

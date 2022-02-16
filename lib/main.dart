@@ -54,10 +54,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     ///Getx,配置
     var app = GetMaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
         // 主题色
-        primarySwatch: Colors.blue,
+        brightness: Brightness.light, //控件颜色模式Light
+        primaryColor: Colors.blue, //设置主题色为黑色即可
       ),
       initialRoute: RouterConfig.launchPagePath,
       getPages: RouterConfig.getPages,

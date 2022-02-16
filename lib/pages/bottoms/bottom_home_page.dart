@@ -209,7 +209,7 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
   }
 
   _buildBanner() {
-    return Container(
+    return SizedBox(
       height: 200,
       child: _bannerList.isEmpty
           ? Image.asset("assets/images/ic_placeholder.png")
@@ -224,6 +224,17 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
               pagination: const SwiperPagination(),
               control: _swiperControl,
               autoplay: true,
+              onTap: (index) {
+                BannerData item = _bannerList[index];
+                //点击事件回调
+                String url = item.url ?? "";
+                if (url.isEmpty) {
+                  XToast.show("文章链接不存在");
+                  return;
+                }
+
+                NavigatorUtil.jumpToWeb(url, item.title ?? url);
+              },
             ),
     );
   }

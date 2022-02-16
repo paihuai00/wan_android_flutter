@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:wan_android_flutter/base/base_viewmodel.dart';
-import 'package:wan_android_flutter/utils/image_utils.dart';
 import 'package:wan_android_flutter/utils/normal_colors.dart';
 
 /// @Author: cuishuxiang
@@ -28,7 +27,8 @@ class BaseView<T extends BaseViewModel> extends StatefulWidget {
       this.didChangeDependencies,
       this.didUpdateWidget,
       this.onReady,
-      this.onTapErrorRefresh});
+      this.onTapErrorRefresh,
+      this.onTapEmptyRefresh});
 
   final BaseViewBuilder<T> builder;
   final T? viewModel;
@@ -46,6 +46,7 @@ class BaseView<T extends BaseViewModel> extends StatefulWidget {
   final T? init;
   final void Function(T?, State state)? onReady;
   final void Function()? onTapErrorRefresh;
+  final void Function()? onTapEmptyRefresh;
 
   @override
   _BaseViewState createState() => _BaseViewState<T>();
@@ -185,6 +186,46 @@ class _BaseViewState<T extends BaseViewModel> extends State<BaseView<T>> {
     );
   }
 
+  Widget emptyView() {
+    return Container(
+      color: Colors.white,
+      width: double.infinity,
+      height: double.infinity,
+      child: Center(
+        child: Column(
+          children: [
+            SizedBox(
+              height: Get.height * 0.1,
+            ),
+            Image.asset("assets/images/ic_empty.png"),
+            const SizedBox(
+              height: 21,
+            ),
+            const Text(
+              "什么都没有～",
+              style: TextStyle(color: Color(0xFF6D7380)),
+            ),
+            const SizedBox(
+              height: 36,
+            ),
+            MaterialButton(
+              color: const Color(0xFF3274FA),
+              textColor: Colors.white,
+              padding: const EdgeInsets.fromLTRB(28, 0, 28, 0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(23.0),
+              ),
+              onPressed: () {
+                widget.onTapEmptyRefresh?.call();
+              },
+              child: const Text("点击刷新"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     debugPrint("widget.provider.pageState " + viewModel.pageState.toString());
@@ -194,11 +235,7 @@ class _BaseViewState<T extends BaseViewModel> extends State<BaseView<T>> {
         return Stack(
           children: [
             widget.builder(_dx),
-            viewModel.pageState == LoadingStateEnum.LOADING
-                ? loadingView(viewModel.loadingBackground)
-                : (viewModel.pageState == LoadingStateEnum.ERROR
-                    ? errorView()
-                    : Container())
+            dealState(),
           ],
         );
       },
@@ -214,5 +251,20 @@ class _BaseViewState<T extends BaseViewModel> extends State<BaseView<T>> {
       didChangeDependencies: widget.didChangeDependencies,
       didUpdateWidget: widget.didUpdateWidget,
     );
+  }
+
+  dealState() {
+    switch (viewModel.pageState) {
+      case LoadingStateEnum.LOADING:
+        return loadingView(viewModel.loadingBackground);
+
+      case LoadingStateEnum.EMPTY:
+        return emptyView();
+
+      case LoadingStateEnum.ERROR:
+        return errorView();
+    }
+
+    return Container();
   }
 }

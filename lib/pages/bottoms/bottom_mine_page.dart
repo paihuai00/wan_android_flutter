@@ -163,7 +163,9 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
         MineListItemView(
           Icons.star,
           "我的收藏",
-          mineItemViewClick: (title) {},
+          mineItemViewClick: (title) {
+            NavigatorUtil.jump(RouterConfig.mineCollectionPage);
+          },
         ),
         MineListItemView(
           Icons.map,

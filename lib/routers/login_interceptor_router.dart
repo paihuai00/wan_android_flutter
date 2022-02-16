@@ -17,7 +17,10 @@ class LoginInterceptorRouter extends GetMiddleware {
   static const String nextPageKey = "next_page";
 
   /// 需要拦截的 page
-  List<String> needLoginPage = [RouterConfig.settingPage];
+  List<String> needLoginPage = [
+    RouterConfig.settingPage,
+    RouterConfig.mineCollectionPage
+  ];
 
   @override
   RouteSettings? redirect(String? route) {

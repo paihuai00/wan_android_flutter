@@ -23,4 +23,19 @@ class CollectionRequest extends BaseDioRequest {
         .post("lg/uncollect_originId/$id/json", cancelToken: cancelToken);
     return result;
   }
+
+  //收藏列表
+  // 0 文章:https://www.wanandroid.com/lg/collect/list/0/json
+  // 1，链接：https://www.wanandroid.com/lg/collect/usertools/json
+  Future<BaseDioResponse> getCollectionList(int pageIndex, int type,
+      {CancelToken? cancelToken}) async {
+    if (type == 1) {
+      return await httpClient.get("lg/collect/usertools/json",
+          cancelToken: cancelToken);
+    }
+
+    BaseDioResponse result = await httpClient
+        .get("lg/collect/list/$pageIndex/json", cancelToken: cancelToken);
+    return result;
+  }
 }

@@ -5,6 +5,7 @@ import 'package:wan_android_flutter/base/base_view.dart';
 import 'package:wan_android_flutter/base/base_viewmodel.dart';
 import 'package:wan_android_flutter/models/project_detail_model.dart';
 import 'package:wan_android_flutter/requests/project_request.dart';
+import 'package:wan_android_flutter/routers/navigator_util.dart';
 import 'package:wan_android_flutter/utils/log_util.dart';
 import 'package:wan_android_flutter/utils/toast_util.dart';
 import 'package:wan_android_flutter/view_model/bottom_project_vm.dart';
@@ -126,7 +127,12 @@ class _ProjectDetailPageState extends State<ProjectDetailPage>
               e,
               callBack: (item) {
                 //点击事件回调
-                XToast.show("点击了：${item.title}");
+                String url = item.link ?? "";
+                if (url.isEmpty) {
+                  XToast.show("文章链接不存在");
+                  return;
+                }
+                NavigatorUtil.jumpToWeb(url, item.title ?? url);
               },
             ))
         .toList();
