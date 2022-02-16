@@ -40,7 +40,7 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
 
   late final List<HomeItemData> _dataItemList = [];
 
-  late final SwiperControl _swiperControl = SwiperControl();
+  late final SwiperControl _swiperControl = const SwiperControl();
 
   late final EasyRefreshController _easyRefreshController =
       EasyRefreshController();
@@ -75,6 +75,7 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
   @override
   void dispose() {
     _easyRefreshController.dispose();
+    eventBus.removeListener(EventBusKey.loginSuccess);
     super.dispose();
   }
 

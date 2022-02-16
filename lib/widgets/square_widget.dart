@@ -27,6 +27,7 @@ class _SquareWidgetState extends State<SquareWidget> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
+      width: double.infinity,
       padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

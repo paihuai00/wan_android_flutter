@@ -6,6 +6,8 @@ import 'package:wan_android_flutter/dios/http_response.dart';
 import 'package:wan_android_flutter/models/nav_detail_model.dart';
 import 'package:wan_android_flutter/models/system_detail_model.dart';
 import 'package:wan_android_flutter/requests/square_request.dart';
+import 'package:wan_android_flutter/utils/event_bus.dart';
+import 'package:wan_android_flutter/utils/event_bus_const_key.dart';
 import 'package:wan_android_flutter/utils/log_util.dart';
 import 'package:wan_android_flutter/utils/toast_util.dart';
 import 'package:wan_android_flutter/view_model/bottom_square_vm.dart';
@@ -56,10 +58,11 @@ class _SquareDetailPageState extends State<SquareDetailPage>
   Widget build(BuildContext context) {
     return BaseView<BottomSquareViewModel>(builder: (vm) {
       _viewModel = vm;
-      return Container(
-          child: ListView(
-        children: widgetlist,
-      ));
+      return SingleChildScrollView(
+        child: Column(
+          children: widgetlist,
+        ),
+      );
     });
   }
 
@@ -108,7 +111,9 @@ class _SquareDetailPageState extends State<SquareDetailPage>
       }
     }
 
-    setState(() {});
+    setState(() {
+      eventBus.sendBroadcast(EventBusKey.SquareRequestSuccess);
+    });
 
     _viewModel.stopLoading(this);
   }
