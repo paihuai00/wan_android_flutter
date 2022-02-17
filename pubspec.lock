@@ -142,12 +142,19 @@ packages:
     source: hosted
     version: "2.0.1"
   chewie:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: chewie
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.2.2"
+    version: "1.1.0"
+  chewie_audio:
+    dependency: transitive
+    description:
+      name: chewie_audio
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.3.0"
   cli_util:
     dependency: transitive
     description:
@@ -321,6 +328,20 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.2.1"
+  flutter_html:
+    dependency: "direct main"
+    description:
+      name: flutter_html
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.2.1"
+  flutter_layout_grid:
+    dependency: transitive
+    description:
+      name: flutter_layout_grid
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.3"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -328,6 +349,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.4"
+  flutter_math_fork:
+    dependency: transitive
+    description:
+      name: flutter_math_fork
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.5.0"
   flutter_page_indicator:
     dependency: "direct main"
     description:
@@ -349,6 +377,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "5.1.0"
+  flutter_svg:
+    dependency: transitive
+    description:
+      name: flutter_svg
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.23.0+1"
   flutter_swiper:
     dependency: "direct main"
     description:
@@ -520,6 +555,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.0"
+  numerus:
+    dependency: transitive
+    description:
+      name: numerus
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.1.1"
   octo_image:
     dependency: transitive
     description:
@@ -548,6 +590,20 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.8.0"
+  path_drawing:
+    dependency: transitive
+    description:
+      name: path_drawing
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.5.1+1"
+  path_parsing:
+    dependency: transitive
+    description:
+      name: path_parsing
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.2.1"
   path_provider:
     dependency: "direct main"
     description:
@@ -604,6 +660,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.11.1"
+  petitparser:
+    dependency: transitive
+    description:
+      name: petitparser
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "4.4.0"
   platform:
     dependency: transitive
     description:
@@ -638,7 +701,7 @@ packages:
       name: provider
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "5.0.0"
+    version: "6.0.2"
   pub_semver:
     dependency: transitive
     description:
@@ -653,6 +716,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.2.0"
+  quiver:
+    dependency: transitive
+    description:
+      name: quiver
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.0.1+1"
   rxdart:
     dependency: transitive
     description:
@@ -847,6 +917,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.0"
+  tuple:
+    dependency: transitive
+    description:
+      name: tuple
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.0"
   typed_data:
     dependency: transitive
     description:
@@ -925,7 +1002,7 @@ packages:
     source: hosted
     version: "2.1.0"
   video_player:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: video_player
       url: "https://pub.flutter-io.cn"
@@ -1002,12 +1079,12 @@ packages:
     source: hosted
     version: "2.1.0"
   webview_flutter:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: webview_flutter
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.0.0"
+    version: "2.8.0"
   webview_flutter_android:
     dependency: transitive
     description:
@@ -1043,6 +1120,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.2.0"
+  xml:
+    dependency: transitive
+    description:
+      name: xml
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "5.3.1"
   yaml:
     dependency: transitive
     description:

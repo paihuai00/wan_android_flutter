@@ -3,7 +3,7 @@ import 'package:wan_android_flutter/base/base_state.dart';
 import 'package:wan_android_flutter/pages/collections/collection_link_detail_page.dart';
 import 'package:wan_android_flutter/utils/log_util.dart';
 
-import 'collection_detail_page.dart';
+import 'collection_article_detail_page.dart';
 
 /// @Author: cuishuxiang
 /// @Date: 2022/2/16 3:29 下午

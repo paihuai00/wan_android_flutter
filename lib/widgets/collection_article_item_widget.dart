@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:wan_android_flutter/models/collection_article_model.dart';
 import 'package:wan_android_flutter/utils/normal_style_util.dart';
 
@@ -59,10 +60,12 @@ class _CollectionItemWidgetState extends State<CollectionItemWidget> {
               const SizedBox(
                 height: 20,
               ),
-              Text(
-                widget.itemData.desc ?? "",
-                style: const TextStyle(fontSize: 16, color: Colors.black),
-              ),
+              Html(data: widget.itemData.desc ?? ""),
+              // Text.rich(TextSpan(text: widget.itemData.desc ?? "")),
+              // Text(
+              //   widget.itemData.desc ?? "",
+              //   style: const TextStyle(fontSize: 16, color: Colors.black),
+              // ),
               const SizedBox(
                 height: 15,
               ),

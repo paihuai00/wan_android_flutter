@@ -12,7 +12,7 @@ import 'package:wan_android_flutter/routers/navigator_util.dart';
 import 'package:wan_android_flutter/utils/log_util.dart';
 import 'package:wan_android_flutter/utils/toast_util.dart';
 import 'package:wan_android_flutter/view_model/collection_vm.dart';
-import 'package:wan_android_flutter/widgets/collection_item_widget.dart';
+import 'package:wan_android_flutter/widgets/collection_article_item_widget.dart';
 
 /// @Author: cuishuxiang
 /// @Date: 2022/2/16 3:31 下午
@@ -55,12 +55,10 @@ class _CollectionDetailPageState extends BaseState<CollectionDetailPage> {
   void onBuildFinish() {
     super.onBuildFinish();
 
-    getData();
+    _easyRefreshController.callRefresh();
   }
 
   void getData() async {
-    _collectionViewModel.startLoading(this);
-
     BaseDioResponse baseDioResponse =
         await _collectionViewModel.getCollectionData(pageIndex, widget.pageType,
             cancelToken: cancelToken);
@@ -81,13 +79,14 @@ class _CollectionDetailPageState extends BaseState<CollectionDetailPage> {
 
     if (pageIndex == 0) {
       _itemArticleList.clear();
+      _easyRefreshController.finishRefresh(success: baseDioResponse.ok);
+    } else {
+      _easyRefreshController.finishLoad(success: baseDioResponse.ok);
     }
 
     _itemArticleList.addAll(collectionData!.datas!);
 
     setState(() {});
-
-    _collectionViewModel.stopLoading(this);
   }
 
   @override
