@@ -4,7 +4,8 @@ import 'package:wan_android_flutter/utils/event_bus.dart';
 import 'package:wan_android_flutter/utils/event_bus_const_key.dart';
 import 'package:wan_android_flutter/utils/log_util.dart';
 
-import 'square_detail_page.dart';
+import 'nav_detail_page.dart';
+import 'system_detail_page.dart';
 
 /// @Author: cuishuxiang
 /// @Date: 2022/1/29 6:12 下午
@@ -101,8 +102,13 @@ class _BottomSquarePageState extends State<BottomSquarePage>
   _buildTabViews() {
     return TabBarView(
         controller: _tabController,
-        children: _tabValues
-            .map((e) => SquareDetailPage(_tabValues.indexOf(e)))
-            .toList());
+        children: _tabValues.map((e) {
+          int index = _tabValues.indexOf(e);
+          if (index == 0) {
+            return SquareDetailPage(index);
+          } else {
+            return NavDetailPage(index);
+          }
+        }).toList());
   }
 }

@@ -15,10 +15,10 @@ import 'package:wan_android_flutter/pages/webviews/webview_page.dart';
 import 'package:wan_android_flutter/routers/login_interceptor_router.dart';
 import 'package:wan_android_flutter/view_model/bottom_home_vm.dart';
 import 'package:wan_android_flutter/view_model/bottom_project_vm.dart';
-import 'package:wan_android_flutter/view_model/bottom_square_vm.dart';
 import 'package:wan_android_flutter/view_model/bottom_wx_vm.dart';
 import 'package:wan_android_flutter/view_model/launch_vm.dart';
 import 'package:wan_android_flutter/view_model/login_regist_vm.dart';
+import 'package:wan_android_flutter/view_model/square_system_vm.dart';
 
 /// @Author: cuishuxiang
 /// @Date: 2022/2/1 9:00 下午
@@ -86,7 +86,7 @@ class RouterConfig {
       name: bottomSquarePage,
       page: () => BottomSquarePage(),
       binding:
-          BindingsBuilder(() => {Get.lazyPut(() => BottomSquareViewModel())}),
+          BindingsBuilder(() => {Get.lazyPut(() => SquareSystemViewModel())}),
     ),
 
     GetPage(

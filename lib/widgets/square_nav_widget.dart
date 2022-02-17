@@ -5,24 +5,20 @@ import 'package:wan_android_flutter/utils/normal_colors.dart';
 
 /// @Author: cuishuxiang
 /// @Date: 2022/2/10 2:21 下午
-/// @Description:
+/// @Description: 导航
 
-class SquareWidget extends StatefulWidget {
-  //0:体系，1：导航
-  int type = 0;
-  SystemDetailItem? systemDetailItem;
+class SquareNavWidget extends StatefulWidget {
   NaviDetailItem? naviDetailItem;
-  SquareCallBack? callBack;
+  NavWidgetCallBack? callBack;
 
-  SquareWidget(this.type,
-      {Key? key, this.systemDetailItem, this.naviDetailItem, this.callBack})
+  SquareNavWidget({Key? key, this.naviDetailItem, this.callBack})
       : super(key: key);
 
   @override
-  _SquareWidgetState createState() => _SquareWidgetState();
+  _SquareNavWidgetState createState() => _SquareNavWidgetState();
 }
 
-class _SquareWidgetState extends State<SquareWidget> {
+class _SquareNavWidgetState extends State<SquareNavWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -46,12 +42,7 @@ class _SquareWidgetState extends State<SquareWidget> {
   }
 
   _buildTitle() {
-    String title = "";
-    if (widget.type == 0) {
-      title = widget.systemDetailItem!.name!;
-    } else {
-      title = widget.naviDetailItem!.name!;
-    }
+    String title = widget.naviDetailItem!.name ?? "";
 
     return Text(
       title,
@@ -60,23 +51,13 @@ class _SquareWidgetState extends State<SquareWidget> {
   }
 
   _buildList() {
-    if (widget.type == 0) {
-      List<Children> childList = widget.systemDetailItem!.children!;
+    List<Articles> articleList = widget.naviDetailItem!.articles!;
 
-      return childList
-          .map(
-            (children) => _getCommonWidget(children.name!, children: children),
-          )
-          .toList();
-    } else {
-      List<Articles> articleList = widget.naviDetailItem!.articles!;
-
-      return articleList
-          .map(
-            (article) => _getCommonWidget(article.title!, article: article),
-          )
-          .toList();
-    }
+    return articleList
+        .map(
+          (article) => _getCommonWidget(article.title!, article: article),
+        )
+        .toList();
   }
 
   Widget _getCommonWidget(String title,
@@ -90,7 +71,7 @@ class _SquareWidgetState extends State<SquareWidget> {
       ),
       child: InkWell(
         onTap: () {
-          _onItemClick(children, article);
+          _onItemClick(widget.naviDetailItem, article);
         },
         child: Text(
           title,
@@ -102,9 +83,10 @@ class _SquareWidgetState extends State<SquareWidget> {
   }
 
   ///回调
-  _onItemClick(Children? children, Articles? articles) {
-    widget.callBack?.call(children, articles);
+  _onItemClick(NaviDetailItem? naviDetailItem, Articles? articles) {
+    widget.callBack?.call(naviDetailItem, articles);
   }
 }
 
-typedef SquareCallBack = Function(Children? children, Articles? articles);
+typedef NavWidgetCallBack = Function(
+    NaviDetailItem? naviDetailItem, Articles? articles);
