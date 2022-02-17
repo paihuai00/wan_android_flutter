@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wan_android_flutter/base/base_state.dart';
 import 'package:wan_android_flutter/pages/collections/collection_link_detail_page.dart';
+import 'package:wan_android_flutter/routers/navigator_util.dart';
 import 'package:wan_android_flutter/utils/log_util.dart';
 
 import 'collection_article_detail_page.dart';
@@ -40,16 +41,40 @@ class _CollectionPageState extends BaseState<CollectionPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.white,
-        child: SafeArea(
-          child: Column(
-            children: [
-              _buildTabBar(),
-              Expanded(flex: 1, child: _buildTabViews()),
-            ],
+      body: Stack(
+        children: [
+          Container(
+            color: Colors.white,
+            child: SafeArea(
+              child: Column(
+                children: [
+                  _buildTabBar(),
+                  Expanded(flex: 1, child: _buildTabViews()),
+                ],
+              ),
+            ),
           ),
-        ),
+          Positioned(
+            child: InkWell(
+                onTap: () {
+                  NavigatorUtil.goBack(context);
+                },
+                child: const PhysicalShape(
+                  clipper: ShapeBorderClipper(
+                      shape: CircleBorder(side: BorderSide.none)),
+                  color: Colors.blue,
+                  child: Padding(
+                    padding: EdgeInsets.all(15),
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.white,
+                    ),
+                  ),
+                )),
+            left: 20,
+            bottom: 20,
+          )
+        ],
       ),
     );
   }

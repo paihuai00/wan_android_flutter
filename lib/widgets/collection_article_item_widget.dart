@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:wan_android_flutter/models/collection_article_model.dart';
+import 'package:wan_android_flutter/routers/navigator_util.dart';
 import 'package:wan_android_flutter/utils/normal_style_util.dart';
+import 'package:wan_android_flutter/utils/toast_util.dart';
 
 /// @Author: cuishuxiang
 /// @Date: 2022/2/16 4:46 下午
@@ -60,12 +62,21 @@ class _CollectionItemWidgetState extends State<CollectionItemWidget> {
               const SizedBox(
                 height: 20,
               ),
-              Html(data: widget.itemData.desc ?? ""),
-              // Text.rich(TextSpan(text: widget.itemData.desc ?? "")),
-              // Text(
-              //   widget.itemData.desc ?? "",
-              //   style: const TextStyle(fontSize: 16, color: Colors.black),
-              // ),
+              Html(
+                data: widget.itemData.desc ?? "",
+                onLinkTap: (url, _, __, element) {
+                  if (url == null || url.isEmpty) {
+                    XToast.show("文章链接不存在");
+                    return;
+                  }
+                  String title = url;
+                  if (element != null && element.nodes.isNotEmpty) {
+                    title = element.nodes[0].toString();
+                  }
+
+                  NavigatorUtil.jumpToWeb(url, title);
+                },
+              ), //富文本加载
               const SizedBox(
                 height: 15,
               ),
