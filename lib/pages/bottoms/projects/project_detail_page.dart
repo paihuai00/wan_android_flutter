@@ -10,6 +10,7 @@ import 'package:wan_android_flutter/routers/navigator_util.dart';
 import 'package:wan_android_flutter/utils/log_util.dart';
 import 'package:wan_android_flutter/utils/toast_util.dart';
 import 'package:wan_android_flutter/view_model/bottom_project_vm.dart';
+import 'package:wan_android_flutter/widgets/compose_refresh_widget.dart';
 import 'package:wan_android_flutter/widgets/project_card_widget.dart';
 
 /// @Author: cuishuxiang
@@ -67,19 +68,18 @@ class _ProjectDetailPageState extends BaseState<ProjectDetailPage> {
         color: Colors.white,
         width: double.infinity,
         height: double.infinity,
-        child: EasyRefresh(
-          enableControlFinishLoad: true,
-          enableControlFinishRefresh: true,
-          controller: _easyRefreshController,
-          child: ListView(
+        child: ComposeRefreshWidget(
+          ListView(
             children: _buildList(),
           ),
-          onRefresh: () async {
-            _onRefresh();
+          callBack: (isRefresh) {
+            if (isRefresh) {
+              _onRefresh();
+            } else {
+              _onLoadMore();
+            }
           },
-          onLoad: () async {
-            _onLoadMore();
-          },
+          controller: _easyRefreshController,
         ),
       );
     });

@@ -13,6 +13,7 @@ import 'package:wan_android_flutter/utils/log_util.dart';
 import 'package:wan_android_flutter/utils/toast_util.dart';
 import 'package:wan_android_flutter/view_model/collection_vm.dart';
 import 'package:wan_android_flutter/widgets/collection_article_item_widget.dart';
+import 'package:wan_android_flutter/widgets/compose_refresh_widget.dart';
 
 /// @Author: cuishuxiang
 /// @Date: 2022/2/16 3:31 下午
@@ -105,24 +106,18 @@ class _CollectionDetailPageState extends BaseState<CollectionDetailPage> {
         builder: (vm) {
           _collectionViewModel = vm;
 
-          return Container(
-            color: Colors.white,
-            width: double.infinity,
-            height: double.infinity,
-            child: EasyRefresh(
-              enableControlFinishLoad: true,
-              enableControlFinishRefresh: true,
-              controller: _easyRefreshController,
-              child: ListView(
-                children: _buildList(),
-              ),
-              onRefresh: () async {
-                _onRefresh();
-              },
-              onLoad: () async {
-                _onLoadMore();
-              },
+          return ComposeRefreshWidget(
+            ListView(
+              children: _buildList(),
             ),
+            callBack: (isRefresh) {
+              if (isRefresh) {
+                _onRefresh();
+              } else {
+                _onLoadMore();
+              }
+            },
+            controller: _easyRefreshController,
           );
         },
       ),
