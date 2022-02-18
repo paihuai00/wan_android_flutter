@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wan_android_flutter/base/base_state.dart';
 import 'package:wan_android_flutter/base/base_view.dart';
 import 'package:wan_android_flutter/base/base_viewmodel.dart';
 import 'package:wan_android_flutter/dios/http_response.dart';
@@ -22,8 +23,8 @@ class BottomWxPage extends StatefulWidget {
   _BottomWxPageState createState() => _BottomWxPageState();
 }
 
-class _BottomWxPageState extends State<BottomWxPage>
-    with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
+class _BottomWxPageState extends BaseState<BottomWxPage>
+    with TickerProviderStateMixin {
   final String _TAG = "BottomWxPage";
 
   late BaseViewModel _viewModel;
@@ -37,12 +38,11 @@ class _BottomWxPageState extends State<BottomWxPage>
     super.initState();
     XLog.d(message: "initState 执行", tag: _TAG);
     Get.put(BottomWxViewModel());
+  }
 
-    //绘制完成，请求数据
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      XLog.d(message: "绘制完成,仅执行一次 ${timeStamp.toString()}", tag: _TAG);
-      _getTabData();
-    });
+  @override
+  void onBuildFinish() {
+    _getTabData();
   }
 
   @override

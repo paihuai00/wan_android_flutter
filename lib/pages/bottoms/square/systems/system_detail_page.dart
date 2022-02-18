@@ -10,8 +10,10 @@ import 'package:wan_android_flutter/models/article_list_model.dart';
 import 'package:wan_android_flutter/requests/collection_request.dart';
 import 'package:wan_android_flutter/requests/system_request.dart';
 import 'package:wan_android_flutter/routers/navigator_util.dart';
+import 'package:wan_android_flutter/routers/router_config.dart';
 import 'package:wan_android_flutter/utils/log_util.dart';
 import 'package:wan_android_flutter/utils/toast_util.dart';
+import 'package:wan_android_flutter/utils/user_manager.dart';
 import 'package:wan_android_flutter/view_model/system_detail_vm.dart';
 import 'package:wan_android_flutter/widgets/compose_refresh_widget.dart';
 import 'package:wan_android_flutter/widgets/home_card_widget.dart';
@@ -150,6 +152,12 @@ class _SystemDetailPageState extends BaseState<SystemDetailPage> {
 
   //收藏 or 取消收藏
   void doCollection(bool isCollection, ArticleItemData e, State state) async {
+    if (!UserManager.getInstance().isLogin()) {
+      XToast.showLoginError();
+      NavigatorUtil.jump(RouterConfig.loginPage);
+      return;
+    }
+
     _viewModel.startLoading(state);
 
     BaseDioResponse baseDioResponse;

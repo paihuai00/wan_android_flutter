@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,13 +35,15 @@ void main() {
     // ]);
 
     runApp(MyApp());
+    if (GetPlatform.isAndroid) {
+      // 以下两行 设置android状态栏为透明的沉浸。写在组件渲染之后，是为了在渲染后进行set赋值，覆盖状态栏，写在渲染之前MaterialApp组件会覆盖掉这个值。
+      SystemUiOverlayStyle systemUiOverlayStyle =
+          const SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+      SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+    }
 
     ///初始化 sp
     await SpUtil.getInstance().init();
-
-    ///初始化dio
-    // HttpDioClient dioClient = HttpDioClient();
-    // dioClient.initDioClient();
   }, (error, stackTrace) async {
     await _reportError(error, stackTrace);
   });

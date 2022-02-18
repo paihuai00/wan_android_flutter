@@ -45,6 +45,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         backgroundColor: Colors.transparent,
         body: Container(
+          color: Colors.grey,
           padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
           child: PageView(
             controller: _controller,
