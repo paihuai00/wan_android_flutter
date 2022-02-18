@@ -4,6 +4,7 @@ import 'package:wan_android_flutter/pages/bottoms/bottom_mine_page.dart';
 import 'package:wan_android_flutter/pages/bottoms/projects/bottom_project_page.dart';
 import 'package:wan_android_flutter/pages/bottoms/projects/project_detail_page.dart';
 import 'package:wan_android_flutter/pages/bottoms/square/bottom_square_page.dart';
+import 'package:wan_android_flutter/pages/bottoms/square/systems/system_page.dart';
 import 'package:wan_android_flutter/pages/bottoms/wx/bottom_wx_page.dart';
 import 'package:wan_android_flutter/pages/collections/mine_collection_pages.dart';
 import 'package:wan_android_flutter/pages/home_page.dart';
@@ -46,6 +47,8 @@ class RouterConfig {
   static String settingPage = "/set_page";
   static String webViewPage = "/profile_webview";
   static String mineCollectionPage = "/mine_collection";
+
+  static String systemPage = "/system_page";
 
   static final List<GetPage> getPages = [
     GetPage(
@@ -129,5 +132,7 @@ class RouterConfig {
         page: () => CollectionPage(),
         binding: BindingsBuilder(() => {}),
         middlewares: [LoginInterceptorRouter()]),
+
+    GetPage(name: systemPage, page: () => SystemPage()),
   ];
 }

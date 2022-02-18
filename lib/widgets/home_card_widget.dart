@@ -1,115 +1,100 @@
 import 'package:flutter/material.dart';
-import 'package:wan_android_flutter/models/project_detail_model.dart';
-import 'package:wan_android_flutter/utils/image_utils.dart';
+import 'package:wan_android_flutter/models/article_list_model.dart';
 import 'package:wan_android_flutter/utils/normal_style_util.dart';
 
 /// @Author: cuishuxiang
-/// @Date: 2022/2/9 4:11 下午
-/// @Description: 项目 card 封装
+/// @Date: 2022/2/17 3:31 下午
+/// @Description: 文章 item
 
-typedef HomeCardViewWidgetCallBack = Function(
-    ProjectDetailItem projectDetailItem);
+typedef HomeCardWidgetCallBack = Function(
+    ArticleItemData? articleItemData, bool isCollection);
 
-class HomeCardViewWidget extends StatefulWidget {
-  ProjectDetailItem projectDetailItem;
+class HomeCardWidget extends StatelessWidget {
+  ArticleItemData? item;
+  HomeCardWidgetCallBack? callBack;
 
-  HomeCardViewWidgetCallBack? callBack;
+  HomeCardWidget({Key? key, this.item, this.callBack}) : super(key: key);
 
-  HomeCardViewWidget(this.projectDetailItem, {Key? key, this.callBack})
-      : super(key: key);
+  final _normalTextStyle = const TextStyle(fontSize: 14, color: Colors.black);
 
-  @override
-  _HomeCardViewWidgetState createState() => _HomeCardViewWidgetState();
-}
-
-class _HomeCardViewWidgetState extends State<HomeCardViewWidget> {
-  late ProjectDetailItem projectDetailItem = widget.projectDetailItem;
-
-  String imageUrl = "";
-  String title = "";
-  String subTitle = "";
-  String time = "";
-  bool isLike = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    if (projectDetailItem.envelopePic != null) {
-      imageUrl = projectDetailItem.envelopePic!;
-    }
-    if (projectDetailItem.title != null) {
-      title = projectDetailItem.title!;
-    }
-    if (projectDetailItem.desc != null) {
-      subTitle = projectDetailItem.desc!;
-    }
-    if (projectDetailItem.niceShareDate != null) {
-      time = projectDetailItem.niceShareDate!;
-    }
-    if (projectDetailItem.collect != null) {
-      isLike = projectDetailItem.collect!;
-    }
-  }
+  final _normalLargeTextStyle =
+      const TextStyle(fontSize: 16, color: Colors.black);
 
   @override
   Widget build(BuildContext context) {
+    if (item == null) return const SizedBox();
+
+    String author = item!.author ?? "";
+    String niceDate = item!.niceDate ?? "";
+    String title = item!.title ?? "";
+    String superChapterName = item!.superChapterName ?? "";
+
     return GestureDetector(
       onTap: () {
-        widget.callBack?.call(projectDetailItem);
+        callBack?.call(item, false);
       },
       child: Card(
-        margin: _getNormalEdge(),
-        child: Container(
-          padding: _getNormalEdge(),
-          child: Row(
+        margin: const EdgeInsets.all(10),
+        elevation: 0.7,
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              XImage.load(imageUrl, height: 100, width: 100),
-              const SizedBox(
-                width: 10,
+              Row(
+                children: [
+                  (item!.prefix == null || item!.prefix!.isEmpty)
+                      ? const SizedBox()
+                      : Text(
+                          item!.prefix!,
+                          style: const TextStyle(
+                              fontSize: 14, color: Colors.redAccent),
+                        ),
+                  (item!.prefix == null || item!.prefix!.isEmpty)
+                      ? const SizedBox()
+                      : const SizedBox(
+                          width: 10,
+                        ),
+                  Text(
+                    author,
+                    style: _normalTextStyle,
+                  ),
+                  const Expanded(child: SizedBox()),
+                  Text(
+                    niceDate,
+                    style: _normalTextStyle,
+                  ),
+                ],
               ),
-              Expanded(
-                  child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              const SizedBox(
+                height: 20,
+              ),
+              Text(
+                title,
+                style: _normalLargeTextStyle,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
                 children: [
                   Text(
-                    title,
-                    style: NormalStyle.getTitleTextStyle(),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                    superChapterName,
+                    style: _normalLargeTextStyle,
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    subTitle,
-                    style: NormalStyle.getSubTitleTextStyle(),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        time,
-                        style: NormalStyle.getTimeTextStyle(),
-                      ),
-                      const Expanded(child: SizedBox()),
-                      NormalStyle.getLikeImage(isLike)
-                    ],
+                  const Expanded(child: SizedBox()),
+                  InkWell(
+                    onTap: () {
+                      callBack?.call(item, true);
+                    },
+                    child: NormalStyle.getLikeImage(item!.collect ?? false),
                   )
                 ],
-              )),
+              ),
             ],
           ),
         ),
       ),
     );
-  }
-
-  _getNormalEdge() {
-    return const EdgeInsets.all(10);
   }
 }

@@ -6,6 +6,7 @@ import 'package:wan_android_flutter/base/base_viewmodel.dart';
 import 'package:wan_android_flutter/dios/http_response.dart';
 import 'package:wan_android_flutter/models/nav_detail_model.dart';
 import 'package:wan_android_flutter/requests/square_request.dart';
+import 'package:wan_android_flutter/routers/navigator_util.dart';
 import 'package:wan_android_flutter/utils/event_bus.dart';
 import 'package:wan_android_flutter/utils/event_bus_const_key.dart';
 import 'package:wan_android_flutter/utils/toast_util.dart';
@@ -88,7 +89,17 @@ class _NavDetailPageState extends BaseState<NavDetailPage> {
             .map((e) => SquareNavWidget(
                 naviDetailItem: e,
                 callBack: (item, article) {
-                  XToast.show("点击了：${article!.title!}");
+                  if (article == null) {
+                    XToast.show("数据有误");
+                    return;
+                  }
+
+                  String url = article.link ?? "";
+                  if (url.isEmpty) {
+                    XToast.show("文章链接不存在");
+                    return;
+                  }
+                  NavigatorUtil.jumpToWeb(url, article.title ?? "");
                 }))
             .toList());
       }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wan_android_flutter/base/base_state.dart';
@@ -6,6 +8,8 @@ import 'package:wan_android_flutter/base/base_viewmodel.dart';
 import 'package:wan_android_flutter/dios/http_response.dart';
 import 'package:wan_android_flutter/models/system_detail_model.dart';
 import 'package:wan_android_flutter/requests/square_request.dart';
+import 'package:wan_android_flutter/routers/navigator_util.dart';
+import 'package:wan_android_flutter/routers/router_config.dart';
 import 'package:wan_android_flutter/utils/event_bus.dart';
 import 'package:wan_android_flutter/utils/event_bus_const_key.dart';
 import 'package:wan_android_flutter/utils/toast_util.dart';
@@ -16,17 +20,17 @@ import 'package:wan_android_flutter/widgets/square_system_widget.dart';
 /// @Date: 2022/2/10 10:58 上午
 /// @Description:
 
-class SquareDetailPage extends StatefulWidget {
+class BottomSystemPage extends StatefulWidget {
   int pageIndex = 0;
 
-  SquareDetailPage(this.pageIndex, {Key? key}) : super(key: key);
+  BottomSystemPage(this.pageIndex, {Key? key}) : super(key: key);
 
   @override
-  _SquareDetailPageState createState() => _SquareDetailPageState();
+  _BottomSystemPageState createState() => _BottomSystemPageState();
 }
 
-class _SquareDetailPageState extends BaseState<SquareDetailPage> {
-  final String _TAG = "SquareDetailPage ";
+class _BottomSystemPageState extends BaseState<BottomSystemPage> {
+  final String _TAG = "BottomSystemPage ";
 
   late BaseViewModel _viewModel;
 
@@ -77,7 +81,6 @@ class _SquareDetailPageState extends BaseState<SquareDetailPage> {
     _viewModel.startLoading(this);
 
     //体系
-
     BaseDioResponse baseDioResponse = await SquareRequest()
         .getSystemData(cancelToken: _viewModel.cancelToken);
 
@@ -95,10 +98,16 @@ class _SquareDetailPageState extends BaseState<SquareDetailPage> {
                   systemDetailItem: e,
                   callBack: (item, children) {
                     if (children == null) {
+                      XToast.show("数据有误");
                       return;
                     }
 
-                    // SystemDetailItem data=systemItemListData.e;
+                    var map = {
+                      "item": jsonEncode(item),
+                      "children": jsonEncode(children)
+                    };
+
+                    NavigatorUtil.jump(RouterConfig.systemPage, arguments: map);
                   },
                 ))
             .toList());

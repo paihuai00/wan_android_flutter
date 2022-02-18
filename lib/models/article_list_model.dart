@@ -1,13 +1,13 @@
 /// @Author: cuishuxiang
 /// @Date: 2022/2/5 5:46 下午
 /// @Description:
-class HomeListData {
-  HomeData? data;
+class ArticleListDataModel {
+  ArticleData? data;
 
-  HomeListData({this.data});
+  ArticleListDataModel({this.data});
 
-  HomeListData.fromJson(Map<String, dynamic> json) {
-    data = json['data'] != null ? new HomeData.fromJson(json['data']) : null;
+  ArticleListDataModel.fromJson(Map<String, dynamic> json) {
+    data = json['data'] != null ? new ArticleData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -19,16 +19,16 @@ class HomeListData {
   }
 }
 
-class HomeData {
+class ArticleData {
   int? curPage;
-  List<HomeItemData>? datas;
+  List<ArticleItemData>? datas;
   int? offset;
   bool? over;
   int? pageCount;
   int? size;
   int? total;
 
-  HomeData(
+  ArticleData(
       {this.curPage,
       this.datas,
       this.offset,
@@ -37,12 +37,12 @@ class HomeData {
       this.size,
       this.total});
 
-  HomeData.fromJson(Map<String, dynamic> json) {
+  ArticleData.fromJson(Map<String, dynamic> json) {
     curPage = json['curPage'];
     if (json['datas'] != null) {
-      datas = <HomeItemData>[];
+      datas = <ArticleItemData>[];
       json['datas'].forEach((v) {
-        datas!.add(new HomeItemData.fromJson(v));
+        datas!.add(new ArticleItemData.fromJson(v));
       });
     }
     offset = json['offset'];
@@ -67,7 +67,7 @@ class HomeData {
   }
 }
 
-class HomeItemData {
+class ArticleItemData {
   String? apkLink;
   int? audit;
   String? author;
@@ -102,7 +102,7 @@ class HomeItemData {
   int? visible;
   int? zan;
 
-  HomeItemData(
+  ArticleItemData(
       {this.apkLink,
       this.audit,
       this.author,
@@ -137,7 +137,7 @@ class HomeItemData {
       this.visible,
       this.zan});
 
-  HomeItemData.fromJson(Map<String, dynamic> json) {
+  ArticleItemData.fromJson(Map<String, dynamic> json) {
     apkLink = json['apkLink'];
     audit = json['audit'];
     author = json['author'];

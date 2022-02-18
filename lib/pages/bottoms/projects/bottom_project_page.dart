@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wan_android_flutter/base/base_state.dart';
 import 'package:wan_android_flutter/base/base_view.dart';
 import 'package:wan_android_flutter/base/base_viewmodel.dart';
 import 'package:wan_android_flutter/dios/http_response.dart';
@@ -20,8 +21,8 @@ class BottomProjectPage extends StatefulWidget {
   _BottomProjectPageState createState() => _BottomProjectPageState();
 }
 
-class _BottomProjectPageState extends State<BottomProjectPage>
-    with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
+class _BottomProjectPageState extends BaseState<BottomProjectPage>
+    with TickerProviderStateMixin {
   final String _TAG = "BottomProjectPage";
 
   late BaseViewModel _viewModel;
@@ -34,12 +35,11 @@ class _BottomProjectPageState extends State<BottomProjectPage>
   void initState() {
     super.initState();
     XLog.d(message: "initState 执行", tag: _TAG);
+  }
 
-    //绘制完成，请求数据
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      XLog.d(message: "绘制完成,仅执行一次 ${timeStamp.toString()}", tag: _TAG);
-      _getTabData();
-    });
+  @override
+  void onBuildFinish() {
+    _getTabData();
   }
 
   @override
@@ -54,18 +54,26 @@ class _BottomProjectPageState extends State<BottomProjectPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BaseView<BottomProjectViewModel>(builder: (viewModel) {
-        _viewModel = viewModel;
+      body: BaseView<BottomProjectViewModel>(
+        builder: (viewModel) {
+          _viewModel = viewModel;
 
-        return Column(
-          children: [
-            _buildTabBar(),
-            Expanded(
-              child: _buildTabViews(),
-            ),
-          ],
-        );
-      }),
+          return Column(
+            children: [
+              _buildTabBar(),
+              Expanded(
+                child: _buildTabViews(),
+              ),
+            ],
+          );
+        },
+        onTapErrorRefresh: () {
+          _getTabData();
+        },
+        onTapEmptyRefresh: () {
+          _getTabData();
+        },
+      ),
     );
   }
 
@@ -85,28 +93,26 @@ class _BottomProjectPageState extends State<BottomProjectPage>
       if (projectTabData.data != null && projectTabData.data!.isNotEmpty) {
         _tabProjectList.clear();
         _tabProjectList.addAll(projectTabData.data!);
+
+        _tabController =
+            TabController(length: _tabProjectList.length, vsync: this);
+        _tabController.addListener(() {
+          XLog.d(
+              message:
+                  "_tabController 为: ${_tabController.index}，${_tabProjectList[_tabController.index]}",
+              tag: _TAG);
+        });
+        _viewModel.stopLoading(this);
       } else {
         /// 数据请求失败
         XToast.show("请求失败,请重试！");
 
-        _viewModel.pageState = LoadingStateEnum.ERROR;
+        _viewModel.refreshRequestState(LoadingStateEnum.ERROR, this);
       }
     }
-    _tabController = TabController(length: _tabProjectList.length, vsync: this);
-    _tabController.addListener(() {
-      XLog.d(
-          message:
-              "_tabController 为: ${_tabController.index}，${_tabProjectList[_tabController.index]}",
-          tag: _TAG);
-    });
-
-    _viewModel.stopLoading(this);
 
     setState(() {});
   }
-
-  @override
-  bool get wantKeepAlive => true;
 
   Widget _buildTabBar() {
     if (_tabProjectList.isEmpty) return SizedBox();

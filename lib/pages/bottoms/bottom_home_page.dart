@@ -7,8 +7,8 @@ import 'package:wan_android_flutter/base/base_state.dart';
 import 'package:wan_android_flutter/base/base_view.dart';
 import 'package:wan_android_flutter/base/base_viewmodel.dart';
 import 'package:wan_android_flutter/dios/http_response.dart';
+import 'package:wan_android_flutter/models/article_list_model.dart';
 import 'package:wan_android_flutter/models/banner_model.dart';
-import 'package:wan_android_flutter/models/home_list_model.dart';
 import 'package:wan_android_flutter/requests/home_request.dart';
 import 'package:wan_android_flutter/routers/navigator_util.dart';
 import 'package:wan_android_flutter/routers/router_config.dart';
@@ -40,7 +40,7 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
 
   late final List<BannerData> _bannerList = [];
 
-  late final List<HomeItemData> _dataItemList = [];
+  late final List<ArticleItemData> _dataItemList = [];
 
   late final SwiperControl _swiperControl = const SwiperControl();
 
@@ -53,20 +53,12 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
   var currentPageIsVisible = false;
   var _needRefreshPage = false;
 
-  HomeItemData? currentClickData;
+  ArticleItemData? currentClickData;
 
   @override
   void initState() {
     super.initState();
-
-    //getX 注入
-    Get.put(BottomHomeViewModel());
-
-    //绘制完成，请求数据
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      XLog.d(message: "绘制完成,仅执行一次 ${timeStamp.toString()}", tag: _TAG);
-      getHomeDatas();
-    });
+    Get.put(BottomHomeViewModel()); //getX 注入
 
     //事件监听
     eventBus.addListener(EventBusKey.loginSuccess, (arg) {
@@ -74,10 +66,17 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
     });
   }
 
+  //绘制完成，请求数据
+  @override
+  void onBuildFinish() {
+    getHomeDatas();
+  }
+
   @override
   void dispose() {
     _easyRefreshController.dispose();
     eventBus.removeListener(EventBusKey.loginSuccess);
+
     super.dispose();
   }
 
@@ -179,7 +178,7 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
 
     var hasMore = false;
     if (homeJson.ok) {
-      HomeData homeData = HomeListData.fromJson(homeJson.data).data!;
+      ArticleData homeData = ArticleListDataModel.fromJson(homeJson.data).data!;
 
       if (homeData.datas != null && homeData.datas!.isNotEmpty) {
         if (pageIndex == 1) {
@@ -347,7 +346,7 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
   }
 
   //判断是否收藏
-  bool dealIsLike(HomeItemData data) {
+  bool dealIsLike(ArticleItemData data) {
     if (currentClickData == null) {
       return data.collect!;
     }

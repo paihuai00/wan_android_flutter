@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:wan_android_flutter/base/base_state.dart';
 import 'package:wan_android_flutter/base/base_view.dart';
 import 'package:wan_android_flutter/base/base_viewmodel.dart';
 import 'package:wan_android_flutter/models/project_detail_model.dart';
@@ -9,7 +10,7 @@ import 'package:wan_android_flutter/routers/navigator_util.dart';
 import 'package:wan_android_flutter/utils/log_util.dart';
 import 'package:wan_android_flutter/utils/toast_util.dart';
 import 'package:wan_android_flutter/view_model/bottom_project_vm.dart';
-import 'package:wan_android_flutter/widgets/home_card_widget.dart';
+import 'package:wan_android_flutter/widgets/project_card_widget.dart';
 
 /// @Author: cuishuxiang
 /// @Date: 2022/2/9 2:36 下午
@@ -23,8 +24,7 @@ class ProjectDetailPage extends StatefulWidget {
   _ProjectDetailPageState createState() => _ProjectDetailPageState();
 }
 
-class _ProjectDetailPageState extends State<ProjectDetailPage>
-    with AutomaticKeepAliveClientMixin {
+class _ProjectDetailPageState extends BaseState<ProjectDetailPage> {
   final String _TAG = "ProjectDetailPage";
 
   late var cid = widget.cid;
@@ -42,10 +42,11 @@ class _ProjectDetailPageState extends State<ProjectDetailPage>
   void initState() {
     super.initState();
     XLog.d(message: "获取到的 cid = $cid", tag: _TAG);
+  }
 
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      _easyRefreshController.callRefresh();
-    });
+  @override
+  void onBuildFinish() {
+    _easyRefreshController.callRefresh();
   }
 
   @override
@@ -84,9 +85,6 @@ class _ProjectDetailPageState extends State<ProjectDetailPage>
     });
   }
 
-  @override
-  bool get wantKeepAlive => true;
-
   void _getDetailData() async {
     // _viewModel.startLoading(this);
 
@@ -123,7 +121,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage>
   ///构建列表 item
   _buildList() {
     return _itemlist
-        .map((e) => HomeCardViewWidget(
+        .map((e) => ProjectCardViewWidget(
               e,
               callBack: (item) {
                 //点击事件回调

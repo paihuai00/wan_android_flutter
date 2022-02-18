@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:wan_android_flutter/base/base_viewmodel.dart';
 import 'package:wan_android_flutter/dios/http_response.dart';
-import 'package:wan_android_flutter/models/home_list_model.dart';
+import 'package:wan_android_flutter/models/article_list_model.dart';
 import 'package:wan_android_flutter/requests/collection_request.dart';
 import 'package:wan_android_flutter/routers/navigator_util.dart';
 import 'package:wan_android_flutter/routers/router_config.dart';
@@ -26,7 +26,7 @@ class BottomHomeViewModel extends BaseViewModel {
   }
 
   //收藏 or 取消收藏
-  void doCollection(bool isCollection, HomeItemData e, State state) async {
+  void doCollection(bool isCollection, ArticleItemData e, State state) async {
     if (!UserManager.getInstance().isLogin()) {
       XToast.showLoginError();
       NavigatorUtil.jump(RouterConfig.loginPage);
