@@ -98,13 +98,16 @@ class _SystemDetailPageState extends BaseState<SystemDetailPage> {
     var baseDioResponse = await SystemRequest()
         .getDetailList(pageIndex, cid, cancelToken: _cancelToken);
 
+    bool over = false;
     if (baseDioResponse.ok) {
       ArticleListDataModel model =
           ArticleListDataModel.fromJson(baseDioResponse.data);
 
-      if (pageIndex == 1) {
+      if (pageIndex == 0) {
         _itemlist.clear();
       }
+
+      over = model.data!.over!;
 
       if (model.data != null && model.data!.datas != null) {
         _itemlist.addAll(model.data!.datas!);
@@ -113,10 +116,10 @@ class _SystemDetailPageState extends BaseState<SystemDetailPage> {
       XLog.d(message: "数据获取失败 $cid", tag: _TAG);
     }
 
-    if (pageIndex == 1) {
+    if (pageIndex == 0) {
       _easyRefreshController.finishRefresh(success: baseDioResponse.ok);
     } else {
-      _easyRefreshController.finishLoad(success: baseDioResponse.ok);
+      _easyRefreshController.finishLoad(success: baseDioResponse.ok && over);
     }
 
     setState(() {});
@@ -177,7 +180,7 @@ class _SystemDetailPageState extends BaseState<SystemDetailPage> {
   }
 
   void _onRefresh() {
-    pageIndex = 1;
+    pageIndex = 0;
     _getDetailData();
   }
 
