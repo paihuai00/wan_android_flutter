@@ -13,6 +13,7 @@ import 'package:wan_android_flutter/routers/navigator_util.dart';
 import 'package:wan_android_flutter/utils/log_util.dart';
 import 'package:wan_android_flutter/utils/toast_util.dart';
 import 'package:wan_android_flutter/view_model/system_detail_vm.dart';
+import 'package:wan_android_flutter/widgets/compose_refresh_widget.dart';
 import 'package:wan_android_flutter/widgets/home_card_widget.dart';
 
 /// @Author: cuishuxiang
@@ -62,6 +63,8 @@ class _SystemDetailPageState extends BaseState<SystemDetailPage> {
       _cancelToken.cancel();
     }
 
+    _easyRefreshController.dispose();
+
     super.dispose();
   }
 
@@ -70,24 +73,18 @@ class _SystemDetailPageState extends BaseState<SystemDetailPage> {
     return BaseView<SystemDetailViewModel>(builder: (vm) {
       _viewModel = vm;
 
-      return Container(
-        color: Colors.white,
-        width: double.infinity,
-        height: double.infinity,
-        child: EasyRefresh(
-          enableControlFinishLoad: true,
-          enableControlFinishRefresh: true,
-          controller: _easyRefreshController,
-          child: ListView(
-            children: _buildList(),
-          ),
-          onRefresh: () async {
-            _onRefresh();
-          },
-          onLoad: () async {
-            _onLoadMore();
-          },
+      return ComposeRefreshWidget(
+        ListView(
+          children: _buildList(),
         ),
+        callBack: (isRefresh) {
+          if (isRefresh) {
+            _onRefresh();
+          } else {
+            _onLoadMore();
+          }
+        },
+        controller: _easyRefreshController,
       );
     });
   }
@@ -119,7 +116,8 @@ class _SystemDetailPageState extends BaseState<SystemDetailPage> {
     if (pageIndex == 0) {
       _easyRefreshController.finishRefresh(success: baseDioResponse.ok);
     } else {
-      _easyRefreshController.finishLoad(success: baseDioResponse.ok && over);
+      _easyRefreshController.finishLoad(
+          success: baseDioResponse.ok, noMore: over);
     }
 
     setState(() {});
