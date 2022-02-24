@@ -56,19 +56,21 @@ class _BottomWxPageState extends BaseState<BottomWxPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: BaseView<BottomWxViewModel>(
-      builder: (vm) {
-        _viewModel = vm;
-        return Column(
-          children: [
-            _buildTabBar(),
-            Expanded(
-              child: _buildTabViews(),
-            ),
-          ],
-        );
-      },
-    ));
+    return Scaffold(
+        backgroundColor: Colors.white,
+        body: BaseView<BottomWxViewModel>(
+          builder: (vm) {
+            _viewModel = vm;
+            return Column(
+              children: [
+                _buildTabBar(),
+                Expanded(
+                  child: _buildTabViews(),
+                ),
+              ],
+            );
+          },
+        ));
   }
 
   //tab  数据
@@ -113,6 +115,7 @@ class _BottomWxPageState extends BaseState<BottomWxPage>
     return TabBar(
       onTap: (tab) {
         XLog.d(message: "tab 为: ${tab}", tag: _TAG);
+        _tabController.animateTo(tab);
       },
       labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
       unselectedLabelStyle: const TextStyle(fontSize: 14),

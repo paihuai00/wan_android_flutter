@@ -43,9 +43,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         body: Container(
-          color: Colors.grey,
+          color: Colors.white,
           padding: EdgeInsets.only(
               top: _currentIndex == 0 ? 0 : MediaQuery.of(context).padding.top),
           child: PageView(

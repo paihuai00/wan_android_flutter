@@ -54,6 +54,7 @@ class _BottomProjectPageState extends BaseState<BottomProjectPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: BaseView<BottomProjectViewModel>(
         builder: (viewModel) {
           _viewModel = viewModel;
@@ -120,9 +121,10 @@ class _BottomProjectPageState extends BaseState<BottomProjectPage>
     return TabBar(
       onTap: (tab) {
         XLog.d(message: "tab 为: ${tab}", tag: _TAG);
+        _tabController.animateTo(tab);
       },
       labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-      unselectedLabelStyle: const TextStyle(fontSize: 14),
+      unselectedLabelStyle: const TextStyle(fontSize: 14, color: Colors.grey),
       isScrollable: true,
       controller: _tabController,
       labelColor: Colors.blue,
