@@ -12,6 +12,7 @@ import 'package:wan_android_flutter/pages/launch_pages.dart';
 import 'package:wan_android_flutter/pages/mines/login_page.dart';
 import 'package:wan_android_flutter/pages/mines/register_page.dart';
 import 'package:wan_android_flutter/pages/mines/setting_page.dart';
+import 'package:wan_android_flutter/pages/searchs/search_page.dart';
 import 'package:wan_android_flutter/pages/webviews/webview_page.dart';
 import 'package:wan_android_flutter/routers/login_interceptor_router.dart';
 import 'package:wan_android_flutter/view_model/bottom_home_vm.dart';
@@ -19,6 +20,7 @@ import 'package:wan_android_flutter/view_model/bottom_project_vm.dart';
 import 'package:wan_android_flutter/view_model/bottom_wx_vm.dart';
 import 'package:wan_android_flutter/view_model/launch_vm.dart';
 import 'package:wan_android_flutter/view_model/login_regist_vm.dart';
+import 'package:wan_android_flutter/view_model/search_vm.dart';
 import 'package:wan_android_flutter/view_model/square_system_vm.dart';
 
 /// @Author: cuishuxiang
@@ -49,6 +51,7 @@ class RouterConfig {
   static String mineCollectionPage = "/mine_collection";
 
   static String systemPage = "/system_page";
+  static String searchPage = "/search_page";
 
   static final List<GetPage> getPages = [
     GetPage(
@@ -134,5 +137,10 @@ class RouterConfig {
         middlewares: [LoginInterceptorRouter()]),
 
     GetPage(name: systemPage, page: () => SystemPage()),
+
+    GetPage(
+        name: searchPage,
+        page: () => const SearchPage(),
+        binding: BindingsBuilder(() => {Get.lazyPut(() => SearchViewModel())})),
   ];
 }

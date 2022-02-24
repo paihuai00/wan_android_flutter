@@ -46,7 +46,8 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.transparent,
         body: Container(
           color: Colors.grey,
-          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+          padding: EdgeInsets.only(
+              top: _currentIndex == 0 ? 0 : MediaQuery.of(context).padding.top),
           child: PageView(
             controller: _controller,
             physics: const NeverScrollableScrollPhysics(), // 禁止滑动

@@ -18,6 +18,22 @@ class NormalStyle {
     return const TextStyle(fontSize: 12, color: Colors.grey);
   }
 
+  static TextStyle getBlue18TextStyle() {
+    return const TextStyle(fontSize: 18, color: Colors.blue);
+  }
+
+  static TextStyle getGrey18TextStyle() {
+    return const TextStyle(fontSize: 18, color: Colors.grey);
+  }
+
+  static TextStyle getGrey14TextStyle() {
+    return const TextStyle(fontSize: 14, color: Colors.grey);
+  }
+
+  static TextStyle getBlue14TextStyle() {
+    return const TextStyle(fontSize: 14, color: Colors.blue);
+  }
+
   static Image getLikeImage(bool isLike) {
     return isLike
         ? Image.asset(

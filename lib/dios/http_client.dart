@@ -79,69 +79,69 @@ class HttpDioClient {
     }
   }
 
-  Future<BaseDioResponse> patch(String uri,
-      {data,
-      Map<String, dynamic>? queryParameters,
-      Options? options,
-      CancelToken? cancelToken,
-      ProgressCallback? onSendProgress,
-      ProgressCallback? onReceiveProgress,
-      HttpDioTransformer? httpTransformer}) async {
-    try {
-      var response = await _dio.patch(
-        uri,
-        data: data,
-        queryParameters: queryParameters,
-        options: options,
-        cancelToken: cancelToken,
-        onSendProgress: onSendProgress,
-        onReceiveProgress: onReceiveProgress,
-      );
-      return handleResponse(response, httpTransformer: httpTransformer);
-    } on Exception catch (e) {
-      return handleException(e);
-    }
-  }
+  // Future<BaseDioResponse> patch(String uri,
+  //     {data,
+  //     Map<String, dynamic>? queryParameters,
+  //     Options? options,
+  //     CancelToken? cancelToken,
+  //     ProgressCallback? onSendProgress,
+  //     ProgressCallback? onReceiveProgress,
+  //     HttpDioTransformer? httpTransformer}) async {
+  //   try {
+  //     var response = await _dio.patch(
+  //       uri,
+  //       data: data,
+  //       queryParameters: queryParameters,
+  //       options: options,
+  //       cancelToken: cancelToken,
+  //       onSendProgress: onSendProgress,
+  //       onReceiveProgress: onReceiveProgress,
+  //     );
+  //     return handleResponse(response, httpTransformer: httpTransformer);
+  //   } on Exception catch (e) {
+  //     return handleException(e);
+  //   }
+  // }
+  //
+  // Future<BaseDioResponse> delete(String uri,
+  //     {data,
+  //     Map<String, dynamic>? queryParameters,
+  //     Options? options,
+  //     CancelToken? cancelToken,
+  //     HttpDioTransformer? httpTransformer}) async {
+  //   try {
+  //     var response = await _dio.delete(
+  //       uri,
+  //       data: data,
+  //       queryParameters: queryParameters,
+  //       options: options,
+  //       cancelToken: cancelToken,
+  //     );
+  //     return handleResponse(response, httpTransformer: httpTransformer);
+  //   } on Exception catch (e) {
+  //     return handleException(e);
+  //   }
+  // }
 
-  Future<BaseDioResponse> delete(String uri,
-      {data,
-      Map<String, dynamic>? queryParameters,
-      Options? options,
-      CancelToken? cancelToken,
-      HttpDioTransformer? httpTransformer}) async {
-    try {
-      var response = await _dio.delete(
-        uri,
-        data: data,
-        queryParameters: queryParameters,
-        options: options,
-        cancelToken: cancelToken,
-      );
-      return handleResponse(response, httpTransformer: httpTransformer);
-    } on Exception catch (e) {
-      return handleException(e);
-    }
-  }
-
-  Future<BaseDioResponse> put(String uri,
-      {data,
-      Map<String, dynamic>? queryParameters,
-      Options? options,
-      CancelToken? cancelToken,
-      HttpDioTransformer? httpTransformer}) async {
-    try {
-      var response = await _dio.put(
-        uri,
-        data: data,
-        queryParameters: queryParameters,
-        options: options,
-        cancelToken: cancelToken,
-      );
-      return handleResponse(response, httpTransformer: httpTransformer);
-    } on Exception catch (e) {
-      return handleException(e);
-    }
-  }
+  // Future<BaseDioResponse> put(String uri,
+  //     {data,
+  //     Map<String, dynamic>? queryParameters,
+  //     Options? options,
+  //     CancelToken? cancelToken,
+  //     HttpDioTransformer? httpTransformer}) async {
+  //   try {
+  //     var response = await _dio.put(
+  //       uri,
+  //       data: data,
+  //       queryParameters: queryParameters,
+  //       options: options,
+  //       cancelToken: cancelToken,
+  //     );
+  //     return handleResponse(response, httpTransformer: httpTransformer);
+  //   } on Exception catch (e) {
+  //     return handleException(e);
+  //   }
+  // }
 
   Future download(String urlPath, savePath,
       {ProgressCallback? onReceiveProgress,

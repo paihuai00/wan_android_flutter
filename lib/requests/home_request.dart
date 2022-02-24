@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:wan_android_flutter/dios/http_response.dart';
 import 'package:wan_android_flutter/dios/requests/base_dio_request.dart';
 
@@ -13,9 +14,11 @@ class HomeRequest extends BaseDioRequest {
   }
 
   //https://www.wanandroid.com/article/list/1/json
-  Future<BaseDioResponse> getHomeList(int pageIndex) async {
-    BaseDioResponse result =
-        await httpClient.get("article/list/$pageIndex/json?pageSize=10");
+  Future<BaseDioResponse> getHomeList(int pageIndex,
+      {CancelToken? cancelToken}) async {
+    BaseDioResponse result = await httpClient.get(
+        "article/list/$pageIndex/json?pageSize=10",
+        cancelToken: cancelToken);
     return result;
   }
 }

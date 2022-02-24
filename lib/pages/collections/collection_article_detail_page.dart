@@ -7,7 +7,6 @@ import 'package:wan_android_flutter/base/base_view.dart';
 import 'package:wan_android_flutter/base/base_viewmodel.dart';
 import 'package:wan_android_flutter/dios/http_response.dart';
 import 'package:wan_android_flutter/models/collection_article_model.dart';
-import 'package:wan_android_flutter/models/collection_link_model.dart';
 import 'package:wan_android_flutter/routers/navigator_util.dart';
 import 'package:wan_android_flutter/utils/log_util.dart';
 import 'package:wan_android_flutter/utils/toast_util.dart';
@@ -40,8 +39,6 @@ class _CollectionDetailPageState extends BaseState<CollectionDetailPage> {
   CollectionData? collectionData;
 
   late final List<CollectionItemData> _itemArticleList = [];
-
-  late final List<CollectionLinkData> _itemLinkList = [];
 
   late final EasyRefreshController _easyRefreshController =
       EasyRefreshController();

@@ -14,6 +14,8 @@ class SpUtil {
   static const String keyLogin = "login_user";
   static const String keyUserCoin = "coin_user";
 
+  static const String historySearchKey = "history_search_key";
+
   static late SharedPreferences _sharedPreferences;
 
   ///项目初始化的时候，需要先调用该方法

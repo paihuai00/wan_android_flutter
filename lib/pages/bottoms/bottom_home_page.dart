@@ -48,6 +48,8 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
   late final EasyRefreshController _easyRefreshController =
       EasyRefreshController();
 
+  late double padTop = MediaQuery.of(context).padding.top;
+
   //首页列表数据
   int pageIndex = 1;
 
@@ -78,6 +80,10 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
     _easyRefreshController.dispose();
     eventBus.removeListener(EventBusKey.loginSuccess);
 
+    if (!_viewModel.cancelToken.isCancelled) {
+      _viewModel.cancelToken.cancel();
+    }
+
     super.dispose();
   }
 
@@ -94,31 +100,11 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
         //监听当前页面，是否可见
         return VisibilityDetector(
             key: const Key(""),
-            child: ComposeRefreshWidget(
-              ListView(
-                children: [
-                  _buildBanner(),
-                  const Text(
-                    "文章列表",
-                    style: TextStyle(
-                        fontSize: 25,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  _buildList(),
-                ],
-              ),
-              callBack: (isRefresh) {
-                if (isRefresh) {
-                  _onRefresh();
-                } else {
-                  _onLoadMore();
-                }
-              },
-              controller: _easyRefreshController,
+            child: Column(
+              children: [
+                _buildTopBar(),
+                Expanded(child: _buildContentWidget())
+              ],
             ),
             onVisibilityChanged: (info) {
               currentPageIsVisible = info.visibleFraction == 1.0;
@@ -134,6 +120,70 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
                   tag: _TAG);
             });
       },
+    );
+  }
+
+  _doSearch() {
+    NavigatorUtil.jump(RouterConfig.searchPage);
+  }
+
+  _buildTopBar() {
+    return Container(
+      height: 50 + padTop,
+      width: double.infinity,
+      color: Colors.blue,
+      padding: EdgeInsets.only(top: padTop),
+      child: Stack(
+        children: [
+          const Center(
+              child: Text(
+            "首页",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          )),
+          Positioned(
+              right: 10,
+              child: InkWell(
+                onTap: () {
+                  _doSearch();
+                },
+                child: const Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Icon(
+                    Icons.search,
+                    color: Colors.white,
+                  ),
+                ),
+              ))
+        ],
+      ),
+    );
+  }
+
+  ///内容 widget
+  _buildContentWidget() {
+    return ComposeRefreshWidget(
+      ListView(
+        children: [
+          _buildBanner(),
+          const Text(
+            "文章列表",
+            style: TextStyle(
+                fontSize: 25, color: Colors.black, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          _buildList(),
+        ],
+      ),
+      callBack: (isRefresh) {
+        if (isRefresh) {
+          _onRefresh();
+        } else {
+          _onLoadMore();
+        }
+      },
+      controller: _easyRefreshController,
     );
   }
 
@@ -169,7 +219,8 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
     }
 
     //2,首页列表数据
-    BaseDioResponse homeJson = await HomeRequest().getHomeList(pageIndex);
+    BaseDioResponse homeJson = await HomeRequest()
+        .getHomeList(pageIndex, cancelToken: _viewModel.cancelToken);
 
     var hasMore = false;
     if (homeJson.ok) {
