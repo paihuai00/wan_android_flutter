@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -9,7 +10,6 @@ import 'package:wan_android_flutter/base/base_viewmodel.dart';
 import 'package:wan_android_flutter/dios/http_response.dart';
 import 'package:wan_android_flutter/models/article_list_model.dart';
 import 'package:wan_android_flutter/models/banner_model.dart';
-import 'package:wan_android_flutter/requests/home_request.dart';
 import 'package:wan_android_flutter/routers/navigator_util.dart';
 import 'package:wan_android_flutter/routers/router_config.dart';
 import 'package:wan_android_flutter/utils/event_bus.dart';
@@ -58,6 +58,13 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
 
   ArticleItemData? currentClickData;
 
+  late CancelToken _bannerCancelToken = CancelToken();
+  late CancelToken _topCancelToken = CancelToken();
+
+  final normalHeight20SizeBox = const SizedBox(
+    height: 20,
+  );
+
   @override
   void initState() {
     super.initState();
@@ -82,6 +89,12 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
 
     if (!_viewModel.cancelToken.isCancelled) {
       _viewModel.cancelToken.cancel();
+    }
+    if (!_bannerCancelToken.isCancelled) {
+      _bannerCancelToken.cancel();
+    }
+    if (!_topCancelToken.isCancelled) {
+      _topCancelToken.cancel();
     }
 
     super.dispose();
@@ -187,7 +200,7 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
     );
   }
 
-  //请求首页banner数据
+  //请求首页 数据
   getHomeDatas() async {
     bool isNetConnect = await NetWorkUtils.isNetWorkAvailable();
 
@@ -203,7 +216,8 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
     if (pageIndex == 1) {
       _viewModel.startLoading(this);
 
-      BaseDioResponse json = await HomeRequest().getBannerList();
+      BaseDioResponse json =
+          await _viewModel.getBannerList(cancelToken: _bannerCancelToken);
       if (json.ok) {
         BannerDatas bannerDatas = BannerDatas.fromJson(json.data);
         _bannerList.clear();
@@ -218,19 +232,33 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
       _viewModel.stopLoading(this);
     }
 
-    //2,首页列表数据
-    BaseDioResponse homeJson = await HomeRequest()
-        .getHomeList(pageIndex, cancelToken: _viewModel.cancelToken);
+    if (pageIndex == 1) {
+      _dataItemList.clear();
+    }
+
+    //2.置顶数据（手动解析一下）
+    BaseDioResponse topResponse =
+        await _viewModel.getTopArticleData(cancelToken: _topCancelToken);
+    if (topResponse.ok) {
+      Map<String, dynamic> map = topResponse.data;
+      if (map.containsKey("data") && map['data'] is List) {
+        for (var element in (map['data'] as List)) {
+          ArticleItemData tempItem = ArticleItemData.fromJson(element);
+          tempItem.isTopArticle = true;
+          _dataItemList.add(tempItem);
+        }
+      }
+    }
+
+    //3,首页列表数据
+    BaseDioResponse homeJson = await _viewModel.getHomeList(pageIndex,
+        cancelToken: _viewModel.cancelToken);
 
     var hasMore = false;
     if (homeJson.ok) {
       ArticleData homeData = ArticleListDataModel.fromJson(homeJson.data).data!;
 
       if (homeData.datas != null && homeData.datas!.isNotEmpty) {
-        if (pageIndex == 1) {
-          _dataItemList.clear();
-        }
-
         if (homeData.datas!.length < 10) {
           hasMore = true;
         }
@@ -342,19 +370,24 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
                             ),
                           ],
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
+                        normalHeight20SizeBox,
                         Text(
                           e.title!,
                           style: const TextStyle(
                               fontSize: 16, color: Colors.black),
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
+                        normalHeight20SizeBox,
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            //置顶标识
+                            e.isTopArticle!
+                                ? const Text(
+                                    "置顶  ",
+                                    style: TextStyle(
+                                        color: Colors.red, fontSize: 16),
+                                  )
+                                : const SizedBox(),
                             Text(
                               e.superChapterName!,
                               style: const TextStyle(

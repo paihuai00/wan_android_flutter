@@ -8,8 +8,9 @@ import 'package:wan_android_flutter/dios/requests/base_dio_request.dart';
 
 class HomeRequest extends BaseDioRequest {
   //https://www.wanandroid.com/banner/json
-  Future<BaseDioResponse> getBannerList() async {
-    BaseDioResponse result = await httpClient.get("banner/json");
+  Future<BaseDioResponse> getBannerList({CancelToken? cancelToken}) async {
+    BaseDioResponse result =
+        await httpClient.get("banner/json", cancelToken: cancelToken);
     return result;
   }
 
@@ -19,6 +20,13 @@ class HomeRequest extends BaseDioRequest {
     BaseDioResponse result = await httpClient.get(
         "article/list/$pageIndex/json?pageSize=10",
         cancelToken: cancelToken);
+    return result;
+  }
+
+  //https://www.wanandroid.com/article/top/json
+  Future<BaseDioResponse> getTopArticles({CancelToken? cancelToken}) async {
+    BaseDioResponse result =
+        await httpClient.get("article/top/json", cancelToken: cancelToken);
     return result;
   }
 }

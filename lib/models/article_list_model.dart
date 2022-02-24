@@ -7,11 +7,11 @@ class ArticleListDataModel {
   ArticleListDataModel({this.data});
 
   ArticleListDataModel.fromJson(Map<String, dynamic> json) {
-    data = json['data'] != null ? new ArticleData.fromJson(json['data']) : null;
+    data = json['data'] != null ? ArticleData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -101,6 +101,7 @@ class ArticleItemData {
   int? userId;
   int? visible;
   int? zan;
+  bool? isTopArticle = false;
 
   ArticleItemData(
       {this.apkLink,
@@ -135,7 +136,8 @@ class ArticleItemData {
       this.type,
       this.userId,
       this.visible,
-      this.zan});
+      this.zan,
+      this.isTopArticle});
 
   ArticleItemData.fromJson(Map<String, dynamic> json) {
     apkLink = json['apkLink'];
@@ -168,7 +170,7 @@ class ArticleItemData {
     if (json['tags'] != null) {
       tags = <Tags>[];
       json['tags'].forEach((v) {
-        tags!.add(new Tags.fromJson(v));
+        tags!.add(Tags.fromJson(v));
       });
     }
     title = json['title'];
@@ -179,7 +181,7 @@ class ArticleItemData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['apkLink'] = this.apkLink;
     data['audit'] = this.audit;
     data['author'] = this.author;
