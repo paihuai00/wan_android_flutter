@@ -43,7 +43,8 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
 
   late final List<ArticleItemData> _dataItemList = [];
 
-  late final SwiperControl _swiperControl = const SwiperControl();
+  late final SwiperControl _swiperControl =
+      const SwiperControl(color: Colors.transparent);
 
   late final EasyRefreshController _easyRefreshController =
       EasyRefreshController();
@@ -291,10 +292,16 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
               itemBuilder: (BuildContext context, int index) {
                 return XImage.load(_bannerList[index].imagePath!);
               },
-              viewportFraction: 0.8,
-              scale: 0.9,
+              // viewportFraction: 0.8,//视差效果
+              // scale: 0.9,
               //指示器
-              pagination: const SwiperPagination(),
+              pagination: const SwiperPagination(
+                alignment: Alignment.bottomRight,
+                  builder: DotSwiperPaginationBuilder(
+                      activeColor: Colors.blue,
+                      color: Colors.grey,
+                      activeSize: 8,
+                      size: 8)),
               control: _swiperControl,
               autoplay: true,
               onTap: (index) {
