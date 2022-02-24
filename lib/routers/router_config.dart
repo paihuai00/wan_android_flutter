@@ -9,6 +9,7 @@ import 'package:wan_android_flutter/pages/bottoms/wx/bottom_wx_page.dart';
 import 'package:wan_android_flutter/pages/collections/mine_collection_pages.dart';
 import 'package:wan_android_flutter/pages/home_page.dart';
 import 'package:wan_android_flutter/pages/launch_pages.dart';
+import 'package:wan_android_flutter/pages/mines/coin_page.dart';
 import 'package:wan_android_flutter/pages/mines/login_page.dart';
 import 'package:wan_android_flutter/pages/mines/register_page.dart';
 import 'package:wan_android_flutter/pages/mines/setting_page.dart';
@@ -18,6 +19,7 @@ import 'package:wan_android_flutter/routers/login_interceptor_router.dart';
 import 'package:wan_android_flutter/view_model/bottom_home_vm.dart';
 import 'package:wan_android_flutter/view_model/bottom_project_vm.dart';
 import 'package:wan_android_flutter/view_model/bottom_wx_vm.dart';
+import 'package:wan_android_flutter/view_model/coin_viewmodel.dart';
 import 'package:wan_android_flutter/view_model/launch_vm.dart';
 import 'package:wan_android_flutter/view_model/login_regist_vm.dart';
 import 'package:wan_android_flutter/view_model/search_vm.dart';
@@ -49,6 +51,7 @@ class RouterConfig {
   static String settingPage = "/set_page";
   static String webViewPage = "/profile_webview";
   static String mineCollectionPage = "/mine_collection";
+  static String coinPage = "/mine_coin";
 
   static String systemPage = "/system_page";
   static String searchPage = "/search_page";
@@ -142,5 +145,11 @@ class RouterConfig {
         name: searchPage,
         page: () => const SearchPage(),
         binding: BindingsBuilder(() => {Get.lazyPut(() => SearchViewModel())})),
+
+    GetPage(
+        name: coinPage,
+        page: () => const CoinPage(),
+        binding: BindingsBuilder(() => {Get.lazyPut(() => CoinViewModel())}),
+        middlewares: [LoginInterceptorRouter()]),
   ];
 }

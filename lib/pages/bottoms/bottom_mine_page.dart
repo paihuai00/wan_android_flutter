@@ -27,6 +27,11 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
   int userId = -1;
   int rank = -1;
 
+  final _commonHeightBox = const Divider(
+    color: Colors.white10,
+    height: 10,
+  );
+
   @override
   void initState() {
     super.initState();
@@ -158,8 +163,11 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
           Icons.padding,
           "我的积分",
           integral: rank,
-          mineItemViewClick: (title) {},
+          mineItemViewClick: (title) {
+            NavigatorUtil.jump(RouterConfig.coinPage);
+          },
         ),
+        _commonHeightBox,
         MineListItemView(
           Icons.star,
           "我的收藏",
@@ -167,21 +175,25 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
             NavigatorUtil.jump(RouterConfig.mineCollectionPage);
           },
         ),
+        _commonHeightBox,
         MineListItemView(
           Icons.map,
           "我的文章",
           mineItemViewClick: (title) {},
         ),
+        _commonHeightBox,
         MineListItemView(
           Icons.network_wifi,
           "网站",
           mineItemViewClick: (title) {},
         ),
+        _commonHeightBox,
         MineListItemView(
           Icons.animation,
           "轻松一下",
           mineItemViewClick: (title) {},
         ),
+        _commonHeightBox,
         MineListItemView(
           Icons.settings,
           "设置",

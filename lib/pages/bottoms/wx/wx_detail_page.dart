@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:wan_android_flutter/base/base_state.dart';
 import 'package:wan_android_flutter/base/base_view.dart';
 import 'package:wan_android_flutter/base/base_viewmodel.dart';
 import 'package:wan_android_flutter/models/wx_detail_model.dart';
@@ -24,8 +25,7 @@ class WxDetailPage extends StatefulWidget {
   _WxDetailPageState createState() => _WxDetailPageState();
 }
 
-class _WxDetailPageState extends State<WxDetailPage>
-    with AutomaticKeepAliveClientMixin {
+class _WxDetailPageState extends BaseState<WxDetailPage> {
   final String _TAG = 'WxDetailPage';
 
   late var id = widget.id;
@@ -43,10 +43,11 @@ class _WxDetailPageState extends State<WxDetailPage>
   void initState() {
     super.initState();
     XLog.d(message: "获取到的 id = $id", tag: _TAG);
+  }
 
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      _easyRefreshController.callRefresh();
-    });
+  @override
+  void onBuildFinish() {
+    _easyRefreshController.callRefresh();
   }
 
   @override
@@ -78,9 +79,6 @@ class _WxDetailPageState extends State<WxDetailPage>
       );
     });
   }
-
-  @override
-  bool get wantKeepAlive => true;
 
   void _getDetailData() async {
     // _viewModel.startLoading(this);

@@ -19,6 +19,7 @@ class LoginInterceptorRouter extends GetMiddleware {
   /// 需要拦截的 page
   List<String> needLoginPage = [
     RouterConfig.settingPage,
+    RouterConfig.coinPage,
     RouterConfig.mineCollectionPage
   ];
 
