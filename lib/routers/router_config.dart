@@ -24,6 +24,7 @@ import 'package:wan_android_flutter/view_model/launch_vm.dart';
 import 'package:wan_android_flutter/view_model/login_regist_vm.dart';
 import 'package:wan_android_flutter/view_model/search_vm.dart';
 import 'package:wan_android_flutter/view_model/square_system_vm.dart';
+import 'package:wan_android_flutter/widgets/photo_view_widget.dart';
 
 /// @Author: cuishuxiang
 /// @Date: 2022/2/1 9:00 下午
@@ -55,6 +56,7 @@ class RouterConfig {
 
   static String systemPage = "/system_page";
   static String searchPage = "/search_page";
+  static String photoViewPage = "/photo_view_page";
 
   static final List<GetPage> getPages = [
     GetPage(
@@ -151,5 +153,7 @@ class RouterConfig {
         page: () => const CoinPage(),
         binding: BindingsBuilder(() => {Get.lazyPut(() => CoinViewModel())}),
         middlewares: [LoginInterceptorRouter()]),
+
+    GetPage(name: photoViewPage, page: () => PhotoViewPage()),
   ];
 }

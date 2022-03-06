@@ -12,6 +12,7 @@ import 'package:wan_android_flutter/utils/event_bus_const_key.dart';
 import 'package:wan_android_flutter/utils/toast_util.dart';
 import 'package:wan_android_flutter/utils/user_manager.dart';
 import 'package:wan_android_flutter/view_model/login_regist_vm.dart';
+import 'package:wan_android_flutter/widgets/like_anim_widget.dart';
 
 /// @Author: cuishuxiang
 /// @Date: 2022/2/11 2:46 下午
@@ -29,6 +30,10 @@ class _SettingPageState extends BaseState<SettingPage> {
   late BaseViewModel _viewModel;
 
   late CancelToken cancelToken = CancelToken();
+
+  late final SizedBox _normalHeight20SizeBox = const SizedBox(
+    height: 20,
+  );
 
   @override
   void initState() {
@@ -62,21 +67,13 @@ class _SettingPageState extends BaseState<SettingPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  _normalHeight20SizeBox,
                   _buildNormalWidget("清除缓存", ""),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  _normalHeight20SizeBox,
                   _buildNormalWidget("版本", "1.0.0"),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  _normalHeight20SizeBox,
                   _buildNormalWidget("作者", "csx"),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  _normalHeight20SizeBox,
                   ElevatedButton(
                       style: ButtonStyle(
                         shape: MaterialStateProperty.all(
@@ -95,6 +92,7 @@ class _SettingPageState extends BaseState<SettingPage> {
                             "退出登录",
                             style: TextStyle(fontSize: 20, color: Colors.white),
                           ))),
+                  LikeAnimWidget(),
                 ],
               ),
             ),
