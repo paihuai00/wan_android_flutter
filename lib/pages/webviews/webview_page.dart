@@ -68,6 +68,10 @@ class _WebViewPageState extends BaseState<WebViewPage> {
           String imgUrl =
               'document.elementFromPoint(${details.localPosition.dx}, ${details.localPosition.dy}).src';
           _webViewController.evaluateJavascript(imgUrl).then((value) async {
+            if (value.startsWith("\"")) {
+              //兼容
+              value = value.substring(1, value.length);
+            }
             if (value.isEmpty || !value.startsWith("http")) {
               XLog.d(
                   message: "onDoubleTapDown： 双击 未找到资源 value  = $value ",
