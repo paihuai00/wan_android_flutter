@@ -31,7 +31,7 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
   UserData? userData;
   UserInfoData? userInfoData;
   int userId = -1;
-  int rank = -1;
+  String rank = ""; //排名
   int level = -1; //等级
 
   late final HttpDioClient _httpDioClient = Get.find<HttpDioClient>();
@@ -51,8 +51,13 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
       userData = null;
       userInfoData = null;
       userId = -1;
-      rank = -1;
+      rank = "";
       level = -1;
+      setState(() {});
+    });
+
+    //事件监听
+    eventBus.addListener(EventBusKey.loginSuccess, (arg) {
       setState(() {});
     });
   }
@@ -60,6 +65,7 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
   @override
   void dispose() {
     eventBus.removeListener(EventBusKey.loginOut);
+    eventBus.removeListener(EventBusKey.loginSuccess);
 
     super.dispose();
   }
@@ -99,6 +105,7 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
 
     if (userInfoData != null) {
       level = userInfoData!.level ??= -1;
+      rank = userInfoData!.rank ?? "";
     }
 
     return GestureDetector(
@@ -177,9 +184,9 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
   _buildList() {
     userData ??= UserManager.getInstance().getUser();
     userInfoData ??= UserManager.getInstance().getUserInfoData();
-    String rank = "";
-    if (userInfoData != null && userInfoData!.rank != null) {
-      rank = userInfoData!.rank!;
+    String integral = "";
+    if (userInfoData != null && userInfoData!.coinCount != null) {
+      integral = userInfoData!.coinCount!.toString();
     }
 
     return Column(
@@ -187,7 +194,7 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
         MineListItemView(
           Icons.padding,
           "我的积分",
-          integral: rank,
+          integral: integral,
           mineItemViewClick: (title) {
             NavigatorUtil.jump(RouterConfig.coinPage);
           },
