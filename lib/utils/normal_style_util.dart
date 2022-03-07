@@ -34,6 +34,14 @@ class NormalStyle {
     return const TextStyle(fontSize: 14, color: Colors.blue);
   }
 
+  static TextStyle getWhite16TextStyle() {
+    return const TextStyle(fontSize: 16, color: Colors.white);
+  }
+
+  static TextStyle getWhite24TextStyle() {
+    return const TextStyle(fontSize: 24, color: Colors.white);
+  }
+
   static Image getLikeImage(bool isLike) {
     return isLike
         ? Image.asset(

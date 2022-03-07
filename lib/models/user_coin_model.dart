@@ -2,7 +2,7 @@
 /// @Date: 2022/2/11 5:27 下午
 /// @Description:
 class UserCoinModel {
-  UserCoinData? data;
+  UserInfoData? data;
   int? errorCode;
   String? errorMsg;
 
@@ -10,7 +10,7 @@ class UserCoinModel {
 
   UserCoinModel.fromJson(Map<String, dynamic> json) {
     data =
-        json['data'] != null ? new UserCoinData.fromJson(json['data']) : null;
+        json['data'] != null ? new UserInfoData.fromJson(json['data']) : null;
     errorCode = json['errorCode'];
     errorMsg = json['errorMsg'];
   }
@@ -26,7 +26,7 @@ class UserCoinModel {
   }
 }
 
-class UserCoinData {
+class UserInfoData {
   int? coinCount;
   int? level;
   String? nickname;
@@ -34,7 +34,7 @@ class UserCoinData {
   int? userId;
   String? username;
 
-  UserCoinData(
+  UserInfoData(
       {this.coinCount,
       this.level,
       this.nickname,
@@ -42,7 +42,7 @@ class UserCoinData {
       this.userId,
       this.username});
 
-  UserCoinData.fromJson(Map<String, dynamic> json) {
+  UserInfoData.fromJson(Map<String, dynamic> json) {
     coinCount = json['coinCount'];
     level = json['level'];
     nickname = json['nickname'];

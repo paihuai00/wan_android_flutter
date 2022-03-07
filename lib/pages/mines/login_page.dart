@@ -171,10 +171,10 @@ class _LoginPageState extends BaseState<LoginPage> {
     BaseDioResponse loginResponse = await LoginRequest()
         .doLogin(username, password, cancelToken: _viewModel.cancelToken);
 
-    BaseDioResponse coinResponse =
-        await LoginRequest().getCoinData(cancelToken: _coinCancelToken);
+    BaseDioResponse userInfoResponse =
+        await LoginRequest().getUserInfoData(cancelToken: _coinCancelToken);
 
-    bool isLoginSuccess = loginResponse.ok && coinResponse.ok;
+    bool isLoginSuccess = loginResponse.ok && userInfoResponse.ok;
 
     if (isLoginSuccess) {
       //1，登录
@@ -184,10 +184,10 @@ class _LoginPageState extends BaseState<LoginPage> {
 
       //2，积分
       SpUtil.getInstance()
-          .set(SpUtil.keyUserCoin, jsonEncode(coinResponse.data));
-      UserCoinData userCoinData =
-          UserCoinModel.fromJson(coinResponse.data).data!;
-      UserManager.getInstance().setUserCoin(userCoinData);
+          .set(SpUtil.keyUserCoin, jsonEncode(userInfoResponse.data));
+      UserInfoData userCoinData =
+          UserCoinModel.fromJson(userInfoResponse.data).data!;
+      UserManager.getInstance().setUserInfo(userCoinData);
 
       //通知其他页面更新
       eventBus.sendBroadcast(EventBusKey.loginSuccess);

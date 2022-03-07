@@ -20,7 +20,7 @@ class LoginRequest extends BaseDioRequest {
   }
 
   //https://www.wanandroid.com/lg/coin/userinfo/json 积分获取，需登录
-  Future<BaseDioResponse> getCoinData({CancelToken? cancelToken}) async {
+  Future<BaseDioResponse> getUserInfoData({CancelToken? cancelToken}) async {
     BaseDioResponse result =
         await httpClient.get("lg/coin/userinfo/json", cancelToken: cancelToken);
     return result;

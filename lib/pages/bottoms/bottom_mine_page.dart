@@ -10,6 +10,7 @@ import 'package:wan_android_flutter/routers/router_config.dart';
 import 'package:wan_android_flutter/utils/event_bus.dart';
 import 'package:wan_android_flutter/utils/event_bus_const_key.dart';
 import 'package:wan_android_flutter/utils/image_utils.dart';
+import 'package:wan_android_flutter/utils/normal_style_util.dart';
 import 'package:wan_android_flutter/utils/toast_util.dart';
 import 'package:wan_android_flutter/utils/user_manager.dart';
 import 'package:wan_android_flutter/widgets/input_dialog_view.dart';
@@ -28,9 +29,10 @@ class BottomMinePage extends StatefulWidget {
 
 class _BottomMinePageState extends BaseState<BottomMinePage> {
   UserData? userData;
-  UserCoinData? userCoinData;
+  UserInfoData? userInfoData;
   int userId = -1;
   int rank = -1;
+  int level = -1; //等级
 
   late final HttpDioClient _httpDioClient = Get.find<HttpDioClient>();
 
@@ -47,9 +49,10 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
     //退出登录监听
     eventBus.addListener(EventBusKey.loginOut, (arg) {
       userData = null;
-      userCoinData = null;
+      userInfoData = null;
       userId = -1;
       rank = -1;
+      level = -1;
       setState(() {});
     });
   }
@@ -88,9 +91,14 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
   ///登录，头像
   Widget _buildLogin() {
     userData ??= UserManager.getInstance().getUser();
+    userInfoData ??= UserManager.getInstance().getUserInfoData();
 
     if (userData != null) {
-      userId = userData!.id!;
+      userId = userData!.id ??= -1;
+    }
+
+    if (userInfoData != null) {
+      level = userInfoData!.level ??= -1;
     }
 
     return GestureDetector(
@@ -103,6 +111,9 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            const SizedBox(
+              height: 50,
+            ),
             ClipRRect(
               borderRadius: BorderRadius.circular(30),
               child: userData == null
@@ -118,34 +129,33 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
                     ),
             ),
             const SizedBox(
-              width: 10,
+              height: 30,
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            userData == null
+                ? Text(
+                    '请先登录',
+                    style: NormalStyle.getWhite24TextStyle(),
+                  )
+                : Text(
+                    userData!.nickname!,
+                    style: NormalStyle.getWhite24TextStyle(),
+                  ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                userData == null
-                    ? const Text(
-                        '请先登录',
-                        style: TextStyle(fontSize: 16, color: Colors.black),
-                      )
-                    : Text(
-                        userData!.nickname!,
-                        style:
-                            const TextStyle(fontSize: 16, color: Colors.black),
-                      ),
-                const SizedBox(
-                  height: 10,
-                ),
                 Text(
-                  "id: $userId",
-                  style: const TextStyle(fontSize: 12, color: Colors.black),
+                  "等级: $level",
+                  style: const TextStyle(fontSize: 12, color: Colors.white),
                 ),
                 const SizedBox(
-                  height: 10,
+                  width: 10,
                 ),
                 Text(
                   "排名: $rank",
-                  style: const TextStyle(fontSize: 12, color: Colors.black),
+                  style: const TextStyle(fontSize: 12, color: Colors.white),
                 )
               ],
             ),
@@ -163,13 +173,13 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
     NavigatorUtil.jump(RouterConfig.loginPage);
   }
 
-  ///
+  /// 下面列表 item
   _buildList() {
     userData ??= UserManager.getInstance().getUser();
-    userCoinData ??= UserManager.getInstance().getUserCoin();
+    userInfoData ??= UserManager.getInstance().getUserInfoData();
     String rank = "";
-    if (userCoinData != null && userCoinData!.rank != null) {
-      rank = userCoinData!.rank!;
+    if (userInfoData != null && userInfoData!.rank != null) {
+      rank = userInfoData!.rank!;
     }
 
     return Column(
@@ -239,7 +249,8 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
           builder: (context) {
             return InputDialog(
                 contentWidget: InputDialogContent(
-              title: "请输入代理IP,当前代理为：${_httpDioClient.getCurrentProxy()}",
+              title:
+                  "请输入代理IP,当前代理为(端口8888)：${_httpDioClient.getCurrentProxy()}",
               okBtnTap: () {
                 XToast.show("输入代理ip为${_vc.text}");
                 _httpDioClient.setProxy(_vc.text);

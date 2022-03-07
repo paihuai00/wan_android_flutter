@@ -13,7 +13,7 @@ class UserManager {
 
   var _isLogin = false;
   UserData? _userData;
-  UserCoinData? _userCoinData;
+  UserInfoData? _userCoinData;
 
   // 私有的命名构造函数
   UserManager._internal();
@@ -59,7 +59,7 @@ class UserManager {
   }
 
   //用户积分
-  UserCoinData? getUserCoin() {
+  UserInfoData? getUserInfoData() {
     if (_userCoinData != null) {
       return _userCoinData;
     }
@@ -72,7 +72,7 @@ class UserManager {
     return UserCoinModel.fromJson(jsonDecode(loginJson)).data;
   }
 
-  void setUserCoin(UserCoinData userCoinData) {
+  void setUserInfo(UserInfoData userCoinData) {
     _userCoinData = userCoinData;
   }
 }
