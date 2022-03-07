@@ -5,16 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:wan_android_flutter/base/global_config.dart';
 import 'package:wan_android_flutter/utils/sp_utils.dart';
 
 import 'routers/router_config.dart';
 
-var inProduction = false;
-
 void main() {
   FlutterError.onError = (FlutterErrorDetails details) async {
     print("捕捉到错误" + details.stack.toString());
-    if (!inProduction) {
+    if (!GlobalConfig.isDebug) {
       FlutterError.dumpErrorToConsole(details);
     } else {
       Zone.current.handleUncaughtError(details.exception, details.stack!);

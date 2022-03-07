@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
@@ -12,6 +14,8 @@ import 'package:wan_android_flutter/dios/http_config.dart';
 
 class AppDio with DioMixin implements Dio {
   CookieManager? _cookieManager;
+
+  String _currentProxy = "";
 
   AppDio({BaseOptions? options, HttpDioConfig? dioConfig}) {
     options ??= BaseOptions(
@@ -58,18 +62,28 @@ class AppDio with DioMixin implements Dio {
     }
   }
 
-  setProxy(String proxy) {
+  setProxy(String proxyIP, {String proxyPort = "8888"}) {
+    _currentProxy = proxyIP;
+
     (httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
         (client) {
-      // config the http client
+      //这一段是解决安卓https抓包的问题
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return Platform.isAndroid;
+      };
+
       client.findProxy = (uri) {
         // proxy all request to localhost:8888
-        return "PROXY $proxy";
+        return "PROXY " + proxyIP + ":" + proxyPort;
       };
       // you can also create a HttpClient to dio
       // return HttpClient();
     };
   }
+
+  ///拿到当前的 代理ip
+  getCurrentProxy() => _currentProxy;
 
   //
   bool clearCookies() {

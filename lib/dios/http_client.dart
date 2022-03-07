@@ -167,4 +167,14 @@ class HttpDioClient {
       return response;
     } catch (e) {}
   }
+
+  /// 设置代理
+  void setProxy(String proxy) {
+    _dio.setProxy(proxy);
+  }
+
+  //拿到当前的ip
+  String getCurrentProxy() {
+    return _dio.getCurrentProxy();
+  }
 }

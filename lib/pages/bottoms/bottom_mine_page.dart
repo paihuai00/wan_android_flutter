@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wan_android_flutter/base/base_state.dart';
+import 'package:wan_android_flutter/base/global_config.dart';
+import 'package:wan_android_flutter/dios/http_client.dart';
 import 'package:wan_android_flutter/models/user_coin_model.dart';
 import 'package:wan_android_flutter/models/user_model.dart';
 import 'package:wan_android_flutter/routers/navigator_util.dart';
@@ -7,7 +10,9 @@ import 'package:wan_android_flutter/routers/router_config.dart';
 import 'package:wan_android_flutter/utils/event_bus.dart';
 import 'package:wan_android_flutter/utils/event_bus_const_key.dart';
 import 'package:wan_android_flutter/utils/image_utils.dart';
+import 'package:wan_android_flutter/utils/toast_util.dart';
 import 'package:wan_android_flutter/utils/user_manager.dart';
+import 'package:wan_android_flutter/widgets/input_dialog_view.dart';
 import 'package:wan_android_flutter/widgets/mine_list_widget.dart';
 
 /// @Author: cuishuxiang
@@ -26,6 +31,8 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
   UserCoinData? userCoinData;
   int userId = -1;
   int rank = -1;
+
+  late final HttpDioClient _httpDioClient = Get.find<HttpDioClient>();
 
   final _commonHeightBox = const Divider(
     color: Colors.white10,
@@ -58,8 +65,7 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.white,
-        padding: const EdgeInsets.all(10),
+        color: Colors.blue,
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -67,7 +73,11 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
               const SizedBox(
                 height: 50,
               ),
-              _buildList(),
+              Container(
+                color: Colors.white,
+                padding: const EdgeInsets.all(10),
+                child: _buildList(),
+              ),
             ],
           ),
         ),
@@ -83,60 +93,65 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
       userId = userData!.id!;
     }
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(30),
-          child: userData == null
-              ? Image.asset(
-                  "assets/images/ic_default_head.png",
-                  width: 60,
-                  height: 60,
-                )
-              : XImage.load(
-                  userData!.icon!,
-                  width: 60,
-                  height: 60,
-                ),
-        ),
-        const SizedBox(
-          width: 10,
-        ),
-        InkWell(
-          onTap: () {
-            _clickLogin();
-          },
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              userData == null
-                  ? const Text(
-                      '请先登录',
-                      style: TextStyle(fontSize: 16, color: Colors.black),
+    return GestureDetector(
+      onTap: () {
+        _clickLogin();
+      },
+      child: Container(
+        color: Colors.blue,
+        width: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(30),
+              child: userData == null
+                  ? Image.asset(
+                      "assets/images/ic_default_head.png",
+                      width: 60,
+                      height: 60,
                     )
-                  : Text(
-                      userData!.nickname!,
-                      style: const TextStyle(fontSize: 16, color: Colors.black),
+                  : XImage.load(
+                      userData!.icon!,
+                      width: 60,
+                      height: 60,
                     ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                "id: $userId",
-                style: const TextStyle(fontSize: 12, color: Colors.black),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                "排名: $rank",
-                style: const TextStyle(fontSize: 12, color: Colors.black),
-              )
-            ],
-          ),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                userData == null
+                    ? const Text(
+                        '请先登录',
+                        style: TextStyle(fontSize: 16, color: Colors.black),
+                      )
+                    : Text(
+                        userData!.nickname!,
+                        style:
+                            const TextStyle(fontSize: 16, color: Colors.black),
+                      ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "id: $userId",
+                  style: const TextStyle(fontSize: 12, color: Colors.black),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "排名: $rank",
+                  style: const TextStyle(fontSize: 12, color: Colors.black),
+                )
+              ],
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
@@ -194,14 +209,45 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
           mineItemViewClick: (title) {},
         ),
         _commonHeightBox,
-        MineListItemView(
-          Icons.settings,
-          "设置",
-          mineItemViewClick: (title) {
-            NavigatorUtil.jump(RouterConfig.settingPage);
+        GestureDetector(
+          onLongPress: () {
+            if (!GlobalConfig.isDebug) {
+              return;
+            }
+            //长按出代理弹框
+            onLongPressedManualInput();
           },
+          child: MineListItemView(
+            Icons.settings,
+            "设置",
+            mineItemViewClick: (title) {
+              NavigatorUtil.jump(RouterConfig.settingPage);
+            },
+          ),
         ),
       ],
     );
+  }
+
+  void onLongPressedManualInput() {
+    Future.delayed(const Duration(milliseconds: 100), () {
+      TextEditingController _vc = TextEditingController();
+      showDialog(
+          context: context,
+          useSafeArea: true,
+          barrierColor: Colors.transparent,
+          builder: (context) {
+            return InputDialog(
+                contentWidget: InputDialogContent(
+              title: "请输入代理IP,当前代理为：${_httpDioClient.getCurrentProxy()}",
+              okBtnTap: () {
+                XToast.show("输入代理ip为${_vc.text}");
+                _httpDioClient.setProxy(_vc.text);
+              },
+              vc: _vc,
+              cancelBtnTap: () {},
+            ));
+          });
+    });
   }
 }
