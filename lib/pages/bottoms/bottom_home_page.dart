@@ -59,8 +59,8 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
 
   ArticleItemData? currentClickData;
 
-  late CancelToken _bannerCancelToken = CancelToken();
-  late CancelToken _topCancelToken = CancelToken();
+  late final CancelToken _bannerCancelToken = CancelToken();
+  late final CancelToken _topCancelToken = CancelToken();
 
   final normalHeight20SizeBox = const SizedBox(
     height: 20,
@@ -296,7 +296,7 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
               // scale: 0.9,
               //指示器
               pagination: const SwiperPagination(
-                alignment: Alignment.bottomRight,
+                  alignment: Alignment.bottomRight,
                   builder: DotSwiperPaginationBuilder(
                       activeColor: Colors.blue,
                       color: Colors.grey,

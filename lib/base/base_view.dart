@@ -87,6 +87,9 @@ class _BaseViewState<T extends BaseViewModel> extends State<BaseView<T>> {
     return Stack(
       children: [
         Container(
+          color: Colors.black12,
+          width: double.infinity,
+          height: double.infinity,
           child: Column(
             children: [
               Container(
@@ -108,10 +111,10 @@ class _BaseViewState<T extends BaseViewModel> extends State<BaseView<T>> {
                           ],
                         borderRadius: BorderRadius.circular(12),
                         color: Colors.white)
-                    : BoxDecoration(),
+                    : const BoxDecoration(),
                 child: SpinKitWave(
                   // color: iWriteTheme.textBlue,
-                  size: 36,
+                  size: 46,
                   itemCount: 7,
                   itemBuilder: (ctx, idx) {
                     // LoggerUtils.d(message: "idx is " + idx.toString());
