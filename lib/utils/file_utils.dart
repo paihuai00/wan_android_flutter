@@ -8,6 +8,9 @@ import 'package:path_provider/path_provider.dart';
 
 class FileUtil {
   static Future<String> getCacheSize() async {
+    ///IOS(模拟器) &  Android路径
+    //Users/xiguahong/Library/Developer/CoreSimulator/Devices/B3EDF1D6-CE92-4912-8D02-D007BE523DF6/data/Containers/Data/Application/FD7E1EDF-5115-44DC-A1FF-A35E680660F6/Library/Caches
+    //Directory: '/data/user/0/com.wan.android.wan_android_flutter/cache'
     var tempDir = await getTemporaryDirectory();
 
     double size = await _getTotalSizeOfFilesInDir(tempDir);

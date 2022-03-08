@@ -13,7 +13,6 @@ import 'package:wan_android_flutter/utils/log_util.dart';
 import 'package:wan_android_flutter/utils/toast_util.dart';
 import 'package:wan_android_flutter/utils/user_manager.dart';
 import 'package:wan_android_flutter/view_model/login_regist_vm.dart';
-import 'package:wan_android_flutter/widgets/like_anim_widget.dart';
 
 /// @Author: cuishuxiang
 /// @Date: 2022/2/11 2:46 下午
@@ -68,40 +67,44 @@ class _SettingPageState extends BaseState<SettingPage> {
         builder: (vm) {
           _viewModel = vm;
           return SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  _normalHeight20SizeBox,
-                  if (cacheSize.isEmpty)
-                    const SizedBox()
-                  else
-                    _buildNormalWidget("清除缓存", cacheSize.toString()),
-                  _normalHeight20SizeBox,
-                  _buildNormalWidget("版本", "1.0.0"),
-                  _normalHeight20SizeBox,
-                  _buildNormalWidget("作者", "csx"),
-                  _normalHeight20SizeBox,
-                  ElevatedButton(
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                            const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(20)))), //圆角弧度
-                      ),
-                      onPressed: () {
-                        _loginOut();
-                      },
-                      child: Container(
-                          width: double.infinity,
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.only(top: 8, bottom: 8),
-                          child: const Text(
-                            "退出登录",
-                            style: TextStyle(fontSize: 20, color: Colors.white),
-                          ))),
-                  LikeAnimWidget(),
-                ],
+            child: Container(
+              color: Colors.white,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    _normalHeight20SizeBox,
+                    if (cacheSize.isEmpty)
+                      const SizedBox()
+                    else
+                      _buildNormalWidget("清除缓存", cacheSize.toString()),
+                    _normalHeight20SizeBox,
+                    _buildNormalWidget("版本", "1.0.0"),
+                    _normalHeight20SizeBox,
+                    _buildNormalWidget("作者", "csx"),
+                    _normalHeight20SizeBox,
+                    ElevatedButton(
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all(
+                              const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(20)))), //圆角弧度
+                        ),
+                        onPressed: () {
+                          _loginOut();
+                        },
+                        child: Container(
+                            width: double.infinity,
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.only(top: 8, bottom: 8),
+                            child: const Text(
+                              "退出登录",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white),
+                            ))),
+                    // LikeAnimWidget(),
+                  ],
+                ),
               ),
             ),
           );
@@ -140,7 +143,6 @@ class _SettingPageState extends BaseState<SettingPage> {
     return GestureDetector(
       onTap: () {},
       child: Container(
-        color: Colors.white,
         padding: const EdgeInsets.all(10),
         child: Row(
           children: <Widget>[
