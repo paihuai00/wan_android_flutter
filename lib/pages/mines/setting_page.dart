@@ -6,9 +6,10 @@ import 'package:wan_android_flutter/base/base_viewmodel.dart';
 import 'package:wan_android_flutter/dios/http_response.dart';
 import 'package:wan_android_flutter/requests/login_request.dart';
 import 'package:wan_android_flutter/routers/navigator_util.dart';
-import 'package:wan_android_flutter/routers/router_config.dart';
 import 'package:wan_android_flutter/utils/event_bus.dart';
 import 'package:wan_android_flutter/utils/event_bus_const_key.dart';
+import 'package:wan_android_flutter/utils/file_utils.dart';
+import 'package:wan_android_flutter/utils/log_util.dart';
 import 'package:wan_android_flutter/utils/toast_util.dart';
 import 'package:wan_android_flutter/utils/user_manager.dart';
 import 'package:wan_android_flutter/view_model/login_regist_vm.dart';
@@ -35,9 +36,13 @@ class _SettingPageState extends BaseState<SettingPage> {
     height: 20,
   );
 
+  String cacheSize = "";
+
   @override
   void initState() {
     super.initState();
+
+    _dealCache();
   }
 
   @override
@@ -68,7 +73,10 @@ class _SettingPageState extends BaseState<SettingPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   _normalHeight20SizeBox,
-                  _buildNormalWidget("清除缓存", ""),
+                  if (cacheSize.isEmpty)
+                    const SizedBox()
+                  else
+                    _buildNormalWidget("清除缓存", cacheSize.toString()),
                   _normalHeight20SizeBox,
                   _buildNormalWidget("版本", "1.0.0"),
                   _normalHeight20SizeBox,
@@ -128,10 +136,6 @@ class _SettingPageState extends BaseState<SettingPage> {
     }
   }
 
-  void _doRegister() {
-    NavigatorUtil.jump(RouterConfig.registerPage);
-  }
-
   Widget _buildNormalWidget(String title, String rightStr) {
     return GestureDetector(
       onTap: () {},
@@ -155,5 +159,16 @@ class _SettingPageState extends BaseState<SettingPage> {
         ),
       ),
     );
+  }
+
+  ///缓存
+  _dealCache() async {
+    try {
+      cacheSize = await FileUtil.getCacheSize();
+
+      setState(() {});
+    } catch (e) {
+      XLog.d(message: "缓存获取失败${e.toString()}", tag: _TAG);
+    }
   }
 }
