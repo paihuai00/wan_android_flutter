@@ -56,8 +56,7 @@ class _SearchPageState extends BaseState<SearchPage> {
 
   var lastSearchKeyWord = "";
 
-  late final EasyRefreshController _easyRefreshController =
-      EasyRefreshController();
+  late EasyRefreshController _easyRefreshController;
 
   //是否显示，搜索结果
   late var isShowResultWidget = false;
@@ -72,6 +71,8 @@ class _SearchPageState extends BaseState<SearchPage> {
   @override
   void initState() {
     super.initState();
+
+    _easyRefreshController = EasyRefreshController();
   }
 
   @override
@@ -124,6 +125,7 @@ class _SearchPageState extends BaseState<SearchPage> {
                   NavigatorUtil.goBack(context);
                 },
                 searchClickCallBack: (searchContent) {
+                  ///点击搜索
                   itemDataList.clear();
                   if (searchContent.isEmpty) {
                     lastSearchKeyWord = "";
@@ -152,6 +154,9 @@ class _SearchPageState extends BaseState<SearchPage> {
 
   //搜索内容
   _buildSearchWidget() {
+    //解决，清除result widget后，controller 被回收的 bug。
+    _easyRefreshController = EasyRefreshController();
+
     return Stack(
       children: [
         Column(

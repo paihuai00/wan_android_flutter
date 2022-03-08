@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:wan_android_flutter/base/base_state.dart';
 import 'package:wan_android_flutter/routers/navigator_util.dart';
@@ -53,9 +54,9 @@ class _WebViewPageState extends BaseState<WebViewPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
-          title,
-          style: const TextStyle(fontSize: 14, color: Colors.white),
+        title: Html(
+          data: title,
+          style: {"*": Style(color: Colors.white)},
         ),
         elevation: 0,
       ),
@@ -100,9 +101,9 @@ class _WebViewPageState extends BaseState<WebViewPage> {
             XLog.d(message: "加载进度：$progress", tag: _TAG);
           },
           javascriptChannels: <JavascriptChannel>{},
-          navigationDelegate: (NavigationRequest request) {
-            return NavigationDecision.navigate;
-          },
+          // navigationDelegate: (NavigationRequest request) {
+          //   return NavigationDecision.navigate;
+          // },
           onPageStarted: (String url) async {
             XLog.d(message: "onPageStarted：$url", tag: _TAG);
 
