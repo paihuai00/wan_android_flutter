@@ -4,4 +4,6 @@
 
 class GlobalConfig {
   static bool isDebug = true;
+
+  static String appVersion = "1.0.0";
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:wan_android_flutter/base/base_state.dart';
 import 'package:wan_android_flutter/base/base_view.dart';
 import 'package:wan_android_flutter/base/base_viewmodel.dart';
+import 'package:wan_android_flutter/base/global_config.dart';
 import 'package:wan_android_flutter/dios/http_response.dart';
 import 'package:wan_android_flutter/requests/login_request.dart';
 import 'package:wan_android_flutter/routers/navigator_util.dart';
@@ -79,7 +80,7 @@ class _SettingPageState extends BaseState<SettingPage> {
                     else
                       _buildNormalWidget("清除缓存", cacheSize.toString()),
                     _normalHeight20SizeBox,
-                    _buildNormalWidget("版本", "1.0.0"),
+                    _buildNormalWidget("版本", GlobalConfig.appVersion),
                     _normalHeight20SizeBox,
                     _buildNormalWidget("作者", "csx"),
                     _normalHeight20SizeBox,
