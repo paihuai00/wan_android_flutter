@@ -38,6 +38,14 @@ class NormalStyle {
     return const TextStyle(fontSize: 16, color: Colors.white);
   }
 
+  static TextStyle getBlack16TextStyle() {
+    return const TextStyle(fontSize: 16, color: Colors.black);
+  }
+
+  static TextStyle getBlack18TextStyle() {
+    return const TextStyle(fontSize: 18, color: Colors.black);
+  }
+
   static TextStyle getWhite24TextStyle() {
     return const TextStyle(fontSize: 24, color: Colors.white);
   }

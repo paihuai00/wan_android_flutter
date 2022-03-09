@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:wan_android_flutter/base/base_state.dart';
 import 'package:wan_android_flutter/base/base_view.dart';
 import 'package:wan_android_flutter/base/base_viewmodel.dart';
@@ -7,6 +8,7 @@ import 'package:wan_android_flutter/base/global_config.dart';
 import 'package:wan_android_flutter/dios/http_response.dart';
 import 'package:wan_android_flutter/requests/login_request.dart';
 import 'package:wan_android_flutter/routers/navigator_util.dart';
+import 'package:wan_android_flutter/utils/dialog_util.dart';
 import 'package:wan_android_flutter/utils/event_bus.dart';
 import 'package:wan_android_flutter/utils/event_bus_const_key.dart';
 import 'package:wan_android_flutter/utils/file_utils.dart';
@@ -78,7 +80,26 @@ class _SettingPageState extends BaseState<SettingPage> {
                     if (cacheSize.isEmpty)
                       const SizedBox()
                     else
-                      _buildNormalWidget("清除缓存", cacheSize.toString()),
+                      _buildNormalWidget("清除缓存", cacheSize.toString(),
+                          function: () {
+                        DialogUtil.showCommonDialog(context, content: "是否要清除缓存",
+                            rightTab: () async {
+                          _viewModel.startLoading(this);
+
+                          var tempDir = await getTemporaryDirectory();
+
+                          var result = await FileUtil.delDir(tempDir);
+
+                          cacheSize = await FileUtil.getCacheSize();
+
+                          _viewModel.stopLoading(this);
+
+                          setState(() {
+                            XToast.show('清除成功');
+                            Navigator.pop(context);
+                          });
+                        });
+                      }),
                     _normalHeight20SizeBox,
                     _buildNormalWidget("版本", GlobalConfig.appVersion),
                     _normalHeight20SizeBox,
@@ -140,9 +161,12 @@ class _SettingPageState extends BaseState<SettingPage> {
     }
   }
 
-  Widget _buildNormalWidget(String title, String rightStr) {
+  Widget _buildNormalWidget(String title, String rightStr,
+      {Function? function}) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        function?.call();
+      },
       child: Container(
         padding: const EdgeInsets.all(10),
         child: Row(

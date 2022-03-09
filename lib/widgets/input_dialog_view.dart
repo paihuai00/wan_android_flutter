@@ -11,7 +11,7 @@ class InputDialog extends AlertDialog {
           contentPadding: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
-              side: BorderSide(color: Colors.blue, width: 3)),
+              side: BorderSide(color: Colors.blue, width: 2)),
         );
 }
 
@@ -27,8 +27,8 @@ class InputDialogContent extends StatefulWidget {
   TextEditingController vc;
   InputDialogContent(
       {required this.title,
-      this.cancelBtnTitle = "Cancel",
-      this.okBtnTitle = "Ok",
+      this.cancelBtnTitle = "取消",
+      this.okBtnTitle = "确定",
       required this.cancelBtnTap,
       required this.okBtnTap,
       required this.vc});

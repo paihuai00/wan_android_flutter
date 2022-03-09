@@ -252,7 +252,7 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
       showDialog(
           context: context,
           useSafeArea: true,
-          barrierColor: Colors.transparent,
+          // barrierColor: Colors.transparent,
           builder: (context) {
             return InputDialog(
                 contentWidget: InputDialogContent(
