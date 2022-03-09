@@ -107,6 +107,9 @@ dependencies:
   #可拖动图片
   photo_view: ^0.13.0
 
+  #权限
+  permission_handler: ^8.3.0
+
 
 dev_dependencies:
   flutter_test:
