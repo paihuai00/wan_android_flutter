@@ -18,6 +18,7 @@ import 'package:wan_android_flutter/utils/image_utils.dart';
 import 'package:wan_android_flutter/utils/log_util.dart';
 import 'package:wan_android_flutter/utils/net_utils.dart';
 import 'package:wan_android_flutter/utils/normal_style_util.dart';
+import 'package:wan_android_flutter/utils/permission_util.dart';
 import 'package:wan_android_flutter/utils/toast_util.dart';
 import 'package:wan_android_flutter/view_model/bottom_home_vm.dart';
 import 'package:wan_android_flutter/widgets/compose_refresh_widget.dart';
@@ -149,6 +150,22 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
       padding: EdgeInsets.only(top: padTop),
       child: Stack(
         children: [
+          Positioned(
+              left: 10,
+              child: SizedBox(
+                height: 50,
+                width: 50,
+                child: InkWell(
+                  onTap: () {
+                    _doScan();
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.all(12),
+                    child:
+                        Image(image: AssetImage("assets/images/ic_scan.png")),
+                  ),
+                ),
+              )),
           const Center(
               child: Text(
             "首页",
@@ -441,5 +458,23 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
     }
 
     return data.collect!;
+  }
+
+  ///扫描
+  void _doScan() {
+    //1，请求相机权限
+    XPermission.getInstance()
+        .requests([PermissionName.camera, PermissionName.storage],
+            onGrantCallBack: (name, obj) {
+      XLog.d(message: "onGrantCallBack 权限为：$name, obj = ${obj ?? ""}");
+    }, onDeniedCallBack: (name, isNeverAsk) {
+      XLog.d(message: "onDeniedCallBack 权限为：$name, isNeverAsk = $isNeverAsk");
+      if (isNeverAsk) {
+        PermissionUtils.showOpenSetDialog(context,
+            permissionStr: name.getString());
+      }
+    }, onErrorCallBack: (name, obj) {
+      XLog.d(message: "onErrorCallBack 权限为：$name, obj = ${obj ?? ""}");
+    });
   }
 }

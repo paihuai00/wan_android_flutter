@@ -110,6 +110,11 @@ dependencies:
   #权限
   permission_handler: ^8.3.0
 
+#二维码扫描
+  scan: ^1.6.0
+
+  #相册
+#  images_picker: ^1.2.9
 
 dev_dependencies:
   flutter_test:
