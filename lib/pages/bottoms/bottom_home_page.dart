@@ -461,9 +461,9 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
   }
 
   ///扫描
-  void _doScan() {
+  void _doScan() async {
     //1，请求相机权限
-    XPermission.getInstance()
+    var isAllGrant = await XPermission.getInstance()
         .requests([PermissionName.camera, PermissionName.storage],
             onGrantCallBack: (name, obj) {
       XLog.d(message: "onGrantCallBack 权限为：$name, obj = ${obj ?? ""}");
@@ -476,5 +476,9 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
     }, onErrorCallBack: (name, obj) {
       XLog.d(message: "onErrorCallBack 权限为：$name, obj = ${obj ?? ""}");
     });
+
+    if (isAllGrant) {
+      NavigatorUtil.jump(RouterConfig.scanPage);
+    }
   }
 }

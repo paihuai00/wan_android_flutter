@@ -7,7 +7,8 @@ import 'package:wan_android_flutter/pages/bottoms/square/bottom_square_page.dart
 import 'package:wan_android_flutter/pages/bottoms/square/systems/system_page.dart';
 import 'package:wan_android_flutter/pages/bottoms/wx/bottom_wx_page.dart';
 import 'package:wan_android_flutter/pages/collections/mine_collection_pages.dart';
-import 'package:wan_android_flutter/pages/home_page.dart';
+import 'package:wan_android_flutter/pages/homes/home_page.dart';
+import 'package:wan_android_flutter/pages/homes/scan_page.dart';
 import 'package:wan_android_flutter/pages/launch_pages.dart';
 import 'package:wan_android_flutter/pages/mines/coin_page.dart';
 import 'package:wan_android_flutter/pages/mines/login_page.dart';
@@ -28,7 +29,7 @@ import 'package:wan_android_flutter/widgets/photo_view_widget.dart';
 
 /// @Author: cuishuxiang
 /// @Date: 2022/2/1 9:00 下午
-/// @Description:
+/// @Description: 路由配置
 
 class RouterConfig {
   static String Banner1Demo = "/my_banner1_demo";
@@ -57,6 +58,7 @@ class RouterConfig {
   static String systemPage = "/system_page";
   static String searchPage = "/search_page";
   static String photoViewPage = "/photo_view_page";
+  static String scanPage = "/scan_page";
 
   static final List<GetPage> getPages = [
     GetPage(
@@ -155,5 +157,6 @@ class RouterConfig {
         middlewares: [LoginInterceptorRouter()]),
 
     GetPage(name: photoViewPage, page: () => PhotoViewPage()),
+    GetPage(name: scanPage, page: () => ScanPage()),
   ];
 }

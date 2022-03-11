@@ -52,6 +52,7 @@ class XPermission {
     return _instance;
   }
 
+  ///请求单个权限
   Future<bool> request(PermissionName permissionName,
       {OnDeniedCallBack? onDeniedCallBack,
       OnGrantCallBack? onGrantCallBack,
