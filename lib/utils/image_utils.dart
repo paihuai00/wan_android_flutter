@@ -15,7 +15,11 @@ class XImage {
     BoxFit fit = BoxFit.cover,
   }) {
     if (url.isEmpty) {
-      return const Icon(Icons.error);
+      return const Icon(
+        Icons.error,
+        color: Colors.white38,
+        size: 50,
+      );
     }
 
     if (width != 0 && height != 0) {

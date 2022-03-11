@@ -69,64 +69,44 @@ class _SettingPageState extends BaseState<SettingPage> {
       body: BaseView<LoginRegisterViewModel>(
         builder: (vm) {
           _viewModel = vm;
-          return SafeArea(
-            child: Container(
-              color: Colors.white,
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    _normalHeight20SizeBox,
-                    if (cacheSize.isEmpty)
-                      const SizedBox()
-                    else
-                      _buildNormalWidget("清除缓存", cacheSize.toString(),
-                          function: () {
-                        DialogUtil.showCommonDialog(context, content: "是否要清除缓存",
-                            rightTab: () async {
-                          _viewModel.startLoading(this);
+          return Container(
+            color: Colors.white,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  _normalHeight20SizeBox,
+                  if (cacheSize.isEmpty)
+                    const SizedBox()
+                  else
+                    _buildNormalWidget("清除缓存", cacheSize.toString(),
+                        function: () {
+                      DialogUtil.showCommonDialog(context, content: "是否要清除缓存",
+                          rightTab: () async {
+                        _viewModel.startLoading(this);
 
-                          var tempDir = await getTemporaryDirectory();
+                        var tempDir = await getTemporaryDirectory();
 
-                          var result = await FileUtil.delDir(tempDir);
+                        var result = await FileUtil.delDir(tempDir);
 
-                          cacheSize = await FileUtil.getCacheSize();
+                        cacheSize = await FileUtil.getCacheSize();
 
-                          _viewModel.stopLoading(this);
+                        _viewModel.stopLoading(this);
 
-                          setState(() {
-                            XToast.show('清除成功');
-                            Navigator.pop(context);
-                          });
+                        setState(() {
+                          XToast.show('清除成功');
+                          Navigator.pop(context);
                         });
-                      }),
-                    _normalHeight20SizeBox,
-                    _buildNormalWidget("版本", GlobalConfig.appVersion),
-                    _normalHeight20SizeBox,
-                    _buildNormalWidget("作者", "csx"),
-                    _normalHeight20SizeBox,
-                    ElevatedButton(
-                        style: ButtonStyle(
-                          shape: MaterialStateProperty.all(
-                              const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(20)))), //圆角弧度
-                        ),
-                        onPressed: () {
-                          _loginOut();
-                        },
-                        child: Container(
-                            width: double.infinity,
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.only(top: 8, bottom: 8),
-                            child: const Text(
-                              "退出登录",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white),
-                            ))),
-                    // LikeAnimWidget(),
-                  ],
-                ),
+                      });
+                    }),
+                  _normalHeight20SizeBox,
+                  _buildNormalWidget("版本", GlobalConfig.appVersion),
+                  _normalHeight20SizeBox,
+                  _buildNormalWidget("作者", "csx"),
+                  _normalHeight20SizeBox,
+                  _buildExitButton(),
+                  // LikeAnimWidget(),
+                ],
               ),
             ),
           );
@@ -168,12 +148,12 @@ class _SettingPageState extends BaseState<SettingPage> {
         function?.call();
       },
       child: Container(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
         child: Row(
           children: <Widget>[
             Text(
               title,
-              style: const TextStyle(fontSize: 20, color: Colors.black38),
+              style: const TextStyle(fontSize: 16, color: Colors.black),
             ),
             const Expanded(child: SizedBox()),
             rightStr.isEmpty
@@ -197,5 +177,29 @@ class _SettingPageState extends BaseState<SettingPage> {
     } catch (e) {
       XLog.d(message: "缓存获取失败${e.toString()}", tag: _TAG);
     }
+  }
+
+  //退出登录按钮
+  _buildExitButton() {
+    return Container(
+      padding: const EdgeInsets.only(left: 50, right: 50),
+      margin: const EdgeInsets.only(bottom: 10),
+      child: ElevatedButton(
+          style: ButtonStyle(
+            shape: MaterialStateProperty.all(const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30)))), //圆角弧度
+          ),
+          onPressed: () {
+            _loginOut();
+          },
+          child: Container(
+              width: double.infinity,
+              alignment: Alignment.center,
+              padding: const EdgeInsets.only(top: 8, bottom: 8),
+              child: const Text(
+                "退出登录",
+                style: TextStyle(fontSize: 16, color: Colors.white),
+              ))),
+    );
   }
 }

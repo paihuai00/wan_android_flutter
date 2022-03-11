@@ -9,7 +9,7 @@ import 'collection_article_detail_page.dart';
 
 /// @Author: cuishuxiang
 /// @Date: 2022/2/16 3:29 下午
-/// @Description:
+/// @Description: 我的收藏
 
 class CollectionPage extends StatefulWidget {
   const CollectionPage({Key? key}) : super(key: key);
@@ -42,29 +42,35 @@ class _CollectionPageState extends BaseState<CollectionPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            color: Colors.white,
-            child: SafeArea(
-              child: Column(
-                children: [
-                  _buildTabBar(),
-                  Expanded(flex: 1, child: _buildTabViews()),
-                ],
+      body: Container(
+        color: Colors.blue,
+        child: SafeArea(
+          bottom: false,
+          child: Stack(
+            children: [
+              Container(
+                color: Colors.white,
+                child: SafeArea(
+                  child: Column(
+                    children: [
+                      _buildTabBar(),
+                      Expanded(flex: 1, child: _buildTabViews()),
+                    ],
+                  ),
+                ),
               ),
-            ),
+              Positioned(
+                child: BackCircleView(
+                  onTab: () {
+                    NavigatorUtil.goBack(context);
+                  },
+                ),
+                left: 20,
+                bottom: 20,
+              )
+            ],
           ),
-          Positioned(
-            child: BackCircleView(
-              onTab: () {
-                NavigatorUtil.goBack(context);
-              },
-            ),
-            left: 20,
-            bottom: 20,
-          )
-        ],
+        ),
       ),
     );
   }
