@@ -113,8 +113,8 @@ dependencies:
 #二维码扫描
   scan: ^1.6.0
 
-  #相册
-#  images_picker: ^1.2.9
+  #图片选择器：https://github.com/flutter/plugins/tree/main/packages/image_picker/image_picker
+  image_picker: ^0.8.4+11
 
 dev_dependencies:
   flutter_test:

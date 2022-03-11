@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:scan/scan.dart';
 import 'package:wan_android_flutter/routers/navigator_util.dart';
 import 'package:wan_android_flutter/utils/log_util.dart';
@@ -23,6 +24,9 @@ class _ScanPageState extends State<ScanPage> {
 
   var _lightOpen = false; //手电开关
 
+  //图片选择器
+  late final ImagePicker _imagePicker = ImagePicker();
+
   @override
   void dispose() {
     super.dispose();
@@ -40,29 +44,19 @@ class _ScanPageState extends State<ScanPage> {
             onCapture: (data) {
               //扫描结果
               XLog.d(message: "扫描结果：$data", tag: _TAG);
-
-              if (data.isNotEmpty && data.startsWith("http")) {
-                //跳转h5
-                NavigatorUtil.jumpToWeb(data, data)!
-                    .then((value) => controller.resume());
-                return;
-              }
-
-              //默认处理结果
-              _dealDefaultResult(data);
+              //处理结果
+              _dealScanResult(data);
             },
           ),
           Positioned(
             bottom: 100,
             left: 20,
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                children: [
-                  _buildLight(),
-                ],
-              ),
-            ),
+            child: _buildLight(),
+          ),
+          Positioned(
+            bottom: 100,
+            right: 20,
+            child: _buildAlbumImagePicker(),
           ),
           _buildCloseImage(),
         ],
@@ -97,30 +91,36 @@ class _ScanPageState extends State<ScanPage> {
     );
   }
 
-  _buildCloseImage() {
-    return Positioned(
-      top: 80,
-      left: 20,
-      child: InkWell(
-        child: Container(
-          width: 50,
-          height: 50,
-          padding: const EdgeInsets.all(10),
-          color: Colors.transparent,
-          child: const Image(
-            width: 20,
-            height: 20,
-            image: AssetImage("assets/images/close_fill.png"),
-          ),
+  ///相册选择
+  _buildAlbumImagePicker() {
+    return InkWell(
+      child: Container(
+        width: 50,
+        height: 50,
+        padding: const EdgeInsets.all(10),
+        decoration: const BoxDecoration(
+            shape: BoxShape.circle, //圆形
+            color: Colors.white10),
+        child: const Image(
+          width: 20,
+          height: 20,
+          image: AssetImage("assets/images/ic_image_fill.png"),
         ),
-        onTap: () {
-          NavigatorUtil.goBack(context);
-        },
       ),
+      onTap: () {
+        _dealImagePicker();
+      },
     );
   }
 
-  void _dealDefaultResult(String data) {
+  //默认扫描结果页面
+  void _dealScanResult(String data) {
+    if (data.isNotEmpty && data.startsWith("http")) {
+      //跳转h5
+      NavigatorUtil.jumpToWeb(data, data)!.then((value) => controller.resume());
+      return;
+    }
+
     XToast.show("长按屏幕即可复制扫描内容");
 
     Navigator.push(context, MaterialPageRoute(
@@ -160,5 +160,50 @@ class _ScanPageState extends State<ScanPage> {
     )).then((value) {
       controller.resume();
     });
+  }
+
+  ///图片选择逻辑 image selection logic
+  void _dealImagePicker() async {
+    var pickedImage = await _imagePicker.pickImage(source: ImageSource.gallery);
+
+    if (pickedImage == null) {
+      XToast.show("无效图片");
+      return;
+    }
+
+    XLog.d(message: "图片选择地址：${pickedImage.path}", tag: _TAG);
+
+    var result = await Scan.parse(pickedImage.path);
+
+    if (result == null || result.isEmpty) {
+      XToast.show("无效二维码");
+      return;
+    }
+
+    _dealScanResult(result);
+  }
+
+  ///左上角关闭按钮
+  _buildCloseImage() {
+    return Positioned(
+      top: 80,
+      left: 20,
+      child: InkWell(
+        child: Container(
+          width: 50,
+          height: 50,
+          padding: const EdgeInsets.all(10),
+          color: Colors.transparent,
+          child: const Image(
+            width: 20,
+            height: 20,
+            image: AssetImage("assets/images/close_fill.png"),
+          ),
+        ),
+        onTap: () {
+          NavigatorUtil.goBack(context);
+        },
+      ),
+    );
   }
 }
