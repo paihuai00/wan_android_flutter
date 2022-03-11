@@ -125,7 +125,7 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
               borderRadius: BorderRadius.circular(30),
               child: userData == null
                   ? Image.asset(
-                      "assets/images/ic_default_head.png",
+                      "assets/images/ic_default_head_fill.png",
                       width: 60,
                       height: 60,
                     )
@@ -192,7 +192,7 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
     return Column(
       children: [
         MineListItemView(
-          Icons.padding,
+          "assets/images/ic_coin.png",
           "我的积分",
           integral: integral,
           mineItemViewClick: (title) {
@@ -201,7 +201,7 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
         ),
         _commonHeightBox,
         MineListItemView(
-          Icons.star,
+          "assets/images/ic_collection.png",
           "我的收藏",
           mineItemViewClick: (title) {
             NavigatorUtil.jump(RouterConfig.mineCollectionPage);
@@ -209,19 +209,19 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
         ),
         _commonHeightBox,
         MineListItemView(
-          Icons.map,
+          "assets/images/ic_article.png",
           "我的文章",
           mineItemViewClick: (title) {},
         ),
         _commonHeightBox,
         MineListItemView(
-          Icons.network_wifi,
+          "assets/images/ic_web.png",
           "网站",
           mineItemViewClick: (title) {},
         ),
         _commonHeightBox,
         MineListItemView(
-          Icons.animation,
+          "assets/images/ic_game.png",
           "轻松一下",
           mineItemViewClick: (title) {},
         ),
@@ -235,7 +235,7 @@ class _BottomMinePageState extends BaseState<BottomMinePage> {
             onLongPressedManualInput();
           },
           child: MineListItemView(
-            Icons.settings,
+            "assets/images/ic_setting.png",
             "设置",
             mineItemViewClick: (title) {
               NavigatorUtil.jump(RouterConfig.settingPage);

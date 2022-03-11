@@ -9,12 +9,12 @@ typedef MineItemViewClick = Function(String title);
 
 class MineListItemView extends StatefulWidget {
   MineItemViewClick? mineItemViewClick;
-  IconData iconData;
+  String iconAssetPath;
   String title;
   String integral; //积分
   Color iconColor;
 
-  MineListItemView(this.iconData, this.title,
+  MineListItemView(this.iconAssetPath, this.title,
       {Key? key,
       this.mineItemViewClick,
       this.integral = "",
@@ -40,9 +40,10 @@ class _MineListItemViewState extends State<MineListItemView> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  widget.iconData,
-                  color: widget.iconColor,
+                Image.asset(
+                  widget.iconAssetPath,
+                  width: 25,
+                  height: 25,
                 ),
                 const SizedBox(
                   width: 20,
