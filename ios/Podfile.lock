@@ -9,9 +9,8 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
-  - images_picker (0.0.1):
+  - image_picker (0.0.1):
     - Flutter
-    - ZLPhotoBrowser (= 4.2.0)
   - orientation (0.0.1):
     - Flutter
   - path_provider_ios (0.0.1):
@@ -35,15 +34,12 @@ PODS:
     - Flutter
   - webview_flutter_wkwebview (0.0.1):
     - Flutter
-  - ZLPhotoBrowser (4.2.0):
-    - ZLPhotoBrowser/Core (= 4.2.0)
-  - ZLPhotoBrowser/Core (4.2.0)
 
 DEPENDENCIES:
   - connectivity (from `.symlinks/plugins/connectivity/ios`)
   - Flutter (from `Flutter`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
-  - images_picker (from `.symlinks/plugins/images_picker/ios`)
+  - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - orientation (from `.symlinks/plugins/orientation/ios`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
@@ -60,7 +56,6 @@ SPEC REPOS:
     - FMDB
     - Reachability
     - Toast
-    - ZLPhotoBrowser
 
 EXTERNAL SOURCES:
   connectivity:
@@ -69,8 +64,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
-  images_picker:
-    :path: ".symlinks/plugins/images_picker/ios"
+  image_picker:
+    :path: ".symlinks/plugins/image_picker/ios"
   orientation:
     :path: ".symlinks/plugins/orientation/ios"
   path_provider_ios:
@@ -97,7 +92,7 @@ SPEC CHECKSUMS:
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   fluttertoast: 6122fa75143e992b1d3470f61000f591a798cc58
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  images_picker: 8508f4097cec731ab87d47564ed964aa3fe942c7
+  image_picker: 541dcbb3b9cf32d87eacbd957845d8651d6c62c3
   orientation: 6c9203efe86ce4cff379756910f18b2d745628c3
   path_provider_ios: 7d7ce634493af4477d156294792024ec3485acd5
   permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
@@ -110,7 +105,6 @@ SPEC CHECKSUMS:
   video_player: 7e9dad9437c238a97648819f6dd443c8854cf0c7
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
   webview_flutter_wkwebview: 005fbd90c888a42c5690919a1527ecc6649e1162
-  ZLPhotoBrowser: 602d505d4f2cf7f309ce973c4353d33e85216d58
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 
