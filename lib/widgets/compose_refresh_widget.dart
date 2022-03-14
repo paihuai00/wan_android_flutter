@@ -29,6 +29,23 @@ class ComposeRefreshWidget extends StatelessWidget {
       child: EasyRefresh(
         enableControlFinishLoad: true,
         enableControlFinishRefresh: canLoadMore,
+        header: ClassicalHeader(
+          refreshText: "下拉可以刷新",
+          refreshingText: "正在刷新....",
+          refreshReadyText: "释放立即刷新",
+          refreshedText: "刷新完成",
+          refreshFailedText: "刷新失败",
+          infoText: "上次更新时间：%T",
+          noMoreText: "暂无更多数据",
+        ),
+        footer: ClassicalFooter(
+          loadedText: "加载完成",
+          loadReadyText: "释放加载更多",
+          loadingText: "加载中....",
+          loadFailedText: "加载失败",
+          noMoreText: "暂无更多数据",
+          infoText: "上次更新时间：%T",
+        ),
         controller: controller,
         child: childWidget,
         onRefresh: () async {
