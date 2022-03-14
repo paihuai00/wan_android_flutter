@@ -10,6 +10,7 @@ import 'package:wan_android_flutter/base/base_viewmodel.dart';
 import 'package:wan_android_flutter/dios/http_response.dart';
 import 'package:wan_android_flutter/models/article_list_model.dart';
 import 'package:wan_android_flutter/models/banner_model.dart';
+import 'package:wan_android_flutter/pages/bottoms/homes/home_web_page_view.dart';
 import 'package:wan_android_flutter/routers/navigator_util.dart';
 import 'package:wan_android_flutter/routers/router_config.dart';
 import 'package:wan_android_flutter/utils/event_bus.dart';
@@ -57,6 +58,9 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
 
   var currentPageIsVisible = false;
   var _needRefreshPage = false;
+
+  //是否显示PageView
+  var isShowPageView = false;
 
   ArticleItemData? currentClickData;
 
@@ -115,10 +119,26 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
         //监听当前页面，是否可见
         return VisibilityDetector(
             key: const Key(""),
-            child: Column(
+            child: Stack(
               children: [
-                _buildTopBar(),
-                Expanded(child: _buildContentWidget())
+                Column(
+                  children: [
+                    _buildTopBar(),
+                    Expanded(
+                      child: _buildContentWidget(),
+                    ),
+                  ],
+                ),
+                isShowPageView
+                    ? HomeWebPageView(
+                        _dataItemList,
+                        onHomePageViewCallBack: (index) {
+                          setState(() {
+                            isShowPageView = false;
+                          });
+                        },
+                      )
+                    : const SizedBox()
               ],
             ),
             onVisibilityChanged: (info) {
@@ -348,6 +368,11 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
       physics: const NeverScrollableScrollPhysics(), //禁用滑动事件
       children: _dataItemList
           .map((e) => GestureDetector(
+                onLongPress: () {
+                  setState(() {
+                    isShowPageView = !isShowPageView;
+                  });
+                },
                 onTap: () {
                   currentClickData = e;
                   String url = currentClickData!.link ?? "";

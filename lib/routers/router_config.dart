@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:wan_android_flutter/pages/bottoms/bottom_home_page.dart';
 import 'package:wan_android_flutter/pages/bottoms/bottom_mine_page.dart';
+import 'package:wan_android_flutter/pages/bottoms/homes/bottom_home_page.dart';
 import 'package:wan_android_flutter/pages/bottoms/projects/bottom_project_page.dart';
 import 'package:wan_android_flutter/pages/bottoms/projects/project_detail_page.dart';
 import 'package:wan_android_flutter/pages/bottoms/square/bottom_square_page.dart';

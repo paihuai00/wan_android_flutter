@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wan_android_flutter/view_model/bottom_project_vm.dart';
 
-import '../bottoms/bottom_home_page.dart';
 import '../bottoms/bottom_mine_page.dart';
+import '../bottoms/homes/bottom_home_page.dart';
 import '../bottoms/projects/bottom_project_page.dart';
 import '../bottoms/square/bottom_square_page.dart';
 import '../bottoms/wx/bottom_wx_page.dart';
