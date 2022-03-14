@@ -35,6 +35,8 @@ class _WebViewPageState extends BaseState<WebViewPage> {
 
   String url = "";
 
+  int progress = 0;
+
   @override
   void initState() {
     super.initState();
@@ -109,38 +111,53 @@ class _WebViewPageState extends BaseState<WebViewPage> {
         });
       },
       onDoubleTap: () {},
-      child: WebView(
-        initialUrl: url ?? "",
-        javascriptMode: JavascriptMode.unrestricted,
-        onWebViewCreated: (WebViewController webViewController) async {
-          XLog.d(message: "onWebViewCreated：$url", tag: _TAG);
+      child: Column(
+        children: [
+          progress >= 99
+              ? const SizedBox()
+              : LinearProgressIndicator(
+                  value: progress / 100,
+                  color: Colors.blue,
+                  backgroundColor: Colors.white12,
+                ),
+          Expanded(
+              child: WebView(
+            initialUrl: url ?? "",
+            javascriptMode: JavascriptMode.unrestricted,
+            onWebViewCreated: (WebViewController webViewController) async {
+              XLog.d(message: "onWebViewCreated：$url", tag: _TAG);
 
-          // _controller.complete(webViewController);
-          _webViewController = webViewController;
-          XLog.d(message: "onWebViewCreated：$url", tag: _TAG);
-        },
-        onProgress: (int progress) {
-          XLog.d(message: "加载进度：$progress", tag: _TAG);
-        },
-        javascriptChannels: <JavascriptChannel>{},
-        // navigationDelegate: (NavigationRequest request) {
-        //   return NavigationDecision.navigate;
-        // },
-        onPageStarted: (String url) async {
-          XLog.d(message: "onPageStarted：$url", tag: _TAG);
+              // _controller.complete(webViewController);
+              _webViewController = webViewController;
+              XLog.d(message: "onWebViewCreated：$url", tag: _TAG);
+            },
+            onProgress: (int progress) {
+              XLog.d(message: "加载进度：$progress", tag: _TAG);
+              setState(() {
+                this.progress = progress;
+              });
+            },
+            javascriptChannels: <JavascriptChannel>{},
+            // navigationDelegate: (NavigationRequest request) {
+            //   return NavigationDecision.navigate;
+            // },
+            onPageStarted: (String url) async {
+              XLog.d(message: "onPageStarted：$url", tag: _TAG);
 
-          // String? title = await _webViewController.getTitle();
-          // if (title?.length != null) {
-          //   print('title: $title');
-          //   setState(() {
-          //     this.title = title!;
-          //   });
-          // }
-        },
-        onPageFinished: (String url) {
-          XLog.d(message: "onPageFinished：$url", tag: _TAG);
-        },
-        gestureNavigationEnabled: false,
+              // String? title = await _webViewController.getTitle();
+              // if (title?.length != null) {
+              //   print('title: $title');
+              //   setState(() {
+              //     this.title = title!;
+              //   });
+              // }
+            },
+            onPageFinished: (String url) {
+              XLog.d(message: "onPageFinished：$url", tag: _TAG);
+            },
+            gestureNavigationEnabled: false,
+          ))
+        ],
       ),
     );
   }

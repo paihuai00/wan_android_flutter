@@ -76,6 +76,7 @@ class _HomeWebPageViewState extends State<HomeWebPageView> {
       viewportFraction: 0.8,
       //视差效果
       scale: 0.9,
+      loop: false,
       //指示器
       pagination: const SwiperPagination(
           alignment: Alignment.bottomRight,
