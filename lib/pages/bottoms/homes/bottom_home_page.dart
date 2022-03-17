@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
@@ -487,10 +489,17 @@ class _BottomHomePageState extends BaseState<BottomHomePage>
 
   ///扫描
   void _doScan() async {
+    var requestNameList = [PermissionName.camera];
+    if (Platform.isAndroid) {
+      requestNameList.add(PermissionName.storage);
+    } else if (GetPlatform.isIOS) {
+      requestNameList.add(PermissionName.photos);
+      requestNameList.add(PermissionName.storage);
+    }
+
     //1，请求相机权限
-    var isAllGrant = await XPermission.getInstance()
-        .requests([PermissionName.camera, PermissionName.storage],
-            onGrantCallBack: (name, obj) {
+    var isAllGrant = await XPermission.getInstance().requests(requestNameList,
+        onGrantCallBack: (name, obj) {
       XLog.d(message: "onGrantCallBack 权限为：$name, obj = ${obj ?? ""}");
     }, onDeniedCallBack: (name, isNeverAsk) {
       XLog.d(message: "onDeniedCallBack 权限为：$name, isNeverAsk = $isNeverAsk");

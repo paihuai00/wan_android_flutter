@@ -13,6 +13,7 @@ import 'log_util.dart';
 
 enum PermissionName {
   camera, //相机
+  photos, //相册
   storage, //存储
   unknown
 }
@@ -23,6 +24,8 @@ extension PermissionNameToString on PermissionName {
       case 0:
         return "相机";
       case 1:
+        return "相册";
+      case 2:
         return "存储";
     }
     return null;
@@ -62,6 +65,9 @@ class XPermission {
     switch (permissionName) {
       case PermissionName.camera:
         needRequestPermission = Permission.camera;
+        break;
+      case PermissionName.photos:
+        needRequestPermission = Permission.photos;
         break;
       case PermissionName.storage:
         needRequestPermission = Permission.storage;
@@ -121,7 +127,7 @@ class XPermission {
       return false;
     }
 
-    var finalResult = false;
+    var finalResult = true;
     List<Permission> tempPermissions = [];
     for (var name in permissions) {
       tempPermissions.add(PermissionUtils.getRequestPermission(name));
@@ -138,7 +144,7 @@ class XPermission {
       ///1- 请求，同意
       if (status.isGranted) {
         onGrantCallBack?.call(name, null);
-        finalResult = finalResult | true;
+        finalResult = finalResult && true;
         return;
       }
 
@@ -149,14 +155,14 @@ class XPermission {
         ///再次请求，同意
         if (newStatus.isGranted) {
           onGrantCallBack?.call(name, null);
-          finalResult = finalResult | true;
+          finalResult = finalResult && true;
           return;
         }
 
         ///拒绝&不在询问
         if (newStatus.isPermanentlyDenied) {
           onDeniedCallBack?.call(name, newStatus.isPermanentlyDenied);
-          finalResult = finalResult | false;
+          finalResult = finalResult && false;
           return;
         }
 
@@ -169,7 +175,7 @@ class XPermission {
       ///3- 拒绝&不在询问
       if (status.isPermanentlyDenied) {
         onDeniedCallBack?.call(name, status.isPermanentlyDenied);
-        finalResult = finalResult | false;
+        finalResult = finalResult && false;
       }
     });
 
@@ -183,6 +189,8 @@ class PermissionUtils {
     switch (permissionName) {
       case PermissionName.camera:
         return Permission.camera;
+      case PermissionName.photos:
+        return Permission.photos;
       case PermissionName.storage:
         return Permission.storage;
       default:
@@ -194,7 +202,9 @@ class PermissionUtils {
     if (permission == Permission.camera) {
       return PermissionName.camera;
     }
-
+    if (permission == Permission.photos) {
+      return PermissionName.photos;
+    }
     if (permission == Permission.storage) {
       return PermissionName.storage;
     }
