@@ -35,7 +35,7 @@ class PhotoViewPage extends StatelessWidget {
               loadingBuilder: (context, event) {
                 return const Center(
                   child: CircularProgressIndicator(
-                    color: Colors.black38,
+                    color: Colors.blueAccent,
                   ),
                 );
               },
