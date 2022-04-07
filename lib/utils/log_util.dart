@@ -5,6 +5,8 @@ import 'package:logger/logger.dart';
 /// @Description:
 
 class XLog {
+  static const String _TAG = "wan_android_project -->";
+
   static const _isPrint = true;
 
   static final _logger = Logger(
@@ -27,7 +29,7 @@ class XLog {
       return;
     }
 
-    _logger.d("$tag -> ${message.toString()}");
+    _logger.d("$_TAG  $tag -> ${message.toString()}");
   }
 
   static void e(
@@ -38,7 +40,8 @@ class XLog {
     if (!_isPrint) {
       return;
     }
-    String tagMsg = tag == null ? "LoggerUtils -> " : tag.toString() + " :  ";
+    String tagMsg =
+        tag == null ? "LoggerUtils -> $_TAG " : tag.toString() + "$_TAG :  ";
 
     _logger.e(tagMsg, error, stackTrace);
   }

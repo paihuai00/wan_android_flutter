@@ -97,6 +97,12 @@ class _WebViewPageState extends BaseState<WebViewPage> {
             //兼容
             value = value.substring(1, value.length);
           }
+
+          if (value.endsWith("\"")) {
+            //兼容
+            value = value.substring(0, value.length - 1);
+          }
+
           if (value.isEmpty || !value.startsWith("http")) {
             XLog.d(
                 message: "onDoubleTapDown： 双击 未找到资源 value  = $value ",
