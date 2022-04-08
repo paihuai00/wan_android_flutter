@@ -42,7 +42,7 @@ class SearchData {
     if (json['datas'] != null) {
       datas = <SearchItemData>[];
       json['datas'].forEach((v) {
-        datas!.add(new SearchItemData.fromJson(v));
+        datas!.add(SearchItemData.fromJson(v));
       });
     }
     offset = json['offset'];
@@ -53,16 +53,16 @@ class SearchData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['curPage'] = this.curPage;
+    final Map<String, dynamic> data = {};
+    data['curPage'] = curPage;
     if (this.datas != null) {
-      data['datas'] = this.datas!.map((v) => v.toJson()).toList();
+      data['datas'] = datas!.map((v) => v.toJson()).toList();
     }
-    data['offset'] = this.offset;
-    data['over'] = this.over;
-    data['pageCount'] = this.pageCount;
-    data['size'] = this.size;
-    data['total'] = this.total;
+    data['offset'] = offset;
+    data['over'] = over;
+    data['pageCount'] = pageCount;
+    data['size'] = size;
+    data['total'] = total;
     return data;
   }
 }
@@ -168,7 +168,7 @@ class SearchItemData {
     if (json['tags'] != null) {
       tags = <SearchItemDataTag>[];
       json['tags'].forEach((v) {
-        tags!.add(new SearchItemDataTag.fromJson(v));
+        tags!.add(SearchItemDataTag.fromJson(v));
       });
     }
     title = json['title'];
@@ -179,42 +179,42 @@ class SearchItemData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['apkLink'] = this.apkLink;
-    data['audit'] = this.audit;
-    data['author'] = this.author;
-    data['canEdit'] = this.canEdit;
-    data['chapterId'] = this.chapterId;
-    data['chapterName'] = this.chapterName;
-    data['collect'] = this.collect;
-    data['courseId'] = this.courseId;
-    data['desc'] = this.desc;
-    data['descMd'] = this.descMd;
-    data['envelopePic'] = this.envelopePic;
-    data['fresh'] = this.fresh;
-    data['host'] = this.host;
-    data['id'] = this.id;
-    data['link'] = this.link;
-    data['niceDate'] = this.niceDate;
-    data['niceShareDate'] = this.niceShareDate;
-    data['origin'] = this.origin;
-    data['prefix'] = this.prefix;
-    data['projectLink'] = this.projectLink;
-    data['publishTime'] = this.publishTime;
-    data['realSuperChapterId'] = this.realSuperChapterId;
-    data['selfVisible'] = this.selfVisible;
-    data['shareDate'] = this.shareDate;
-    data['shareUser'] = this.shareUser;
-    data['superChapterId'] = this.superChapterId;
-    data['superChapterName'] = this.superChapterName;
-    if (this.tags != null) {
-      data['tags'] = this.tags!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = {};
+    data['apkLink'] = apkLink;
+    data['audit'] = audit;
+    data['author'] = author;
+    data['canEdit'] = canEdit;
+    data['chapterId'] = chapterId;
+    data['chapterName'] = chapterName;
+    data['collect'] = collect;
+    data['courseId'] = courseId;
+    data['desc'] = desc;
+    data['descMd'] = descMd;
+    data['envelopePic'] = envelopePic;
+    data['fresh'] = fresh;
+    data['host'] = host;
+    data['id'] = id;
+    data['link'] = link;
+    data['niceDate'] = niceDate;
+    data['niceShareDate'] = niceShareDate;
+    data['origin'] = origin;
+    data['prefix'] = prefix;
+    data['projectLink'] = projectLink;
+    data['publishTime'] = publishTime;
+    data['realSuperChapterId'] = realSuperChapterId;
+    data['selfVisible'] = selfVisible;
+    data['shareDate'] = shareDate;
+    data['shareUser'] = shareUser;
+    data['superChapterId'] = superChapterId;
+    data['superChapterName'] = superChapterName;
+    if (tags != null) {
+      data['tags'] = tags!.map((v) => v.toJson()).toList();
     }
-    data['title'] = this.title;
-    data['type'] = this.type;
-    data['userId'] = this.userId;
-    data['visible'] = this.visible;
-    data['zan'] = this.zan;
+    data['title'] = title;
+    data['type'] = type;
+    data['userId'] = userId;
+    data['visible'] = visible;
+    data['zan'] = zan;
     return data;
   }
 }
@@ -231,9 +231,9 @@ class SearchItemDataTag {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['url'] = this.url;
+    final Map<String, dynamic> data = {};
+    data['name'] = name;
+    data['url'] = url;
     return data;
   }
 }

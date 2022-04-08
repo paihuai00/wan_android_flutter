@@ -1,4 +1,5 @@
 import 'package:logger/logger.dart';
+import 'package:wan_android_flutter/base/global_config.dart';
 
 /// @Author: cuishuxiang
 /// @Date: 2022/2/3 4:54 下午
@@ -7,7 +8,7 @@ import 'package:logger/logger.dart';
 class XLog {
   static const String _TAG = "wan_android_project -->";
 
-  static const _isPrint = true;
+  static final _isPrint = GlobalConfig.isDebug;
 
   static final _logger = Logger(
       printer: PrettyPrinter(

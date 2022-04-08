@@ -27,13 +27,13 @@ class RankData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['coinCount'] = this.coinCount;
-    data['level'] = this.level;
-    data['nickname'] = this.nickname;
-    data['rank'] = this.rank;
-    data['userId'] = this.userId;
-    data['username'] = this.username;
+    final Map<String, dynamic> data = {};
+    data['coinCount'] = coinCount;
+    data['level'] = level;
+    data['nickname'] = nickname;
+    data['rank'] = rank;
+    data['userId'] = userId;
+    data['username'] = username;
     return data;
   }
 }

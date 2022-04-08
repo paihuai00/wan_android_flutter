@@ -20,13 +20,13 @@ class BaseDioResponse<T> {
     ok = false;
   }
 
-  BaseDioResponse.failureFormResponse({dynamic? data}) {
+  BaseDioResponse.failureFormResponse({dynamic data}) {
     error = BadResponseException(data);
-    this.ok = false;
+    ok = false;
   }
 
   BaseDioResponse.failureFromError([HttpDioException? error]) {
     this.error = error ?? UnknownException();
-    this.ok = false;
+    ok = false;
   }
 }

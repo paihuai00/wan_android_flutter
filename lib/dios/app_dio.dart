@@ -5,7 +5,7 @@ import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
-import 'package:flutter/foundation.dart';
+import 'package:wan_android_flutter/base/global_config.dart';
 import 'package:wan_android_flutter/dios/http_config.dart';
 
 /// @Author: cuishuxiang
@@ -44,11 +44,11 @@ class AppDio with DioMixin implements Dio {
       interceptors.add(_cookieManager!);
     }
 
-    if (kDebugMode) {
+    if (GlobalConfig.isDebug) {
       interceptors.add(LogInterceptor(
           responseBody: true,
           error: true,
-          requestHeader: false,
+          requestHeader: true,
           responseHeader: false,
           request: false,
           requestBody: true));

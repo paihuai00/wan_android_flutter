@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 /// @Date: 2022/2/1 8:33 下午
 /// @Description:
 class BaseViewModel extends GetxController {
-  CancelToken cancelToken = CancelToken();
+  late CancelToken cancelToken = CancelToken();
 
   //取消网络请求方法
   void cancelRequest() {
